@@ -6,27 +6,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        string path = @"database.db"; // il file deve essere nella stessa cartella del programma
-        if (!File.Exists(path))
-        {
-            SQLiteConnection.CreateFile(path); // crea il file del database se non esiste
-            SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"); // crea la connessione al database se non esiste utilizzando il file appena creato versiion identificata dal numero 3
-            connection.Open(); // apre la connessione al database se non è già aperta
-            string sql = @"
-                            CREATE TABLE categorie (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT UNIQUE);
-                            CREATE TABLE prodotti (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT UNIQUE, 
-                            prezzo REAL, quantita INTEGER CHECK (quantita >= 0), id_categoria INTEGER, 
-                            FOREIGN KEY (id_categoria) REFERENCES categorie(id));
-                            INSERT INTO categorie (nome) VALUES ('c1');
-                            INSERT INTO categorie (nome) VALUES ('c2');
-                            INSERT INTO categorie (nome) VALUES ('c3');
-                            INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p1', 1, 10, 1);
-                            INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p2', 2, 20, 2);";
-
-            SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database se non esiste
-            command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database se non esiste
-            connection.Close(); // chiude la connessione al database se non è già chiusa
-        }
+        
         while (true)
         {
             Console.WriteLine("1 - visualizzare i prodotti");
@@ -46,70 +26,7 @@ class Program
             Console.WriteLine("15 - uscire");
             Console.WriteLine("scegli un'opzione");
             string scelta = Console.ReadLine()!;
-            if (scelta == "1")
-            {
-                VisualizzaProdotti();
-            }
-            else if (scelta == "2")
-            {
-                VisualizzaProdottiOrdinatiPerPrezzo();
-            }
-            else if (scelta == "3")
-            {
-                VisualizzaProdottiOrdinatiPerQuantita();
-            }
-            else if (scelta == "4")
-            {
-                ModificaPrezzoProdotto();
-            }
-            else if (scelta == "5")
-            {
-                EliminaProdotto();
-            }
-            else if (scelta == "6")
-            {
-                VisualizzaProdottoPiuCostoso();
-            }
-            else if (scelta == "7")
-            {
-                VisualizzaProdottoMenoCostoso();
-            }
-            else if (scelta == "8")
-            {
-                InserisciProdotto();
-            }
-            else if (scelta == "9")
-            {
-                VisualizzaProdotto();
-            }
-            else if (scelta == "10")
-            {
-                VisualizzaProdottiCategoria();
-            }
-            else if (scelta == "11")
-            {
-                InserisciCategoria();
-            }
-            else if (scelta == "12")
-            {
-                EliminaCategoria();
-            }
-            else if (scelta == "13")
-            {
-                InserisciProdottoCategoria();
-            }
-            else if (scelta == "14")
-            {
-                VisualizzaProdottiAdvanced();
-            }
-            else if (scelta == "15")
-            {
-                break;
-            }
-            else
-            {
-                Console.WriteLine("scelta non valida");
-            }
+            
             /* oppure invece di usare if else if si può usare uno switch
             switch (scelta)
             {
