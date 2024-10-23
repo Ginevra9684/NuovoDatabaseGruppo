@@ -1,5 +1,3 @@
-
-
 public class View
 {
     private Model _db;
