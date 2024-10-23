@@ -10,7 +10,7 @@
 
 [ ]  funzione : aggiungere tabella utente e cliente
 [ ]  campi utente : nome e cognome
-[ ]  campi cliente : id utente e codice cliente
+[ ]  campi cliente : id utente e codice cliente di tipo string
 
 - branch divisioneMVC
 
