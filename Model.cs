@@ -1,7 +1,7 @@
 using System.Data.SQLite;
 public class Model
 {
-    string path = @"database.db"; // il file deve essere nella stessa cartella del programma
+    string path = @"database.db"; // il file deve essere nella stessa cartella del programma db
 
     public Model()
     {
