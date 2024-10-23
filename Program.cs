@@ -1,5 +1,4 @@
-﻿using System.Data.SQLite; 
-// comando per installare il pacchetto System.Data.SQLite
+﻿// comando per installare il pacchetto System.Data.SQLite
 // dotnet add package System.Data.SQLite
 
 class Program
@@ -7,7 +6,8 @@ class Program
     static void Main(string[] args)
     {
         Model model = new Model();
-        Controller controller = new Controller(model);
-        View view = new View(model, controller);
+        View view = new View(model);
+        Controller controller = new Controller(model, view);
+        controller.MainMenu();
     }
 }
