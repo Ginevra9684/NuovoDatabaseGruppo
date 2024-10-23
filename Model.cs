@@ -37,7 +37,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close(); // chiude la connessione al database se non è già chiusa
         return stringa;
@@ -60,7 +60,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}\n";
         }
         connection.Close();
         return stringa;
@@ -76,7 +76,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close();
         return stringa;
@@ -92,18 +92,14 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close();
         return stringa;
     }
 
-    public void ModificaPrezzoProdotto()
+    public void ModificaPrezzoProdotto(string nome, decimal prezzo)
     {
-        Console.WriteLine("inserisci il nome del prodotto"); // chiede il nome del prodotto da modificare
-        string nome = Console.ReadLine()!; // legge il nome del prodotto da modificare
-        Console.WriteLine("inserisci il nuovo prezzo"); // chiede il nuovo prezzo del prodotto da modificare
-        string prezzo = Console.ReadLine()!; // legge il nuovo prezzo del prodotto da modificare
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = $"UPDATE prodotti SET prezzo = {prezzo} WHERE nome = '{nome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
@@ -112,10 +108,8 @@ public class Model
         connection.Close();
     }
 
-    public void EliminaProdotto()
+    public void EliminaProdotto(string nome)
     {
-        Console.WriteLine("inserisci il nome del prodotto");
-        string nome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = $"DELETE FROM prodotti WHERE nome = '{nome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
@@ -134,7 +128,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close();
         return stringa;
@@ -150,7 +144,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close();
         return stringa;
@@ -216,7 +210,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close();
         return stringa;
@@ -234,7 +228,7 @@ public class Model
         string stringa="";
         while (reader.Read())
         {
-            stringa = $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}";
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
         connection.Close();
         return stringa;

@@ -1,4 +1,5 @@
 
+
 public class View
 {
     private Model _db;
@@ -38,9 +39,23 @@ public class View
         Console.WriteLine(testo);
     }
 
-    internal string NomeProdotto()
+    public string NomeProdotto()
     {
         Console.WriteLine("inserisci il nome del prodotto");
         return Console.ReadLine()!;
+    }
+
+    public decimal PrezzoProdotto()
+    {
+        Console.WriteLine("inserisci il nuovo prezzo"); // chiede il nuovo prezzo del prodotto da modificare
+        try
+        {
+            return Convert.ToDecimal(Console.ReadLine()!); // legge il nuovo prezzo del prodotto da modificare
+        }
+        catch(Exception) 
+        {
+            Console.WriteLine("Prezzo non valido.\nImposto a 0.");
+            return 0;
+        }
     }
 }

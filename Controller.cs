@@ -2,6 +2,7 @@
 
 
 
+
 public class Controller
 {
     private Model _model;
@@ -22,46 +23,46 @@ public class Controller
             switch (input)
             {
                 case "1":
-                    _view.Stampa(VisualizzaProdotti());
+                    _view.Stampa(VisualizzaProdotti()); //TODO List di string
                     break;
                 case "2":
-                    _view.Stampa(VisualizzaProdottiOrdinatiPerPrezzo());
+                    _view.Stampa(VisualizzaProdottiOrdinatiPerPrezzo()); //TODO List di string
                     break;
                 case "3":
-                    _view.Stampa(VisualizzaProdottiOrdinatiPerQuantita());
+                    _view.Stampa(VisualizzaProdottiOrdinatiPerQuantita()); //TODO List di string
                     break;
                 case "4":
-                    _model.ModificaPrezzoProdotto();
+                    ModificaPrezzoProdotto(_view.NomeProdotto(), _view.PrezzoProdotto());
                     break;
                 case "5":
-                    _model.EliminaProdotto();
+                    _model.EliminaProdotto(_view.NomeProdotto());
                     break;
                 case "6":
-                    _view.Stampa(VisualizzaProdottoPiuCostoso());
+                    _view.Stampa(VisualizzaProdottoPiuCostoso()); //TODO List di string
                     break;
                 case "7":
-                    _view.Stampa(VisualizzaProdottoMenoCostoso());
+                    _view.Stampa(VisualizzaProdottoMenoCostoso()); //TODO List di string
                     break;
                 case "8":
-                    _model.InserisciProdotto();
+                    _model.InserisciProdotto(); //TODO Da fare
                     break;
                 case "9":
                     _view.Stampa(VisualizzaProdotto(_view.NomeProdotto()));
                     break;
                 case "10":
-                    _view.Stampa(VisualizzaProdottiCategoria());
+                    _view.Stampa(VisualizzaProdottiCategoria()); //TODO Da fare
                     break;
                 case "11":
-                    _model.InserisciCategoria();
+                    _model.InserisciCategoria(); //TODO Da fare
                     break;
                 case "12":
-                    _model.EliminaCategoria();
+                    _model.EliminaCategoria(); //TODO Da fare
                     break;
                 case "13":
-                    _model.InserisciProdottoCategoria();
+                    _model.InserisciProdottoCategoria(); //TODO Da fare
                     break;
                 case "14":
-                    _view.Stampa(VisualizzaProdottiAdvanced());
+                    _view.Stampa(VisualizzaProdottiAdvanced()); //TODO List di string
                     break;
                 default:
                     Console.WriteLine("scelta non valida");
@@ -69,6 +70,11 @@ public class Controller
             }
             
         }
+    }
+
+    private void ModificaPrezzoProdotto(string nome, decimal prezzo)
+    {
+        _model.ModificaPrezzoProdotto(nome, prezzo);
     }
 
     private string VisualizzaProdottiCategoria()
