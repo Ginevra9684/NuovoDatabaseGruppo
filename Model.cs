@@ -10,6 +10,7 @@ public class Model
             SQLiteConnection.CreateFile(path); // crea il file del database se non esiste
             SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"); // crea la connessione al database se non esiste utilizzando il file appena creato versiion identificata dal numero 3
             connection.Open(); // apre la connessione al database se non è già aperta
+            // Definisce il comando SQL per creare le tabelle e inserire alcuni dati di esempio
             string sql = @"
                             CREATE TABLE categorie (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -132,8 +133,10 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"UPDATE prodotti SET prezzo = {prezzo} WHERE nome = '{nome}'"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        string sql = "UPDATE prodotti SET prezzo = @prezzo WHERE nome = @nome"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@prezzo", prezzo);
+        command.Parameters.AddWithValue("@nome", nome);
         command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
         connection.Close();
     }
@@ -142,8 +145,9 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"DELETE FROM prodotti WHERE nome = '{nome}'"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
+        string sql = "DELETE FROM prodotti WHERE nome = @nome"; // crea il comando sql che elimina il prodotto con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@nome", nome);
         command.ExecuteNonQuery();
         connection.Close();
     }
@@ -180,6 +184,27 @@ public class Model
         return stringa;
     }
 
+// Aggiunto metodo per visualizzare le categorie disponibili
+    public void VisualizzaCategorie()
+{
+    using (SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"))
+    {
+        connection.Open();
+        string sql = "SELECT * FROM categorie";
+        using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+        {
+            using (SQLiteDataReader reader = command.ExecuteReader())
+            {
+                while (reader.Read())   // Visualizza ogni categoria con ID e nome
+                {
+                    Console.WriteLine($"ID: {reader["id"]}, Nome: {reader["nome"]}");
+                }
+            }
+        }
+    }
+}
+
+
     public void InserisciProdotto()
     {
         Console.WriteLine("inserisci il nome del prodotto");
@@ -188,12 +213,19 @@ public class Model
         string prezzo = Console.ReadLine()!;
         Console.WriteLine("inserisci la quantità del prodotto");
         string quantita = Console.ReadLine()!;
+        // Visualizza le categorie disponibili
+    Console.WriteLine("Categorie disponibili:");
+    VisualizzaCategorie(); // Chiamata al metodo che visualizza le categorie con i loro ID
         Console.WriteLine("inserisci l'id della categoria del prodotto");
         string id_categoria = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('{nome}', {prezzo}, {quantita}, {id_categoria})"; // crea il comando sql che inserisce un prodotto
+       string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@nome", nome);
+        command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
+        command.Parameters.AddWithValue("@quantita", Convert.ToInt32(quantita));
+        command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         command.ExecuteNonQuery();
         connection.Close();
     }
@@ -201,17 +233,8 @@ public class Model
     // inserimento di prodotto chiamando prima la categoria e poi il prodotto in modo da avere in inserimento il nome della categoria invece dell id
     public void InserisciProdottoCategoria()
     {
-        //visualizza le categorie
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-        connection.Open();
-        string sql = "SELECT * FROM categorie";
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        SQLiteDataReader reader = command.ExecuteReader();
-        while (reader.Read())
-        {
-            Console.WriteLine($"id: {reader["id"]}, nome: {reader["nome"]}");
-        }
-        connection.Close();
+       // Chiama il metodo per visualizzare le categorie
+    VisualizzaCategorie();
         //seleziona categoria
         Console.WriteLine("inserisci l'id della categoria");
         string id_categoria = Console.ReadLine()!;
@@ -224,9 +247,13 @@ public class Model
         string quantita = Console.ReadLine()!;
         SQLiteConnection connectionins = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connectionins.Open();
-        string sqlins = $"INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('{nome}', {prezzo}, {quantita}, {id_categoria})"; // crea il comando sql che inserisce un prodotto
-        SQLiteCommand commandins = new SQLiteCommand(sqlins, connectionins);
-        commandins.ExecuteNonQuery();
+        string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
+        SQLiteCommand command = new SQLiteCommand(sql, connectionins);
+        command.Parameters.AddWithValue("@nome", nome);
+        command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
+        command.Parameters.AddWithValue("@quantita", Convert.ToInt32(quantita));
+        command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
+        command.ExecuteNonQuery();
         connectionins.Close();
     }
 
@@ -234,8 +261,9 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"SELECT * FROM prodotti WHERE nome = '{nome}'"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con nome uguale a quello inserito
+        string sql =  "SELECT * FROM prodotti WHERE nome = @nome"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+         command.Parameters.AddWithValue("@nome", nome);
         SQLiteDataReader reader = command.ExecuteReader();
         string stringa="";
         while (reader.Read())
@@ -248,12 +276,14 @@ public class Model
 
     public string VisualizzaProdottiCategoria()
     {
+        VisualizzaCategorie();
         Console.WriteLine("inserisci l'id della categoria");
         string id_categoria = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"SELECT * FROM prodotti WHERE id_categoria = {id_categoria}"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
+        string sql ="SELECT * FROM prodotti WHERE id_categoria = @id_categoria"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         SQLiteDataReader reader = command.ExecuteReader();
         string stringa="";
         while (reader.Read())
@@ -266,24 +296,28 @@ public class Model
 
     public void InserisciCategoria()
     {
-        Console.WriteLine("inserisci il nome della categoria");
+        VisualizzaCategorie();
+        Console.WriteLine("inserisci il nome della nuova categoria");
         string nome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"INSERT INTO categorie (nome) VALUES ('{nome}')"; // crea il comando sql che inserisce una categoria
+        string sql = "INSERT INTO categorie (nome) VALUES (@nome)"; // crea il comando sql che inserisce una categoria
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@nome", nome);
         command.ExecuteNonQuery();
         connection.Close();
     }
 
     public void EliminaCategoria()
     {
-        Console.WriteLine("inserisci il nome della categoria");
+        VisualizzaCategorie();
+        Console.WriteLine("inserisci il nome della categoria da eliminare");
         string nome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"DELETE FROM categorie WHERE nome = '{nome}'"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
+        string sql = "DELETE FROM categorie WHERE nome = @nome"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@nome", nome);
         command.ExecuteNonQuery();
         connection.Close();
     }

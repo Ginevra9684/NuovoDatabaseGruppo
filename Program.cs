@@ -1,12 +1,9 @@
-﻿// comando per installare il pacchetto System.Data.SQLite 
-// dotnet add package System.Data.SQLite
-
-class Program
+﻿class Program
 {
     static void Main(string[] args)
     {
         Model model = new Model();
-        View view = new View(model);
+        View view = new View();  // Creazione della View senza argomenti
         Controller controller = new Controller(model, view);
         controller.MainMenu();
     }

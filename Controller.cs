@@ -3,10 +3,11 @@ public class Controller
     private Model _model;
     private View _view;
 
+// Costruttore del Controller riceve il Model e la View
     public Controller(Model model, View view)
     {
-        _model = model;
-        _view = view;
+        _model = model;   // Associa il Model passato al campo privato
+        _view = view;      // Associa la View passata al campo privato
     }
 
     public void MainMenu()
@@ -39,26 +40,29 @@ public class Controller
                     _view.Stampa(VisualizzaProdottoMenoCostoso()); //TODO List di string
                     break;
                 case "8":
-                    _model.InserisciProdotto(); //TODO Da fare
+                    _model.InserisciProdotto(); //ok
                     break;
                 case "9":
                     _view.Stampa(VisualizzaProdotto(_view.NomeProdotto()));
                     break;
                 case "10":
-                    _view.Stampa(VisualizzaProdottiCategoria()); //TODO Da fare
+                    _view.Stampa(VisualizzaProdottiCategoria()); //ok
                     break;
                 case "11":
-                    _model.InserisciCategoria(); //TODO Da fare
+                    _model.InserisciCategoria(); // ok
                     break;
                 case "12":
-                    _model.EliminaCategoria(); //TODO Da fare
+                    _model.EliminaCategoria(); //ok 
                     break;
                 case "13":
-                    _model.InserisciProdottoCategoria(); //TODO Da fare
+                    _model.InserisciProdottoCategoria(); //ok
                     break;
                 case "14":
                     _view.Stampa(VisualizzaProdottiAdvanced()); //TODO List di string
                     break;
+                case "15":
+                    Console.WriteLine("Uscita in corso...");
+                    return; // Uscita dal ciclo 
                 default:
                     Console.WriteLine("scelta non valida");
                     break;
@@ -94,7 +98,7 @@ public class Controller
 
     private string VisualizzaProdottiOrdinatiPerQuantita()
     {
-        return _model.VisualizzaProdottiOrdinatiPerPrezzo();
+        return _model.VisualizzaProdottiOrdinatiPerQuantita(); // correzione da prezzo a quantita
     }
 
     private string VisualizzaProdottiOrdinatiPerPrezzo()

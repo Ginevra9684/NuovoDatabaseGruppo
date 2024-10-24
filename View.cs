@@ -1,11 +1,6 @@
 public class View
 {
-    private Model _db;
-
-    public View(Model db)
-    {
-        _db = db;
-    }
+   // public View() { } costruttore non necessario
 
     public void ShowMainMenu()
     {
@@ -45,10 +40,10 @@ public class View
 
     public decimal PrezzoProdotto()
     {
-        Console.WriteLine("inserisci il nuovo prezzo"); // chiede il nuovo prezzo del prodotto da modificare
+        Console.WriteLine("inserisci il nuovo prezzo");
         try
         {
-            return Convert.ToDecimal(Console.ReadLine()!); // legge il nuovo prezzo del prodotto da modificare
+            return Convert.ToDecimal(Console.ReadLine()!);
         }
         catch(Exception) 
         {
