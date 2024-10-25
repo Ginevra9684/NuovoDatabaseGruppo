@@ -57,8 +57,7 @@ public class Model
             connection.Close(); // chiude la connessione al database se non è già chiusa
         }
     }
-
-    // NOME APPROPRIATO CaricaProdotti
+/*
     public string VisualizzaProdotti()  // Menu opzione 1
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione di nuovo perché è stata chiusa alla fine del while in modo da poter visualizzare i dati aggiornati
@@ -73,6 +72,19 @@ public class Model
         }
         connection.Close(); // chiude la connessione al database se non è già chiusa
         return stringa;
+    }
+*/
+    // METODO APPROPRIATO
+    public SQLiteDataReader CaricaProdotti()  // Menu opzione 1
+    {
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione di nuovo perché è stata chiusa alla fine del while in modo da poter visualizzare i dati aggiornati
+        connection.Open();
+        string sql = "SELECT * FROM prodotti"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
+        SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
+        SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
+        
+        // BISOGNA SPOSTARE IL WHILE AL CONTROLLER E RITORNARE IL READER INVECE DELLA STRINGA E LA CHIUSURA DELLA CONNESSIONE VA NELL'EXIT
+        return reader;
     }
 
     public string VisualizzaProdottiOrdinatiPerPrezzo() // Menu opzione 2
