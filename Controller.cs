@@ -1,3 +1,5 @@
+
+
 // COMMENTO IN MAIUSCOLO NUOVA DIRETTIVA PER DIVIDERE CON PATTERN MVC : ESEMPIO CON OPZIONE 1 DEL MENU
 
 public class Controller
@@ -65,6 +67,7 @@ public class Controller
                     break;
                 case "15":
                     Console.WriteLine("Uscita in corso...");
+                    // BISOGNA FAR IN MODO DI CHIUDERE LA CONNESSIONE AL DATABSE QUI
                     return; // Uscita dal ciclo 
                 default:
                     Console.WriteLine("scelta non valida");
@@ -74,18 +77,25 @@ public class Controller
         }
     }
 
+/*
     private string VisualizzaProdotti() // Menu opzione 1
     {
         return _model.VisualizzaProdotti();
     }
-/*
-    METODO APPROPRIATO
-    private string VisualizzaProdotti()
-    {
-        var prodotti = _model.CaricaProdotti();
-        _view.VisualizzaProdotti(prodotti);
-    }
 */
+
+    //METODO APPROPRIATO
+    private void VisualizzaProdotti()   // Menu opzione 1
+    {
+        var reader = _model.CaricaProdotti();
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
+    }
+
 
     private string VisualizzaProdottiOrdinatiPerPrezzo()    // Menu opzione 2
     {
