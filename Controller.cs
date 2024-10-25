@@ -1,3 +1,5 @@
+// COMMENTO IN MAIUSCOLO NUOVA DIRETTIVA PER DIVIDERE CON PATTERN MVC : ESEMPIO CON OPZIONE 1 DEL MENU
+
 public class Controller
 {
     private Model _model;
@@ -19,46 +21,47 @@ public class Controller
             switch (input)
             {
                 case "1":
-                    _view.Stampa(VisualizzaProdotti()); //TODO List di string
+                    _view.Stampa(VisualizzaProdotti()); // Stampa un testo passato da VisualizzaProdotti e preso dalla stessa funzione nel Model
+                    // METODO APPROPRIATO VisualizzaProdotti();
                     break;
                 case "2":
-                    _view.Stampa(VisualizzaProdottiOrdinatiPerPrezzo()); //TODO List di string
+                    _view.Stampa(VisualizzaProdottiOrdinatiPerPrezzo()); 
                     break;
                 case "3":
-                    _view.Stampa(VisualizzaProdottiOrdinatiPerQuantita()); //TODO List di string
+                    _view.Stampa(VisualizzaProdottiOrdinatiPerQuantita()); 
                     break;
                 case "4":
-                    ModificaPrezzoProdotto(_view.NomeProdotto(), _view.PrezzoProdotto());
+                    ModificaPrezzoProdotto(_view.NomeProdotto(), _view.PrezzoProdotto());   // Prende dalla View il nome e il prezzo
                     break;
                 case "5":
                     _model.EliminaProdotto(_view.NomeProdotto());
                     break;
                 case "6":
-                    _view.Stampa(VisualizzaProdottoPiuCostoso()); //TODO List di string
+                    _view.Stampa(VisualizzaProdottoPiuCostoso()); 
                     break;
                 case "7":
-                    _view.Stampa(VisualizzaProdottoMenoCostoso()); //TODO List di string
+                    _view.Stampa(VisualizzaProdottoMenoCostoso()); 
                     break;
                 case "8":
-                    _model.InserisciProdotto(); //ok
+                    _model.InserisciProdotto(); 
                     break;
                 case "9":
                     _view.Stampa(VisualizzaProdotto(_view.NomeProdotto()));
                     break;
                 case "10":
-                    _view.Stampa(VisualizzaProdottiCategoria()); //ok
+                    _view.Stampa(VisualizzaProdottiCategoria()); 
                     break;
                 case "11":
-                    _model.InserisciCategoria(); // ok
+                    _model.InserisciCategoria(); 
                     break;
                 case "12":
-                    _model.EliminaCategoria(); //ok 
+                    _model.EliminaCategoria();
                     break;
                 case "13":
-                    _model.InserisciProdottoCategoria(); //ok
+                    _model.InserisciProdottoCategoria(); 
                     break;
                 case "14":
-                    _view.Stampa(VisualizzaProdottiAdvanced()); //TODO List di string
+                    _view.Stampa(VisualizzaProdottiAdvanced()); 
                     break;
                 case "15":
                     Console.WriteLine("Uscita in corso...");
@@ -71,48 +74,57 @@ public class Controller
         }
     }
 
-    private void ModificaPrezzoProdotto(string nome, decimal prezzo)
+    private string VisualizzaProdotti() // Menu opzione 1
     {
-        _model.ModificaPrezzoProdotto(nome, prezzo);
+        return _model.VisualizzaProdotti();
     }
-
-    private string VisualizzaProdottiCategoria()
+/*
+    METODO APPROPRIATO
+    private string VisualizzaProdotti()
     {
-        return _model.VisualizzaProdottiCategoria();
+        var prodotti = _model.CaricaProdotti();
+        _view.VisualizzaProdotti(prodotti);
     }
+*/
 
-    private string VisualizzaProdotto(string nome)
-    {
-        return _model.VisualizzaProdotto(nome);
-    }
-
-    private string VisualizzaProdottoMenoCostoso()
-    {
-        return _model.VisualizzaProdottoMenoCostoso();
-    }
-
-    private string VisualizzaProdottoPiuCostoso()
-    {
-        return _model.VisualizzaProdottoPiuCostoso();
-    }
-
-    private string VisualizzaProdottiOrdinatiPerQuantita()
-    {
-        return _model.VisualizzaProdottiOrdinatiPerQuantita(); // correzione da prezzo a quantita
-    }
-
-    private string VisualizzaProdottiOrdinatiPerPrezzo()
+    private string VisualizzaProdottiOrdinatiPerPrezzo()    // Menu opzione 2
     {
         return _model.VisualizzaProdottiOrdinatiPerPrezzo();
     }
 
-    private string VisualizzaProdottiAdvanced()
+    private string VisualizzaProdottiOrdinatiPerQuantita()  // Menu opzione 3
+    {
+        return _model.VisualizzaProdottiOrdinatiPerQuantita(); // correzione da prezzo a quantita
+    }
+
+    private void ModificaPrezzoProdotto(string nome, decimal prezzo)    // Menu Opzione 4
+    {
+        _model.ModificaPrezzoProdotto(nome, prezzo);    // Passa al Model il nome e il prezzo
+    }
+
+    private string VisualizzaProdottoPiuCostoso()   // Menu opzione 6
+    {
+        return _model.VisualizzaProdottoPiuCostoso();
+    }
+
+    private string VisualizzaProdottoMenoCostoso()  // Menu opzione 7
+    {
+        return _model.VisualizzaProdottoMenoCostoso();
+    }
+
+    private string VisualizzaProdotto(string nome)  // Menu opzione 9
+    {
+        return _model.VisualizzaProdotto(nome);
+    }
+
+    private string VisualizzaProdottiCategoria()    // Menu opzione 10
+    {
+        return _model.VisualizzaProdottiCategoria();
+    }
+
+    private string VisualizzaProdottiAdvanced() // Menu opzione 14
     {
         return _model.VisualizzaProdottiAdvanced();
     }
 
-    private string VisualizzaProdotti()
-    {
-        return _model.VisualizzaProdotti();
-    }
 }

@@ -27,7 +27,8 @@ public class View
         return Console.ReadLine()!;
     }
 
-    public void Stampa(string testo)
+    // Stampa un testo passato da una funzione del controller (il controller prende questo testo a sua volta da una funzione del model)
+    public void Stampa(string testo)    // QUESTO LO POSSIAMO USARE IN MANIERA GENERICA QUANDO DOBBIAMO SOLO STAMPARE
     {
         Console.WriteLine(testo);
     }
