@@ -10,3 +10,4 @@ public class CategoryView : BaseView
         Console.WriteLine("scegli un'opzione");
     }
 }
+/*ciao*/
