@@ -82,8 +82,6 @@ public class Model
         string sql = "SELECT * FROM prodotti"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
         SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
         SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
-        
-        // BISOGNA SPOSTARE IL WHILE AL CONTROLLER E RITORNARE IL READER INVECE DELLA STRINGA E LA CHIUSURA DELLA CONNESSIONE VA NELL'EXIT
         return reader;
     }
 
