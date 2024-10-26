@@ -1,27 +1,27 @@
-
-
-// COMMENTO IN MAIUSCOLO NUOVA DIRETTIVA PER DIVIDERE CON PATTERN MVC : ESEMPIO CON OPZIONE 1 DEL MENU
-
-using System.ComponentModel.Design;
-
 public class Controller
 {
     private Model _model;
-    private View _view;
+    private ProductView _productView;
+
+    private CategoryView _categoryView;
 
 // Costruttore del Controller riceve il Model e la View
-    public Controller(Model model, View view)
+    public Controller(Model model, ProductView productView, CategoryView categoryView)
     {
-        _model = model;   // Associa il Model passato al campo privato
-        _view = view;      // Associa la View passata al campo privato
+        _model = model;
+        _productView = productView; 
+        _categoryView = categoryView;
     }
 
     public void MainMenu()
     {
         while (true)
         {
-            _view.ShowMainMenu();
-            var input = _view.GetInput();
+//!!! DA AGGIUSTARE NELLA PRODUCTVIEW
+            _productView.ShowProductMenu();
+//!!! DA AGGIUSTARE NELLA CATEGORYVIEW
+            _categoryView.ShowCategoryMenu(); 
+            var input = _productView.GetInput();
             switch (input)
             {
                 case "1":
@@ -86,7 +86,8 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTI PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 
 
@@ -98,7 +99,8 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTIORDINATIPERPREZZO PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 
     private void VisualizzaProdottiOrdinatiPerQuantita()  // Menu opzione 3
@@ -109,19 +111,20 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTIORDINATIPERQUANTITA PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 
     private void ModificaPrezzoProdotto()    // Menu opzione 4
     {
-        string nome = _view.NomeProdotto(); 
-        decimal prezzo = _view.PrezzoProdotto();
+        string nome = _productView.NomeProdotto(); 
+        decimal prezzo = _productView.PrezzoProdotto();
         _model.ModificaPrezzoProdotto(nome, prezzo);    // Passa al Model il nome e il prezzo
     }
 
     public void EliminaProdotto()   // Menu opzione 5
     {
-        string nome = _view.NomeProdotto();
+        string nome = _productView.NomeProdotto();
         _model.EliminaProdotto(nome);
     }
 
@@ -133,7 +136,8 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTOPIUCOSTOSO PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 
     private void VisualizzaProdottoMenoCostoso()  // Menu opzione 7
@@ -144,11 +148,13 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTOMENOCOSTOSO PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 
     private void InserisciProdotto()    // Menu opzione 8
     {
+//!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
         Console.WriteLine("inserisci il nome del prodotto");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il prezzo del prodotto");
@@ -165,18 +171,20 @@ public class Controller
 
     private void VisualizzaProdotto()  // Menu opzione 9
     {
-        string nome = _view.NomeProdotto(); 
+        string nome = _productView.NomeProdotto(); 
         var reader = _model.CaricaProdotto(nome);
         string stringa="";
         while (reader.Read())
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTO PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 
     private void VisualizzaProdottiCategoria()    // Menu opzione 10
     {
+//!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
         _model.VisualizzaCategorie();
         Console.WriteLine("inserisci l'id della categoria");
         int id_categoria = Int32.Parse(Console.ReadLine()!);
@@ -186,11 +194,13 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZACATEGORIE PER SOSTITUIRE STAMPA
+        _categoryView.Stampa(stringa);
     }
 
     private void InserisciCategoria()   // Menu opzione 11
     {
+//!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
         _model.VisualizzaCategorie();
         Console.WriteLine("inserisci il nome della nuova categoria");
         string nome = Console.ReadLine()!;
@@ -199,6 +209,7 @@ public class Controller
 
     private void EliminaCategoria() // Menu opzione 12
     {
+//!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
         _model.VisualizzaCategorie();
         Console.WriteLine("inserisci il nome della categoria da eliminare");
         string nome = Console.ReadLine()!;
@@ -207,6 +218,7 @@ public class Controller
 
     public void InserisciProdottoCategoria()    // Menu opzione 13
     {
+//!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
         // Chiama il metodo per visualizzare le categorie
         _model.VisualizzaCategorie();
         //seleziona categoria
@@ -230,6 +242,7 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}\n";
         }
-        _view.Stampa(stringa);
+//!!!CREARE VISUALIZZAPRODOTTIADVANCED PER SOSTITUIRE STAMPA
+        _productView.Stampa(stringa);
     }
 }
