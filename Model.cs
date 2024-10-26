@@ -1,9 +1,15 @@
+using System.Data.Entity;
 using System.Data.SQLite;
 public class Model
 {
     string path = @"database.db"; // il file deve essere nella stessa cartella del programma db
 
     public Model()
+    {
+        CreateDatabase();
+    }
+
+    private void CreateDatabase()
     {
         if (!File.Exists(path))
         {
@@ -57,24 +63,7 @@ public class Model
             connection.Close(); // chiude la connessione al database se non è già chiusa
         }
     }
-/*
-    public string VisualizzaProdotti()  // Menu opzione 1
-    {
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione di nuovo perché è stata chiusa alla fine del while in modo da poter visualizzare i dati aggiornati
-        connection.Open();
-        string sql = "SELECT * FROM prodotti"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
-        SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
-        SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close(); // chiude la connessione al database se non è già chiusa
-        return stringa;
-    }
-*/
-    // METODO APPROPRIATO
+
     public SQLiteDataReader CaricaProdotti()  // Menu opzione 1
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione di nuovo perché è stata chiusa alla fine del while in modo da poter visualizzare i dati aggiornati
@@ -82,41 +71,27 @@ public class Model
         string sql = "SELECT * FROM prodotti"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
         SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
         SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
-        
-        // BISOGNA SPOSTARE IL WHILE AL CONTROLLER E RITORNARE IL READER INVECE DELLA STRINGA E LA CHIUSURA DELLA CONNESSIONE VA NELL'EXIT
         return reader;
     }
 
-    public string VisualizzaProdottiOrdinatiPerPrezzo() // Menu opzione 2
+    public SQLiteDataReader CaricaProdottiOrdinatiPerPrezzo() // Menu opzione 2
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "SELECT * FROM prodotti ORDER BY prezzo"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti ordinati per prezzo
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 
-    public string VisualizzaProdottiOrdinatiPerQuantita()   // Menu opzione 3
+    public SQLiteDataReader CaricaProdottiOrdinatiPerQuantita()   // Menu opzione 3
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "SELECT * FROM prodotti ORDER BY quantita"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti ordinati per quantita
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 
     public void ModificaPrezzoProdotto(string nome, decimal prezzo) // Menu opzione 4
@@ -142,36 +117,24 @@ public class Model
         connection.Close();
     }
 
-    public string VisualizzaProdottoPiuCostoso()    // Menu opzione 6
+    public SQLiteDataReader CaricaProdottoPiuCostoso()    // Menu opzione 6
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "SELECT * FROM prodotti ORDER BY prezzo DESC LIMIT 1"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti ordinati per prezzo in modo decrescente e ne prende solo il primo
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 
-    public string VisualizzaProdottoMenoCostoso()   // Menu opzione 7
+    public SQLiteDataReader CaricaProdottoMenoCostoso()   // Menu opzione 7
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "SELECT * FROM prodotti ORDER BY prezzo ASC LIMIT 1"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti ordinati per prezzo in modo crescente e ne prende solo il primo
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 
 // Aggiunto metodo per visualizzare le categorie disponibili
@@ -194,20 +157,8 @@ public class Model
         }
     }
 
-
-    public void InserisciProdotto() // Menu opzione 8
+    public void InserisciProdotto(string nome, decimal prezzo, int quantita, int id_categoria) // Menu opzione 8
     {
-        Console.WriteLine("inserisci il nome del prodotto");
-        string nome = Console.ReadLine()!;
-        Console.WriteLine("inserisci il prezzo del prodotto");
-        string prezzo = Console.ReadLine()!;
-        Console.WriteLine("inserisci la quantità del prodotto");
-        string quantita = Console.ReadLine()!;
-        // Visualizza le categorie disponibili
-        Console.WriteLine("Categorie disponibili:");
-        VisualizzaCategorie(); // Chiamata al metodo che visualizza le categorie con i loro ID
-        Console.WriteLine("inserisci l'id della categoria del prodotto");
-        string id_categoria = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
@@ -220,7 +171,7 @@ public class Model
         connection.Close();
     }
 
-    public string VisualizzaProdotto(string nome)   // Menu opzione 9
+    public SQLiteDataReader CaricaProdotto(string nome)   // Menu opzione 9
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
@@ -228,40 +179,22 @@ public class Model
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@nome", nome);
         SQLiteDataReader reader = command.ExecuteReader();
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 
-    public string VisualizzaProdottiCategoria() // Menu opzione 10
+    public SQLiteDataReader VisualizzaProdottiCategoria(int id_categoria) // Menu opzione 10
     {
-        VisualizzaCategorie();
-        Console.WriteLine("inserisci l'id della categoria");
-        string id_categoria = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql ="SELECT * FROM prodotti WHERE id_categoria = @id_categoria"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         SQLiteDataReader reader = command.ExecuteReader();
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 
-    public void InserisciCategoria()    // Menu opzione 11
+    public void InserisciCategoria(string nome)    // Menu opzione 11
     {
-        VisualizzaCategorie();
-        Console.WriteLine("inserisci il nome della nuova categoria");
-        string nome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "INSERT INTO categorie (nome) VALUES (@nome)"; // crea il comando sql che inserisce una categoria
@@ -271,11 +204,8 @@ public class Model
         connection.Close();
     }
 
-    public void EliminaCategoria()  // Menu opzione 12
+    public void EliminaCategoria(string nome)  // Menu opzione 12
     {
-        VisualizzaCategorie();
-        Console.WriteLine("inserisci il nome della categoria da eliminare");
-        string nome = Console.ReadLine()!;
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
         string sql = "DELETE FROM categorie WHERE nome = @nome"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
@@ -286,20 +216,8 @@ public class Model
     }
 
     // inserimento di prodotto chiamando prima la categoria e poi il prodotto in modo da avere in inserimento il nome della categoria invece dell id
-    public void InserisciProdottoCategoria()    // Menu opzione 13
+    public void InserisciProdottoCategoria(int id_categoria, string nome, decimal prezzo, int quantita)    // Menu opzione 13
     {
-       // Chiama il metodo per visualizzare le categorie
-        VisualizzaCategorie();
-        //seleziona categoria
-        Console.WriteLine("inserisci l'id della categoria");
-        string id_categoria = Console.ReadLine()!;
-        //inserisci prodotto
-        Console.WriteLine("inserisci il nome del prodotto");
-        string nome = Console.ReadLine()!;
-        Console.WriteLine("inserisci il prezzo del prodotto");
-        string prezzo = Console.ReadLine()!;
-        Console.WriteLine("inserisci la quantità del prodotto");
-        string quantita = Console.ReadLine()!;
         SQLiteConnection connectionins = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connectionins.Open();
         string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
@@ -312,26 +230,17 @@ public class Model
         connectionins.Close();
     }
 
-    public string VisualizzaProdottiAdvanced()  // Menu opzione 14
+    public SQLiteDataReader CaricaProdottiAdvanced()  // Menu opzione 14
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-
         // Modifica la query SQL per includere una join con la tabella categorie
         string sql = @"
             SELECT prodotti.id, prodotti.nome, prodotti.prezzo, prodotti.quantita, categorie.nome AS nome_categoria 
             FROM prodotti
             JOIN categorie ON prodotti.id_categoria = categorie.id";
-
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
-
-        string stringa="";
-        while (reader.Read())
-        {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}\n";
-        }
-        connection.Close();
-        return stringa;
+        return reader;
     }
 }

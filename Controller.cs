@@ -2,6 +2,8 @@
 
 // COMMENTO IN MAIUSCOLO NUOVA DIRETTIVA PER DIVIDERE CON PATTERN MVC : ESEMPIO CON OPZIONE 1 DEL MENU
 
+using System.ComponentModel.Design;
+
 public class Controller
 {
     private Model _model;
@@ -23,47 +25,46 @@ public class Controller
             switch (input)
             {
                 case "1":
-                    _view.Stampa(VisualizzaProdotti()); // Stampa un testo passato da VisualizzaProdotti e preso dalla stessa funzione nel Model
-                    // METODO APPROPRIATO VisualizzaProdotti();
+                    VisualizzaProdotti(); 
                     break;
                 case "2":
-                    _view.Stampa(VisualizzaProdottiOrdinatiPerPrezzo()); 
+                    VisualizzaProdottiOrdinatiPerPrezzo(); 
                     break;
                 case "3":
-                    _view.Stampa(VisualizzaProdottiOrdinatiPerQuantita()); 
+                    VisualizzaProdottiOrdinatiPerQuantita(); 
                     break;
                 case "4":
-                    ModificaPrezzoProdotto(_view.NomeProdotto(), _view.PrezzoProdotto());   // Prende dalla View il nome e il prezzo
+                    ModificaPrezzoProdotto();   // Prende dalla View il nome e il prezzo
                     break;
                 case "5":
-                    _model.EliminaProdotto(_view.NomeProdotto());
+                    EliminaProdotto();
                     break;
                 case "6":
-                    _view.Stampa(VisualizzaProdottoPiuCostoso()); 
+                    VisualizzaProdottoPiuCostoso(); 
                     break;
                 case "7":
-                    _view.Stampa(VisualizzaProdottoMenoCostoso()); 
+                    VisualizzaProdottoMenoCostoso(); 
                     break;
                 case "8":
-                    _model.InserisciProdotto(); 
+                    InserisciProdotto(); 
                     break;
                 case "9":
-                    _view.Stampa(VisualizzaProdotto(_view.NomeProdotto()));
+                    VisualizzaProdotto();
                     break;
                 case "10":
-                    _view.Stampa(VisualizzaProdottiCategoria()); 
+                    VisualizzaProdottiCategoria(); 
                     break;
                 case "11":
-                    _model.InserisciCategoria(); 
+                    InserisciCategoria(); 
                     break;
                 case "12":
-                    _model.EliminaCategoria();
+                    EliminaCategoria();
                     break;
                 case "13":
-                    _model.InserisciProdottoCategoria(); 
+                    InserisciProdottoCategoria(); 
                     break;
                 case "14":
-                    _view.Stampa(VisualizzaProdottiAdvanced()); 
+                    VisualizzaProdottiAdvanced(); 
                     break;
                 case "15":
                     Console.WriteLine("Uscita in corso...");
@@ -77,14 +78,6 @@ public class Controller
         }
     }
 
-/*
-    private string VisualizzaProdotti() // Menu opzione 1
-    {
-        return _model.VisualizzaProdotti();
-    }
-*/
-
-    //METODO APPROPRIATO
     private void VisualizzaProdotti()   // Menu opzione 1
     {
         var reader = _model.CaricaProdotti();
@@ -97,44 +90,146 @@ public class Controller
     }
 
 
-    private string VisualizzaProdottiOrdinatiPerPrezzo()    // Menu opzione 2
+    private void VisualizzaProdottiOrdinatiPerPrezzo()    // Menu opzione 2
     {
-        return _model.VisualizzaProdottiOrdinatiPerPrezzo();
+        var reader = _model.CaricaProdottiOrdinatiPerPrezzo();
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
     }
 
-    private string VisualizzaProdottiOrdinatiPerQuantita()  // Menu opzione 3
+    private void VisualizzaProdottiOrdinatiPerQuantita()  // Menu opzione 3
     {
-        return _model.VisualizzaProdottiOrdinatiPerQuantita(); // correzione da prezzo a quantita
+        var reader = _model.CaricaProdottiOrdinatiPerQuantita();
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
     }
 
-    private void ModificaPrezzoProdotto(string nome, decimal prezzo)    // Menu Opzione 4
+    private void ModificaPrezzoProdotto()    // Menu opzione 4
     {
+        string nome = _view.NomeProdotto(); 
+        decimal prezzo = _view.PrezzoProdotto();
         _model.ModificaPrezzoProdotto(nome, prezzo);    // Passa al Model il nome e il prezzo
     }
 
-    private string VisualizzaProdottoPiuCostoso()   // Menu opzione 6
+    public void EliminaProdotto()   // Menu opzione 5
     {
-        return _model.VisualizzaProdottoPiuCostoso();
+        string nome = _view.NomeProdotto();
+        _model.EliminaProdotto(nome);
     }
 
-    private string VisualizzaProdottoMenoCostoso()  // Menu opzione 7
+    private void VisualizzaProdottoPiuCostoso()   // Menu opzione 6
     {
-        return _model.VisualizzaProdottoMenoCostoso();
+        var reader = _model.CaricaProdottoPiuCostoso();
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
     }
 
-    private string VisualizzaProdotto(string nome)  // Menu opzione 9
+    private void VisualizzaProdottoMenoCostoso()  // Menu opzione 7
     {
-        return _model.VisualizzaProdotto(nome);
+        var reader = _model.CaricaProdottoMenoCostoso();
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
     }
 
-    private string VisualizzaProdottiCategoria()    // Menu opzione 10
+    private void InserisciProdotto()    // Menu opzione 8
     {
-        return _model.VisualizzaProdottiCategoria();
+        Console.WriteLine("inserisci il nome del prodotto");
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il prezzo del prodotto");
+        decimal prezzo = Decimal.Parse(Console.ReadLine()!);
+        Console.WriteLine("inserisci la quantità del prodotto");
+        int quantita = Int32.Parse(Console.ReadLine()!);
+        // Visualizza le categorie disponibili
+        Console.WriteLine("Categorie disponibili:");
+        _model.VisualizzaCategorie(); // Chiamata al metodo che visualizza le categorie con i loro ID
+        Console.WriteLine("inserisci l'id della categoria del prodotto");
+        int id_categoria = Int32.Parse(Console.ReadLine()!);
+        _model.InserisciProdotto(nome, prezzo, quantita, id_categoria);
     }
 
-    private string VisualizzaProdottiAdvanced() // Menu opzione 14
+    private void VisualizzaProdotto()  // Menu opzione 9
     {
-        return _model.VisualizzaProdottiAdvanced();
+        string nome = _view.NomeProdotto(); 
+        var reader = _model.CaricaProdotto(nome);
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
     }
 
+    private void VisualizzaProdottiCategoria()    // Menu opzione 10
+    {
+        _model.VisualizzaCategorie();
+        Console.WriteLine("inserisci l'id della categoria");
+        int id_categoria = Int32.Parse(Console.ReadLine()!);
+        var reader = _model.VisualizzaProdottiCategoria(id_categoria);
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
+    }
+
+    private void InserisciCategoria()   // Menu opzione 11
+    {
+        _model.VisualizzaCategorie();
+        Console.WriteLine("inserisci il nome della nuova categoria");
+        string nome = Console.ReadLine()!;
+        _model.InserisciCategoria(nome);
+    }
+
+    private void EliminaCategoria() // Menu opzione 12
+    {
+        _model.VisualizzaCategorie();
+        Console.WriteLine("inserisci il nome della categoria da eliminare");
+        string nome = Console.ReadLine()!;
+        _model.EliminaCategoria(nome);
+    }
+
+    public void InserisciProdottoCategoria()    // Menu opzione 13
+    {
+        // Chiama il metodo per visualizzare le categorie
+        _model.VisualizzaCategorie();
+        //seleziona categoria
+        Console.WriteLine("inserisci l'id della categoria");
+        int id_categoria = Int32.Parse(Console.ReadLine()!);
+        //inserisci prodotto
+        Console.WriteLine("inserisci il nome del prodotto");
+        string nome = Console.ReadLine()!;
+        Console.WriteLine("inserisci il prezzo del prodotto");
+        decimal prezzo = Decimal.Parse(Console.ReadLine()!);
+        Console.WriteLine("inserisci la quantità del prodotto");
+        int quantita = Int32.Parse(Console.ReadLine()!);
+        _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
+    }
+
+    private void VisualizzaProdottiAdvanced() // Menu opzione 14
+    {
+        var reader = _model.CaricaProdottiAdvanced();
+        string stringa="";
+        while (reader.Read())
+        {
+            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, categoria: {reader["nome_categoria"]}\n";
+        }
+        _view.Stampa(stringa);
+    }
 }
