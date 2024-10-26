@@ -5,6 +5,8 @@ public class Controller
 
     private CategoryView _categoryView;
 
+    public List<Prodotto> prodotti { get; set; } = new List<Prodotto>();
+
 // Costruttore del Controller riceve il Model e la View
     public Controller(Model model, ProductView productView, CategoryView categoryView)
     {
@@ -81,24 +83,42 @@ public class Controller
     private void VisualizzaProdotti()   // Menu opzione 1
     {
         var reader = _model.CaricaProdotti();
+        /*  METODO VECCHIO
         string stringa="";
         while (reader.Read())
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-//!!!CREARE VISUALIZZAPRODOTTI PER SOSTITUIRE STAMPA
-        _productView.Stampa(stringa);
+        */
+        while (reader.Read())
+        {
+            var prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"].ToString(),
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+            prodotti.Add(prodotto);
+        };
+//!!!CREARE VISUALIZZAPRODOTTI PER SOSTITUIRE STAMPA - Deve avere come parametro un List<Prodotto> e utilizzare un foreach
+        _productView.VisualizzaProdotti(prodotti);
     }
 
 
     private void VisualizzaProdottiOrdinatiPerPrezzo()    // Menu opzione 2
     {
+        prodotti.Clear();   // Assicura che la lista pubblica venga azzerata all'inizio di un nuovo metodo che ne ha accesso
         var reader = _model.CaricaProdottiOrdinatiPerPrezzo();
+        /*
         string stringa="";
         while (reader.Read())
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
+        */
+        
 //!!!CREARE VISUALIZZAPRODOTTIORDINATIPERPREZZO PER SOSTITUIRE STAMPA
         _productView.Stampa(stringa);
     }
