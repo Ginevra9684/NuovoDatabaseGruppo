@@ -80,7 +80,7 @@ public class Controller
         }
     }
 
-    private void VisualizzaProdotti()   // Menu opzione 1
+  /*  private void VisualizzaProdotti()   // Menu opzione 1
     {
         var reader = _model.CaricaProdotti();
         /*  METODO VECCHIO
@@ -89,7 +89,7 @@ public class Controller
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-        */
+        
         while (reader.Read())
         {
             var prodotto = new Prodotto
@@ -104,25 +104,63 @@ public class Controller
         };
 //!!!CREARE VISUALIZZAPRODOTTI PER SOSTITUIRE STAMPA - Deve avere come parametro un List<Prodotto> e utilizzare un foreach
         _productView.VisualizzaProdotti(prodotti);
-    }
+    } */
 
+    private void VisualizzaProdotti()
+{
+    // Crea una lista vuota per memorizzare i prodotti
 
-    private void VisualizzaProdottiOrdinatiPerPrezzo()    // Menu opzione 2
+    var prodotti = new List<Prodotto>();
+// Apre il data reader all'interno di un blocco 'using'
+    using (var reader = _model.CaricaProdotti())
     {
-        prodotti.Clear();   // Assicura che la lista pubblica venga azzerata all'inizio di un nuovo metodo che ne ha accesso
-        var reader = _model.CaricaProdottiOrdinatiPerPrezzo();
-        /*
-        string stringa="";
+        // Cicla attraverso ogni riga nel data reader
         while (reader.Read())
         {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+            // Crea un nuovo oggetto Prodotto e assegna i valori letti dal reader
+            var prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"].ToString(),
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+            // Aggiunge il prodotto alla lista
+            prodotti.Add(prodotto);
         }
-        */
-        
-//!!!CREARE VISUALIZZAPRODOTTIORDINATIPERPREZZO PER SOSTITUIRE STAMPA
-        _productView.Stampa(stringa);
+    }  // Fine del blocco 'using' il reader viene automaticamente chiuso e liberato qui
+
+// Passa la lista dei prodotti alla vista per visualizzarla
+    _productView.VisualizzaProdotti(prodotti); 
+}
+
+
+
+private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
+{
+    var prodottiOrdinati = new List<Prodotto>();
+
+    using (var reader = _model.CaricaProdottiOrdinatiPerPrezzo())
+    {
+        while (reader.Read())
+        {
+            var prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+            prodottiOrdinati.Add(prodotto);
+        }
     }
 
+    _productView.VisualizzaProdotti(prodottiOrdinati);
+}
+
+/*
     private void VisualizzaProdottiOrdinatiPerQuantita()  // Menu opzione 3
     {
         var reader = _model.CaricaProdottiOrdinatiPerQuantita();
@@ -133,18 +171,43 @@ public class Controller
         }
 //!!!CREARE VISUALIZZAPRODOTTIORDINATIPERQUANTITA PER SOSTITUIRE STAMPA
         _productView.Stampa(stringa);
+    }   */
+
+
+    private void VisualizzaProdottiOrdinatiPerQuantita() // Menu option 3
+{
+    var prodottiOrdinati = new List<Prodotto>();
+
+    using (var reader = _model.CaricaProdottiOrdinatiPerQuantita())
+    {
+        while (reader.Read())
+        {
+            var prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"].ToString(),
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+            prodottiOrdinati.Add(prodotto);
+        }
     }
+
+    _productView.VisualizzaProdotti(prodottiOrdinati); // Pass the list for display
+}
+
 
     private void ModificaPrezzoProdotto()    // Menu opzione 4
     {
-        string nome = _productView.NomeProdotto(); 
-        decimal prezzo = _productView.PrezzoProdotto();
+        string nome = _productView.InserisciNomeProdotto(); 
+        decimal prezzo = _productView.InserisciPrezzoProdotto();
         _model.ModificaPrezzoProdotto(nome, prezzo);    // Passa al Model il nome e il prezzo
     }
 
     public void EliminaProdotto()   // Menu opzione 5
     {
-        string nome = _productView.NomeProdotto();
+        string nome = _productView.InserisciNomeProdotto();
         _model.EliminaProdotto(nome);
     }
 
@@ -191,7 +254,7 @@ public class Controller
 
     private void VisualizzaProdotto()  // Menu opzione 9
     {
-        string nome = _productView.NomeProdotto(); 
+        string nome = _productView.InserisciNomeProdotto(); 
         var reader = _model.CaricaProdotto(nome);
         string stringa="";
         while (reader.Read())

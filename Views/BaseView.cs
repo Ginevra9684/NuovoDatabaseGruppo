@@ -10,4 +10,4 @@ public abstract class BaseView
         Console.WriteLine(testo);
     }
 }
-/*ciao*/
+

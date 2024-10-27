@@ -1,39 +1,56 @@
 public class ProductView : BaseView
 {
-    public void ShowProductMenu()
+    public void VisualizzaProdotti(List<Prodotto> prodotti)
     {
-        Console.WriteLine("1 - visualizzare i prodotti");
-        Console.WriteLine("2 - visualizzare i prodotti ordinati per prezzo");
-        Console.WriteLine("3 - visualizzare i prodotti ordinati per quantità");
-        Console.WriteLine("4 - modificare il prezzo di un prodotto");
-        Console.WriteLine("5 - eliminare un prodotto");
-        Console.WriteLine("6 - visualizzare il prodotto più costoso");
-        Console.WriteLine("7 - visualizzare il prodotto meno costoso");
-        Console.WriteLine("8 - inserire un prodotto");
-        Console.WriteLine("9 - visualizzare un prodotto");
-        Console.WriteLine("14 - visualizzare i prodotti con la categoria");
-        Console.WriteLine("15 - uscire");
-        Console.WriteLine("scegli un'opzione");
+        foreach (var prodotto in prodotti)
+        {
+            Stampa($"ID: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita}, Categoria ID: {prodotto.Id_categoria}");
+        }
     }
 
-    public string NomeProdotto()
+    public void ShowProductMenu()
     {
-        Console.WriteLine("inserisci il nome del prodotto");
+        Stampa("1 - Visualizzare i prodotti");
+        Stampa("2 - Visualizzare i prodotti ordinati per prezzo");
+        Stampa("3 - Visualizzare i prodotti ordinati per quantità");
+        Stampa("4 - Modificare il prezzo di un prodotto");
+        Stampa("5 - Eliminare un prodotto");
+        Stampa("6 - Visualizzare il prodotto più costoso");
+        Stampa("7 - Visualizzare il prodotto meno costoso");
+        Stampa("8 - Inserire un prodotto");
+        Stampa("9 - Visualizzare un prodotto");
+        Stampa("10 - Visualizzare i prodotti di una categoria");
+        Stampa("11 - Inserire una categoria");
+        Stampa("12 - Eliminare una categoria");
+        Stampa("13 - Inserire un prodotto in una categoria");
+        Stampa("14 - Visualizzare i prodotti con la categoria");
+        Stampa("15 - Uscire");
+        Stampa("Scegli un'opzione");
+    }
+
+   
+
+    public int InserisciIdCategoria()
+    {
+        Stampa("Inserisci l'ID della categoria:");
+        return int.Parse(GetInput());
+    }
+
+    public string InserisciNomeProdotto()
+    {
+        Stampa("Inserisci il nome del prodotto:");
         return GetInput();
     }
 
-    public decimal PrezzoProdotto()
+    public decimal InserisciPrezzoProdotto()
     {
-        Console.WriteLine("inserisci il nuovo prezzo");
-        try
-        {
-            return Convert.ToDecimal(GetInput());
-        }
-        catch(Exception)
-        {
-            Console.WriteLine("Prezzo non valido.\nImposto a 0.");
-            return 0;
-        }
+        Stampa("Inserisci il prezzo del prodotto:");
+        return decimal.Parse(GetInput());
+    }
+
+    public int InserisciQuantitaProdotto()
+    {
+        Stampa("Inserisci la quantità del prodotto:");
+        return int.Parse(GetInput());
     }
 }
-/*ciao*/
