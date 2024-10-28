@@ -34,18 +34,31 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 ## Following tasks 
 
 - [x] creare un file ViewProdotti e un file ViewCategorie
-- [ ] sostituire il metodo Stampa di View con i metodi corrispondenti ai metodi del controller
-- [ ] i parametri dei metodi di View non prenderanno una variabile stringa ma un oggetto Prodotto (Prodotto prodotto) o un oggetto Categoria ( Categoria categoria), fare attenzione se è una lista o un oggetto singolo
+- [x] sostituire il metodo Stampa di View con i metodi corrispondenti ai metodi del controller
+- [x] i parametri dei metodi di View non prenderanno una variabile stringa ma un oggetto Prodotto (Prodotto prodotto) o un oggetto Categoria ( Categoria categoria), fare attenzione se è una lista o un oggetto singolo
 - [x] ShowMainMenu sarà suddiviso in base alle funzioni che richiama con i rispettivi nomi di menu (ShowProductMenu, ShowCategoryMenu, ShowEndMenu)
 - [x] creare un modello specifico per Prodotti e Categorie
 - [x] modificare il Model del database togliendo il while del reader e ritornandolo nei vari metodi
 - [x] modificare il Controller e il Model in modo che il reader venga letto nel Controller all'interno dei vari metodi
-- [ ] far si che i metodi del controller non passino una stringa alla view ma un modello (es Prodotto, Categoria)
+- [x] far si che i metodi del controller non passino una stringa alla view ma un modello (es Prodotto, Categoria)
 
 ## Nuove funzionalità
 - [ ] Modello Utenti
 - [ ] Modello Clienti
-- [ ] Funzione Menu : visualizza utenti 
-- [ ] Funzione Menu : visualizza clienti 
-- [ ] Funzione Menu : cerca utente 
-- [ ] Funzione Menu : cerca cliente
+- [ ] Funzione Menu : 14-visualizza utenti 
+- [ ] Model: Richiesta al database e return reader
+- [ ] Controller: nuova opzione switch, reader assegna a un'istanza del modello Utente, passa la lista utenti a view
+- [ ] UtentiView: metodo che ha come parametro una lista Utente, fa visualizzare gli utenti
+- [ ] UtentiView: aggiungere visualizzazione opzione menu
+- [ ] Funzione Menu : 15-cerca utente
+- [ ] Controller : richiama UtentiView per visualizzare richiesta nome utente , passa a model nome utente, riceve reader e riempe un'istanza Utente e la passa a view
+- [ ] Model : riceve nome utente e lo cerca, restituisce a controller reader
+- [ ] UtentiView : visualizza l'utente cercato
+- [ ] Funzione Menu : 16- visualizza clienti 
+- [ ] Model: Richiesta al database e return reader
+- [ ] Controller: nuova opzione switch, reader assegna a un'istanza del modello Cliente, passa la lista clienti a view
+- [ ] ClientiView: metodo che ha come parametro una lista Cliente, fa visualizzare i clienti
+- [ ] ClientiView: aggiungere visualizzazione opzione menu
+- [ ] Controller: aggiunta a ShowMainMenu delle due visualizzazioni menu in UtentiView e ClientiView
+- [ ] Funzione Menu : 17- cerca cliente
+- [ ] Funzione Menu : 18-Uscire (prima era numero 14 va spostata)
