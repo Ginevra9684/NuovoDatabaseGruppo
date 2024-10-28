@@ -20,12 +20,7 @@ public class ProductView : BaseView
         Stampa("8 - Inserire un prodotto");
         Stampa("9 - Visualizzare un prodotto");
         Stampa("10 - Visualizzare i prodotti di una categoria");
-        Stampa("11 - Inserire una categoria");
-        Stampa("12 - Eliminare una categoria");
-        Stampa("13 - Inserire un prodotto in una categoria");
-        Stampa("14 - Visualizzare i prodotti con la categoria");
-        Stampa("15 - Uscire");
-        Stampa("Scegli un'opzione");
+      
     }
 
    
