@@ -5,7 +5,6 @@ public class CategoryView : BaseView
         Stampa("11 - inserire una categoria");
         Stampa("12 - eliminare una categoria");
         Stampa("13 - inserire un prodotto in una categoria");
-        Stampa("14 - Visualizzare i prodotti con la categoria");
     }
 
     public void VisualizzaCategorie(List<Categoria> categorie)

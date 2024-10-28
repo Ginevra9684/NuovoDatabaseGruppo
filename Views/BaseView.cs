@@ -39,7 +39,7 @@ public class BaseView
     // Metodo per mostrare l'opzione di uscita e il messaggio per scegliere un'opzione
     public void ShowEndMenu()
     {
-        Console.WriteLine("15 - uscire");
+        Console.WriteLine("14 - uscire");
         Console.WriteLine("scegli un'opzione");
     }
 }

@@ -138,23 +138,29 @@ public class Model
     }
 
 // Aggiunto metodo per visualizzare le categorie disponibili
-    public void VisualizzaCategorie()
+    public SQLiteDataReader VisualizzaCategorie()
     {
-        using (SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"))
-        {
-            connection.Open();
-            string sql = "SELECT * FROM categorie";
-            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
-            {
-                using (SQLiteDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())   // Visualizza ogni categoria con ID e nome
-                    {
-                        Console.WriteLine($"ID: {reader["id"]}, Nome: {reader["nome"]}");
-                    }
-                }
-            }
-        }
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = "SELECT * FROM categorie";
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
+        return reader;
+        // using (SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"))
+        // {
+        //     connection.Open();
+        //     string sql = "SELECT * FROM categorie";
+        //     using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+        //     {
+        //         using (SQLiteDataReader reader = command.ExecuteReader())
+        //         {
+        //             while (reader.Read())   // Visualizza ogni categoria con ID e nome
+        //             {
+        //                 Console.WriteLine($"ID: {reader["id"]}, Nome: {reader["nome"]}");
+        //             }
+        //         }
+        //     }
+        // }
     }
 
     public void InserisciProdotto(string nome, decimal prezzo, int quantita, int id_categoria) // Menu opzione 8

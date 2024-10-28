@@ -1,13 +1,5 @@
 public class ProductView : BaseView
 {
-    public void VisualizzaProdotti(List<Prodotto> prodotti)
-    {
-        foreach (var prodotto in prodotti)
-        {
-            Stampa($"ID: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita}, Categoria ID: {prodotto.Id_categoria}");
-        }
-    }
-
     public void ShowProductMenu()
     {
         Stampa("1 - Visualizzare i prodotti");
@@ -49,7 +41,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
         }
     }
 
@@ -74,7 +66,7 @@ public class ProductView : BaseView
         Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
     }
 
-    private void VisualizzaProdottoMenoCostoso(Prodotto prodotto)  // Menu opzione 7
+    public void VisualizzaProdottoMenoCostoso(Prodotto prodotto)  // Menu opzione 7
     {
         Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
     }
@@ -86,11 +78,17 @@ public class ProductView : BaseView
 
     public void VisualizzaProdottiCategoria(List<Prodotto> prodotti)    // Menu opzione 10
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
+        foreach (var prodotto in prodotti)
+        {
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
+        }
     }
 
-    public void VisualizzaProdottiAdvanced(List<Prodotto> prodotti) // Menu opzione 14
+    public void VisualizzaProdottiAdvanced(List<Prodotto> prodotti, List<Categoria> Categorie) // Menu opzione 14
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {}");
+        foreach (var prodotto in prodotti)
+        {
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Categoria: {Categorie[prodotto.Id_categoria]}");
+        }
     }
 }
