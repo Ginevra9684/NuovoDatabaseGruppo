@@ -111,7 +111,7 @@ public class Controller
     {
         _productView.ShowProductMenu();
         _categoryView.ShowCategoryMenu(); 
-        _baseView.ShowEndMenu
+        _baseView.ShowEndMenu();
     }
     private void VisualizzaProdotti()
 {
