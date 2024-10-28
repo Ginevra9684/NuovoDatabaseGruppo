@@ -8,18 +8,18 @@ public class Controller
     private CategoryView _categoryView;
 
     private BaseView _baseView;
-    private UserView _userView;
+    private ClienteView _clienteView;
 
     public List<Prodotto> prodotti { get; set; } = new List<Prodotto>();
 
     // Costruttore del Controller riceve il Model e la View
-    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, UserView userView)
+    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, ClienteView clienteView)
     {
         _model = model;
         _productView = productView;
         _categoryView = categoryView;
         _baseView = baseView;
-        _userView = userView;
+        _clienteView = clienteView;
     }
 
     public void MainMenu()
@@ -71,6 +71,10 @@ public class Controller
                     InserisciProdottoCategoria();
                     break;
                 case "14":
+                    InserisciCliente();
+                case "15":
+                    VisualizzaClienti();
+                case "16":
                     Console.WriteLine("Uscita in corso...");
                     // BISOGNA FAR IN MODO DI CHIUDERE LA CONNESSIONE AL DATABSE QUI
                     return; // Uscita dal ciclo 
@@ -82,38 +86,12 @@ public class Controller
         }
     }
 
-    /*  private void VisualizzaProdotti()   // Menu opzione 1
-      {
-          var reader = _model.CaricaProdotti();
-          /*  METODO VECCHIO
-          string stringa="";
-          while (reader.Read())
-          {
-              stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-          }
-
-          while (reader.Read())
-          {
-              var prodotto = new Prodotto
-              {
-                  Id = Convert.ToInt32(reader["id"]),
-                  Nome = reader["nome"].ToString(),
-                  Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                  Quantita = Convert.ToInt32(reader["quantita"]),
-                  Id_categoria = Convert.ToInt32(reader["id_categoria"])
-              };
-              prodotti.Add(prodotto);
-          };
-
-          _productView.VisualizzaProdotti(prodotti);
-      } */
-
     private void ShowMainMenu()
     {
         _productView.ShowProductMenu();
         _categoryView.ShowCategoryMenu();
         _baseView.ShowEndMenu();
-        _userView.ShowUserMenu();
+        _clienteView.ShowClientMenu();
     }
     private void VisualizzaProdotti()
     {
@@ -448,5 +426,36 @@ public class Controller
             categorie.Add(categoria);
         }
         _categoryView.VisualizzaCategorie(categorie);
+    }
+
+    private void InserisciCliente()    // Menu opzione 8
+    {
+        Cliente cliente = new Cliente();
+        cliente.Nome = _clienteView.InserisciNomeCliente();
+        _model.InserisciCliente(cliente);
+    }
+
+    public void VisualizzaClienti()
+    {
+        // Crea una lista vuota per memorizzare i prodotti
+
+        var clienti = new List<Clienti>();
+        // Apre il data reader all'interno di un blocco 'using'
+        using (var reader = _model.VisualizzaClienti())
+        {
+            // Cicla attraverso ogni riga nel data reader
+            while (reader.Read())
+            {
+                // Crea un nuovo oggetto Prodotto e assegna i valori letti dal reader
+                var cliente = new Cliente
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    Nome = reader["nome"].ToString(),
+                };
+                // Aggiunge il prodotto alla lista
+                clienti.Add(cliente);
+            }
+        }  
+        _clienteView.VisualizzaClienti(clienti);
     }
 }
