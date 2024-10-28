@@ -25,11 +25,11 @@ public class BaseView
             {
                 // Gestisce eventuali eccezioni durante la lettura dell'input
                 Console.WriteLine($"Errore durante la lettura dell'input: {ex.Message}. Riprova:");
-                // Continua il ciclo per chiedere nuovamente l'input in caso di errore
+                // Continua il ciclo per chiedere nuovamente l'input
+
             }
         }
     }
-
 
     public void Stampa(string testo)
     {
@@ -39,8 +39,8 @@ public class BaseView
     // Metodo per mostrare l'opzione di uscita e il messaggio per scegliere un'opzione
     public void ShowEndMenu()
     {
-        Console.WriteLine("15 - Uscire");
-        Console.WriteLine("Scegli un'opzione");
+        Console.WriteLine("15 - uscire");
+        Console.WriteLine("scegli un'opzione");
     }
 }
 

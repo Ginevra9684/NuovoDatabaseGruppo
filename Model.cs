@@ -34,7 +34,7 @@ public class Model
                             
                             CREATE TABLE cliente (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                                nome TEXT REQUIRED 
+                                nome TEXT NOT NULL
                             );
                             
                             INSERT INTO categorie (nome) VALUES ('c1');
@@ -42,13 +42,7 @@ public class Model
                             INSERT INTO categorie (nome) VALUES ('c3');
                             
                             INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p1', 1, 10, 1);
-                            INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p2', 2, 20, 2);
-                            
-                            INSERT INTO utente (nome, cognome) VALUES ('Mario', 'Rossi');
-                            INSERT INTO utente (nome, cognome) VALUES ('Luigi', 'Verdi');
-                            
-                            INSERT INTO cliente (codice_cliente, id_utente) VALUES ('CL001', 1);
-                            INSERT INTO cliente (codice_cliente, id_utente) VALUES ('CL002', 2);";
+                            INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p2', 2, 20, 2);";
 
             SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database se non esiste
             command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database se non esiste
