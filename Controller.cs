@@ -72,8 +72,10 @@ public class Controller
                     break;
                 case "14":
                     InserisciCliente();
+                    break;
                 case "15":
                     VisualizzaClienti();
+                    break;
                 case "16":
                     Console.WriteLine("Uscita in corso...");
                     // BISOGNA FAR IN MODO DI CHIUDERE LA CONNESSIONE AL DATABSE QUI
@@ -90,8 +92,8 @@ public class Controller
     {
         _productView.ShowProductMenu();
         _categoryView.ShowCategoryMenu();
-        _baseView.ShowEndMenu();
         _clienteView.ShowClientMenu();
+        _baseView.ShowEndMenu();
     }
     private void VisualizzaProdotti()
     {
@@ -431,7 +433,7 @@ public class Controller
     private void InserisciCliente()    // Menu opzione 8
     {
         Cliente cliente = new Cliente();
-        cliente.Nome = _clienteView.InserisciNomeCliente();
+        cliente.Nome = _clienteView.InserisciCliente();
         _model.InserisciCliente(cliente);
     }
 
@@ -439,7 +441,7 @@ public class Controller
     {
         // Crea una lista vuota per memorizzare i prodotti
 
-        var clienti = new List<Clienti>();
+        var clienti = new List<Cliente>();
         // Apre il data reader all'interno di un blocco 'using'
         using (var reader = _model.VisualizzaClienti())
         {

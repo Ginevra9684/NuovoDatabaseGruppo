@@ -18,7 +18,7 @@ public class ClienteView : BaseView
         Stampa("Elenco Clienti:");
         foreach (var cliente in clienti)
         {
-            Stampa($"ID: {cliente.id}, Nome: {cliente.Nome}");
+            Stampa($"ID: {cliente.Id}, Nome: {cliente.Nome}");
         }
     }
 
