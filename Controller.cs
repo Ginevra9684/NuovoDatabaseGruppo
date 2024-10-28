@@ -103,7 +103,7 @@ public class Controller
             };
             prodotti.Add(prodotto);
         };
-//!!!CREARE VISUALIZZAPRODOTTI PER SOSTITUIRE STAMPA - Deve avere come parametro un List<Prodotto> e utilizzare un foreach
+
         _productView.VisualizzaProdotti(prodotti);
     } */
 
@@ -164,7 +164,7 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         }
     }
 
-    _productView.VisualizzaProdotti(prodottiOrdinati);
+    _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);
 }
 
 /*
@@ -176,7 +176,7 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-//!!!CREARE VISUALIZZAPRODOTTIORDINATIPERQUANTITA PER SOSTITUIRE STAMPA
+
         _productView.Stampa(stringa);
     }   */
 
@@ -201,7 +201,8 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         }
     }
 
-    _productView.VisualizzaProdotti(prodottiOrdinati); // Pass the list for display
+    // Passa la lista dei prodotti ordinati per quantità alla vista
+    _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
 }
 
 
@@ -217,7 +218,7 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         string nome = _productView.InserisciNomeProdotto();
         _model.EliminaProdotto(nome);
     }
-
+/*
     private void VisualizzaProdottoPiuCostoso()   // Menu opzione 6
     {
         var reader = _model.CaricaProdottoPiuCostoso();
@@ -226,11 +227,48 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-//!!!CREARE VISUALIZZAPRODOTTOPIUCOSTOSO PER SOSTITUIRE STAMPA
-        _productView.Stampa(stringa);
-    }
 
-    private void VisualizzaProdottoMenoCostoso()  // Menu opzione 7
+        _productView.VisualizzaProdottoPiuCostoso(stringa);
+    } */
+
+
+    private void VisualizzaProdottoPiuCostoso() // Menu opzione 6
+{
+    Prodotto? prodotto = null; // Inizializza una variabile `Prodotto` come `null`  per indicare che al momento non è stato trovato alcun prodotto se lo trova verrà popolato
+
+    // Esegue il caricamento del prodotto più costoso utilizzando un blocco `using` per gestire automaticamente la chiusura del `DataReader`
+    using (var reader = _model.CaricaProdottoPiuCostoso())
+    {
+        // Verifica se ci sono risultati nel `DataReader`
+        if (reader.Read())
+        {
+           
+            prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]), 
+                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
+                Prezzo = Convert.ToDecimal(reader["prezzo"]), 
+                Quantita = Convert.ToInt32(reader["quantita"]), 
+                Id_categoria = Convert.ToInt32(reader["id_categoria"]) 
+            };
+        }
+    } // chiude automaticamente il `DataReader`
+
+    // Verifica se il prodotto più costoso è stato trovato
+    if (prodotto != null)
+    {
+        // Se il prodotto esiste, passa l'oggetto `Prodotto` alla vista per visualizzare i dettagli
+        _productView.VisualizzaProdottoPiuCostoso(prodotto);
+    }
+    else
+    {
+        // Se nessun prodotto è stato trovato, visualizza un messaggio di avviso
+        _productView.Stampa("Nessun prodotto trovato.");
+    }
+}
+
+
+   /* private void VisualizzaProdottoMenoCostoso()  // Menu opzione 7
     {
         var reader = _model.CaricaProdottoMenoCostoso();
         string stringa="";
@@ -238,13 +276,46 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-//!!!CREARE VISUALIZZAPRODOTTOMENOCOSTOSO PER SOSTITUIRE STAMPA
-        _productView.Stampa(stringa);
+
+        _productView.VisualizzaProdottoMenoCostoso(stringa);
+    } */
+
+
+    private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
+{
+    Prodotto? prodotto = null;
+
+    using (var reader = _model.CaricaProdottoMenoCostoso())
+    {
+        // Se esiste un record, popola l'oggetto `Prodotto`
+        if (reader.Read())
+        {
+            prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+        }
+    } 
+
+    // Passa il prodotto alla vista se è stato trovato, altrimenti mostra un messaggio di avviso
+    if (prodotto != null)
+    {
+        _productView.VisualizzaProdottoMenoCostoso(prodotto);
     }
+    else
+    {
+        _productView.Stampa("Nessun prodotto trovato.");
+    }
+}
+
 
     private void InserisciProdotto()    // Menu opzione 8
     {
-//!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
+
         Console.WriteLine("inserisci il nome del prodotto");
         string nome = Console.ReadLine()!;
         Console.WriteLine("inserisci il prezzo del prodotto");
@@ -258,7 +329,7 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         int id_categoria = Int32.Parse(Console.ReadLine()!);
         _model.InserisciProdotto(nome, prezzo, quantita, id_categoria);
     }
-
+/*
     private void VisualizzaProdotto()  // Menu opzione 9
     {
         string nome = _productView.InserisciNomeProdotto(); 
@@ -268,9 +339,44 @@ private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
         {
             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
         }
-//!!!CREARE VISUALIZZAPRODOTTO PER SOSTITUIRE STAMPA
-        _productView.Stampa(stringa);
+
+        _productView.VisualizzaProdotto();
+    }*/
+
+    private void VisualizzaProdotto()  // Menu opzione 9
+{
+    // Richiede il nome del prodotto dalla vista
+    string nome = _productView.InserisciNomeProdotto();
+    Prodotto? prodotto = null;
+
+    // Recupera i dati del prodotto dal database
+    using (var reader = _model.CaricaProdotto(nome))
+    {
+        // Se esiste un prodotto con il nome specificato, lo carica
+        if (reader.Read())
+        {
+            prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+        }
     }
+
+    // Verifica se è stato trovato un prodotto e lo visualizza, altrimenti stampa un messaggio di errore
+    if (prodotto != null)
+    {
+        _productView.VisualizzaProdotto(prodotto); // Passa il prodotto alla vista per la visualizzazione
+    }
+    else
+    {
+        _productView.Stampa("Prodotto non trovato.");
+    }
+}
+
 
     private void VisualizzaProdottiCategoria()    // Menu opzione 10
     {
