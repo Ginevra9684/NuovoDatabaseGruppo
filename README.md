@@ -20,7 +20,7 @@ La tabella cliente farà riferimento alla tabella utente tramite id univoco
 
 - branch divisioneMVC
 
-- [ ]  funzione : suddividere applicazione in metodi
+- [x]  funzione : suddividere applicazione in metodi
 
 <details>
 <summary>Dettagli</summary>
@@ -30,16 +30,14 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - la view faccia visualizzare i risultati di tutti i metodi richiamati dal menu del controller
 </details>
 
-- branch modifiche/modificaView
 
-- [ ] creare un file ViewProdotti e un file ViewCategorie
-- [ ] suddividere i metodi di view con nomi corrispondenti ai metodi del controller nei file View giusto 
-- [ ] i parametri dei metodi non prenderanno una variabile stringa ma un oggetto Prodotto (Prodotto prodotto) o un oggetto Categoria ( Categoria categoria), fare attenzione se è una lista o un oggetto singolo
-- [ ] il menu non sarà più ShowMainMenu ma sarà suddiviso in base alle funzioni che richiama con i rispettivi nomi di menu
+## Following tasks 
 
-- branch modifiche/modificaModelController
-
-- [ ] creare un modello specifico per Prodotti e Categorie
-- [ ] modificare il Model del database togliendo il while del reader e ritornandolo nei vari metodi
-- [ ] modificare il Controller il modo che ci sia il reader del Database e che il reader salvi nei campi dei modelli Prodotto e Categoria o liste di essi
-- [ ] creare i vari modelli per tutti i metodi 
+- [x] creare un file ViewProdotti e un file ViewCategorie
+- [ ] sostituire il metodo Stampa di View con i metodi corrispondenti ai metodi del controller
+- [ ] i parametri dei metodi di View non prenderanno una variabile stringa ma un oggetto Prodotto (Prodotto prodotto) o un oggetto Categoria ( Categoria categoria), fare attenzione se è una lista o un oggetto singolo
+- [ ] ShowMainMenu sarà suddiviso in base alle funzioni che richiama con i rispettivi nomi di menu (ShowProductMenu, ShowCategoryMenu, ShowEndMenu)
+- [x] creare un modello specifico per Prodotti e Categorie
+- [x] modificare il Model del database togliendo il while del reader e ritornandolo nei vari metodi
+- [ ] modificare il Controller e il Model in modo che il reader venga letto nel Controller all'interno dei vari metodi
+- [ ] far si che i metodi del controller non passino una stringa alla view ma un modello (es Prodotto, Categoria)
