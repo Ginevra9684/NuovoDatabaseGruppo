@@ -228,11 +228,9 @@ public class Model
         {
             connection.Open();
             string sql = "INSERT INTO clienti (nome) VALUES (@nome)";
-            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
-            {
-                command.Parameters.AddWithValue("@nome", cliente.Nome);
-                command.ExecuteNonQuery();
-            }
+            using SQLiteCommand command = new SQLiteCommand(sql, connection);
+            command.Parameters.AddWithValue("@nome", cliente.Nome);
+            command.ExecuteNonQuery();
         }
     }
 
@@ -259,7 +257,7 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"DELETE FROM categorie WHERE id = {cliente.Id}"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
+        string sql = $"DELETE FROM clienti WHERE id = {cliente.Id}"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.ExecuteNonQuery();
         connection.Close();
