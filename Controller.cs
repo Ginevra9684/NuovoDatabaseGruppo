@@ -8,16 +8,18 @@ public class Controller
     private CategoryView _categoryView;
 
     private BaseView _baseView;
+    private UserView _userView;
 
     public List<Prodotto> prodotti { get; set; } = new List<Prodotto>();
 
     // Costruttore del Controller riceve il Model e la View
-    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView)
+    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, UserView userView)
     {
         _model = model;
         _productView = productView;
         _categoryView = categoryView;
         _baseView = baseView;
+        _userView = userView;
     }
 
     public void MainMenu()
@@ -111,6 +113,7 @@ public class Controller
         _productView.ShowProductMenu();
         _categoryView.ShowCategoryMenu();
         _baseView.ShowEndMenu();
+        _userView.ShowUserMenu();
     }
     private void VisualizzaProdotti()
     {
