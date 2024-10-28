@@ -32,17 +32,9 @@ public class Model
                                 FOREIGN KEY (id_categoria) REFERENCES categorie(id)
                             );
                             
-                            CREATE TABLE utente (
-                                id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                                nome TEXT NOT NULL, 
-                                cognome TEXT NOT NULL
-                            );
-                            
                             CREATE TABLE cliente (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                                codice_cliente TEXT UNIQUE, 
-                                id_utente INTEGER,
-                                FOREIGN KEY (id_utente) REFERENCES utente(id)
+                                nome TEXT REQUIRED 
                             );
                             
                             INSERT INTO categorie (nome) VALUES ('c1');
@@ -137,7 +129,7 @@ public class Model
         return reader;
     }
 
-// Aggiunto metodo per visualizzare le categorie disponibili
+    // Aggiunto metodo per visualizzare le categorie disponibili
     public SQLiteDataReader VisualizzaCategorie()
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
@@ -181,7 +173,7 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql =  "SELECT * FROM prodotti WHERE nome = @nome"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con nome uguale a quello inserito
+        string sql = "SELECT * FROM prodotti WHERE nome = @nome"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@nome", nome);
         SQLiteDataReader reader = command.ExecuteReader();
@@ -192,7 +184,7 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql ="SELECT * FROM prodotti WHERE id_categoria = @id_categoria"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
+        string sql = "SELECT * FROM prodotti WHERE id_categoria = @id_categoria"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         SQLiteDataReader reader = command.ExecuteReader();
@@ -224,29 +216,42 @@ public class Model
     // inserimento di prodotto chiamando prima la categoria e poi il prodotto in modo da avere in inserimento il nome della categoria invece dell id
     public void InserisciProdottoCategoria(int id_categoria, string nome, decimal prezzo, int quantita)    // Menu opzione 13
     {
-        SQLiteConnection connectionins = new SQLiteConnection($"Data Source=database.db;Version=3;");
-        connectionins.Open();
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
         string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
-        SQLiteCommand command = new SQLiteCommand(sql, connectionins);
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@nome", nome);
         command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
         command.Parameters.AddWithValue("@quantita", Convert.ToInt32(quantita));
         command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         command.ExecuteNonQuery();
-        connectionins.Close();
+        connection.Close();
     }
 
-    public SQLiteDataReader CaricaProdottiAdvanced()  // Menu opzione 14
+    public void InserisciCliente(Cliente cliente) // Menu opsione 14
+    {
+        using (SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"))
+        {
+            connection.Open();
+            string sql = "INSERT INTO cliente (nome) VALUES (@nome)";
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@nome", cliente.Nome);
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+
+    // TODO: I return non devono restituire reader
+    public SQLiteDataReader VisualizzaClienti() // Menu opzione 10
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        // Modifica la query SQL per includere una join con la tabella categorie
-        string sql = @"
-            SELECT prodotti.id, prodotti.nome, prodotti.prezzo, prodotti.quantita, categorie.nome AS nome_categoria 
-            FROM prodotti
-            JOIN categorie ON prodotti.id_categoria = categorie.id";
+        string sql = "SELECT * FROM cliente"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
         return reader;
     }
+
+
 }
