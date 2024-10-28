@@ -43,7 +43,6 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] far si che i metodi del controller non passino una stringa alla view ma un modello (es Prodotto, Categoria)
 
 ## Nuove funzionalità
-- [x] Modello Utenti
 - [x] Modello Clienti
 - [x] Funzione Menu : 14- visualizza clienti 
 - [x] Model: Richiesta al database e return reader CRUD
