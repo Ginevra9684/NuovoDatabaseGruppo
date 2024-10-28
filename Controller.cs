@@ -12,7 +12,7 @@ public class Controller
     public List<Prodotto> prodotti { get; set; } = new List<Prodotto>();
 
     // Costruttore del Controller riceve il Model e la View
-    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView)
+    public Controller(Model model, Utente utente, Cliente cliente, ProductView productView, CategoryView categoryView, BaseView baseView)
     {
         _model = model;
         _productView = productView;
