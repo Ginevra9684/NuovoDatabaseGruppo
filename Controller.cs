@@ -411,10 +411,10 @@ public class Controller
 
     private void ModificaCliente()    // Menu opzione 16
     {
-        Cliente cliente = new Cliente();
         VisualizzaClienti();
-        (cliente.Id, string nome) = _clienteView.ModificaCliente();
-        _model.ModificaCliente(cliente, nome);
+        var (id, nuovoNome) = _clienteView.ModificaCliente();
+        Cliente cliente = new Cliente { Id = id }; // Create the Cliente object with the id
+        _model.ModificaCliente(cliente, nuovoNome);
     }
 
     private void EliminaCliente()   // Menu opzione 17
