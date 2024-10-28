@@ -5,10 +5,8 @@ public class ClienteView : BaseView
     {
         Stampa("14 - Aggiungere un nuovo cliente");
         Stampa("15 - Visualizzare tutti i clienti");
-        
-      //  Stampa("16 - Modificare un cliente esistente");
-      //  Stampa("17 - Eliminare un cliente");
-        
+        Stampa("16 - Modificare un cliente esistente");
+        Stampa("17 - Eliminare un cliente");
     }
 
 
