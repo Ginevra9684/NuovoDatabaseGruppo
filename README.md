@@ -43,9 +43,9 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] far si che i metodi del controller non passino una stringa alla view ma un modello (es Prodotto, Categoria)
 
 ## Nuove funzionalità
-- [ ] Modello Utenti
-- [ ] Modello Clienti
-- [ ] Funzione Menu : 14-visualizza utenti 
+- [x] Modello Utenti
+- [x] Modello Clienti
+- [] Funzione Menu : 14-visualizza utenti 
 - [ ] Model: Richiesta al database e return reader
 - [ ] Controller: nuova opzione switch, reader assegna a un'istanza del modello Utente, passa la lista utenti a view
 - [ ] UtentiView: metodo che ha come parametro una lista Utente, fa visualizzare gli utenti
