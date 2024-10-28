@@ -20,11 +20,7 @@ public class ProductView : BaseView
         Stampa("8 - Inserire un prodotto");
         Stampa("9 - Visualizzare un prodotto");
         Stampa("10 - Visualizzare i prodotti di una categoria");
-      
     }
-
-   
-
     public int InserisciIdCategoria()
     {
         Stampa("Inserisci l'ID della categoria:");
@@ -47,5 +43,44 @@ public class ProductView : BaseView
     {
         Stampa("Inserisci la quantità del prodotto:");
         return int.Parse(GetInput());
+    }
+
+    public void VisualizzaProdotti(List<Prodotto> prodotti) // Menu opzione 1
+    {
+        foreach (var prodotto in prodotti)
+        {
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+        }
+    }
+
+    public void VisualizzaProdottiOrdinatiPerPrezzo(List<Prodotto> prodotti)    // Menu opzione 2
+    {
+        foreach (var prodotto in prodotti)
+        {
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+        }
+    }
+
+    public void VisualizzaProdottiOrdinatiPerQuantita(List<Prodotto> prodotti) // Menu opzione 3
+    {
+        foreach (var prodotto in prodotti)
+        {
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+        }
+    }
+
+    public void VisualizzaProdottoPiuCostoso(Prodotto prodotto) // Menu opzione 6
+    {
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+    }
+
+    private void VisualizzaProdottoMenoCostoso(Prodotto prodotto)  // Menu opzione 7
+    {
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+    }
+
+    public void VisualizzaProdotto(Prodotto prodotto)  // Menu opzione 9
+    {
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
     }
 }
