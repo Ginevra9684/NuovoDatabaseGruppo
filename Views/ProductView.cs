@@ -49,7 +49,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
         }
     }
 
@@ -57,7 +57,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
         }
     }
 
@@ -65,22 +65,32 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
         }
     }
 
     public void VisualizzaProdottoPiuCostoso(Prodotto prodotto) // Menu opzione 6
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
     }
 
     private void VisualizzaProdottoMenoCostoso(Prodotto prodotto)  // Menu opzione 7
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
     }
 
     public void VisualizzaProdotto(Prodotto prodotto)  // Menu opzione 9
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Quantita}, Id categoria: {prodotto.Id_categoria}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
+    }
+
+    public void VisualizzaProdottiCategoria(List<Prodotto> prodotti)    // Menu opzione 10
+    {
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {prodotto.Id_categoria}");
+    }
+
+    public void VisualizzaProdottiAdvanced(List<Prodotto> prodotti) // Menu opzione 14
+    {
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Id categoria: {}");
     }
 }
