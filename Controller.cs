@@ -10,8 +10,6 @@ public class Controller
     private BaseView _baseView;
     private ClienteView _clienteView;
 
-    public List<Prodotto> prodotti { get; set; } = new List<Prodotto>();
-
     // Costruttore del Controller riceve il Model e la View
     public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, ClienteView clienteView)
     {
@@ -77,6 +75,12 @@ public class Controller
                     VisualizzaClienti();
                     break;
                 case "16":
+                ModificaCliente();
+                break;
+                case "17":
+                EliminaCliente();
+                break;
+                case "18":
                     Console.WriteLine("Uscita in corso...");
                     // BISOGNA FAR IN MODO DI CHIUDERE LA CONNESSIONE AL DATABSE QUI
                     return; // Uscita dal ciclo 
@@ -124,8 +128,6 @@ public class Controller
         _productView.VisualizzaProdotti(prodotti);
     }
 
-
-
     private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
     {
         var prodottiOrdinati = new List<Prodotto>();
@@ -148,20 +150,6 @@ public class Controller
 
         _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);
     }
-
-    /*
-        private void VisualizzaProdottiOrdinatiPerQuantita()  // Menu opzione 3
-        {
-            var reader = _model.CaricaProdottiOrdinatiPerQuantita();
-            string stringa="";
-            while (reader.Read())
-            {
-                stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-            }
-
-            _productView.Stampa(stringa);
-        }   */
-
 
     private void VisualizzaProdottiOrdinatiPerQuantita() // Menu option 3
     {
@@ -187,7 +175,6 @@ public class Controller
         _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
     }
 
-
     private void ModificaPrezzoProdotto()    // Menu opzione 4
     {
         string nome = _productView.InserisciNomeProdotto();
@@ -200,19 +187,6 @@ public class Controller
         string nome = _productView.InserisciNomeProdotto();
         _model.EliminaProdotto(nome);
     }
-    /*
-        private void VisualizzaProdottoPiuCostoso()   // Menu opzione 6
-        {
-            var reader = _model.CaricaProdottoPiuCostoso();
-            string stringa="";
-            while (reader.Read())
-            {
-                stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-            }
-
-            _productView.VisualizzaProdottoPiuCostoso(stringa);
-        } */
-
 
     private void VisualizzaProdottoPiuCostoso() // Menu opzione 6
     {
@@ -248,20 +222,6 @@ public class Controller
             _productView.Stampa("Nessun prodotto trovato.");
         }
     }
-
-
-    /* private void VisualizzaProdottoMenoCostoso()  // Menu opzione 7
-     {
-         var reader = _model.CaricaProdottoMenoCostoso();
-         string stringa="";
-         while (reader.Read())
-         {
-             stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-         }
-
-         _productView.VisualizzaProdottoMenoCostoso(stringa);
-     } */
-
 
     private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
     {
@@ -311,7 +271,7 @@ public class Controller
         int id_categoria = Int32.Parse(Console.ReadLine()!);
         _model.InserisciProdotto(nome, prezzo, quantita, id_categoria);
     }
-   
+
     private void VisualizzaProdotto()  // Menu opzione 9
     {
         // Richiede il nome del prodotto dalla vista
@@ -347,34 +307,29 @@ public class Controller
     // metodo per ottenere i prodotti in base alla categoria specificata
     private void VisualizzaProdottiCategoria()    // Menu opzione 10
     {
-      
         VisualizzaCategorie();
-       
         int id_categoria = _productView.InserisciIdCategoria();
- // Ottiene i prodotti della categoria specificata
-    var prodottiCategoria = new List<Prodotto>();
-    using (var reader = _model.VisualizzaProdottiCategoria(id_categoria))
-    {
-        while (reader.Read())
+         // Ottiene i prodotti della categoria specificata
+        var prodottiCategoria = new List<Prodotto>();
+        using (var reader = _model.VisualizzaProdottiCategoria(id_categoria))
         {
-            var prodotto = new Prodotto
+            while (reader.Read())
             {
-                Id = Convert.ToInt32(reader["id"]),
-                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
-                Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                Quantita = Convert.ToInt32(reader["quantita"]),
-                Id_categoria = Convert.ToInt32(reader["id_categoria"])
-            };
-            prodottiCategoria.Add(prodotto);
+                var prodotto = new Prodotto
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
+                    Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Id_categoria = Convert.ToInt32(reader["id_categoria"])
+                };
+                prodottiCategoria.Add(prodotto);
+            }
         }
+
+        // Visualizza i prodotti della categoria usando `ProductView`
+        _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
-
-    // Visualizza i prodotti della categoria usando `ProductView`
-    _productView.VisualizzaProdottiCategoria(prodottiCategoria);
-}
-    
-
-
 
     private void InserisciCategoria()   // Menu opzione 11
     {
@@ -396,25 +351,18 @@ public class Controller
 
     public void InserisciProdottoCategoria()    // Menu opzione 13
     {
-
         // Chiama il metodo per visualizzare le categorie
         VisualizzaCategorie();
         //seleziona categoria
-
-
         // Chiede l'inserimento dell'ID categoria
         int id_categoria = _productView.InserisciIdCategoria();
         //inserisci prodotto
-
-
         string nome = _productView.InserisciNomeProdotto();
-
-
         decimal prezzo = _productView.InserisciPrezzoProdotto();
         int quantita = _productView.InserisciQuantitaProdotto();
         _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
     }
-    private void VisualizzaCategorie()
+    private void VisualizzaCategorie() 
     {
         var reader = _model.VisualizzaCategorie();
         List<Categoria> categorie = new List<Categoria>();
@@ -430,14 +378,14 @@ public class Controller
         _categoryView.VisualizzaCategorie(categorie);
     }
 
-    private void InserisciCliente()    // Menu opzione 8
+    private void InserisciCliente()    // Menu opzione 14
     {
         Cliente cliente = new Cliente();
         cliente.Nome = _clienteView.InserisciCliente();
         _model.InserisciCliente(cliente);
     }
 
-    public void VisualizzaClienti()
+    public void VisualizzaClienti() // Menu opzione 15
     {
         // Crea una lista vuota per memorizzare i prodotti
 
@@ -459,5 +407,21 @@ public class Controller
             }
         }  
         _clienteView.VisualizzaClienti(clienti);
+    }
+
+    private void ModificaCliente()    // Menu opzione 16
+    {
+        Cliente cliente = new Cliente();
+        VisualizzaClienti();
+        (cliente.Id, string nome) = _clienteView.ModificaCliente();
+        _model.ModificaCliente(cliente, nome);
+    }
+
+    private void EliminaCliente()   // Menu opzione 17
+    {
+        Cliente cliente = new Cliente();
+        VisualizzaClienti();
+        cliente.Id = _clienteView.EliminaCliente();
+        _model.EliminaCliente(cliente);
     }
 }
