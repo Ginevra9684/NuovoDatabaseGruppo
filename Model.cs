@@ -32,7 +32,7 @@ public class Model
                                 FOREIGN KEY (id_categoria) REFERENCES categorie(id)
                             );
                             
-                            CREATE TABLE cliente (
+                            CREATE TABLE clienti (
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                 nome TEXT NOT NULL
                             );
@@ -227,7 +227,7 @@ public class Model
         using (SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"))
         {
             connection.Open();
-            string sql = "INSERT INTO cliente (nome) VALUES (@nome)";
+            string sql = "INSERT INTO clienti (nome) VALUES (@nome)";
             using (SQLiteCommand command = new SQLiteCommand(sql, connection))
             {
                 command.Parameters.AddWithValue("@nome", cliente.Nome);
@@ -241,11 +241,27 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = "SELECT * FROM cliente"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
+        string sql = "SELECT * FROM clienti"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti con id_categoria uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
         return reader;
     }
-
-
+    public void ModificaCliente(Cliente cliente, string nome)
+    {
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"UPDATE clienti SET nome = {nome} WHERE id = {cliente.Id}"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        connection.Close();
+    }
+    public void EliminaCliente(Cliente cliente)
+    {
+        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
+        connection.Open();
+        string sql = $"DELETE FROM categorie WHERE id = {cliente.Id}"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
 }
