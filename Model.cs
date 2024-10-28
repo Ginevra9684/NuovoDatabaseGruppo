@@ -228,7 +228,7 @@ public class Model
         connection.Close();
     }
 
-    public void InserisciCliente(Cliente cliente) // Menu opsione 14
+    public void InserisciCliente(Cliente cliente) // Menu opsione 15
     {
         using (SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"))
         {
@@ -243,7 +243,7 @@ public class Model
     }
 
     // TODO: I return non devono restituire reader
-    public SQLiteDataReader VisualizzaClienti() // Menu opzione 10
+    public SQLiteDataReader VisualizzaClienti() // Menu opzione 14
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
