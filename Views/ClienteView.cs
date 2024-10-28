@@ -3,11 +3,11 @@ public class ClienteView : BaseView
     // Metodo per visualizzare il menu relativo ai clienti
     public void ShowClientMenu()
     {
-        Stampa(" 14 Aggiungere un nuovo cliente");
-        Stampa(" 15 Visualizzare tutti i clienti");
+        Stampa("14 - Aggiungere un nuovo cliente");
+        Stampa("15 - Visualizzare tutti i clienti");
         
-      //  Stampa(" 16 Modificare un cliente esistente");
-      //  Stampa(" - Eliminare un cliente");
+      //  Stampa("16 - Modificare un cliente esistente");
+      //  Stampa("17 - Eliminare un cliente");
         
     }
 
@@ -32,6 +32,25 @@ public class ClienteView : BaseView
         return GetInput();
 
       
+    }
+
+      // Metodo per eliminare un cliente restituisce l'ID del cliente da eliminare
+    public int EliminaCliente()
+    {
+        Stampa("Inserisci l'ID del cliente da eliminare:");
+        return int.Parse(GetInput());
+    }
+
+      // Metodo per modificare un cliente, restituisce un nuovo nome da aggiornare
+    public (int id, string nuovoNome) ModificaCliente()
+    {
+        Stampa("Inserisci l'ID del cliente da modificare:");
+        int id = int.Parse(GetInput());
+        
+        Stampa("Inserisci il nuovo nome del cliente:");
+        string nuovoNome = GetInput();
+
+        return (id, nuovoNome);
     }
 
     
