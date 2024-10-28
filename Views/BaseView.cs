@@ -1,4 +1,4 @@
-public abstract class BaseView
+public class BaseView
 {
     public string GetInput()
     {

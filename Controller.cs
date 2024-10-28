@@ -5,24 +5,25 @@ public class Controller
 
     private CategoryView _categoryView;
 
+    private BaseView _baseView;
+
     public List<Prodotto> prodotti { get; set; } = new List<Prodotto>();
 
 // Costruttore del Controller riceve il Model e la View
-    public Controller(Model model, ProductView productView, CategoryView categoryView)
+    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView)
     {
         _model = model;
         _productView = productView; 
         _categoryView = categoryView;
+        _baseView = baseView;
     }
 
     public void MainMenu()
     {
         while (true)
         {
-//!!! DA AGGIUSTARE NELLA PRODUCTVIEW
-            _productView.ShowProductMenu();
-//!!! DA AGGIUSTARE NELLA CATEGORYVIEW
-            _categoryView.ShowCategoryMenu(); 
+            ShowMainMenu();
+            
             var input = _productView.GetInput();
             switch (input)
             {
@@ -106,6 +107,12 @@ public class Controller
         _productView.VisualizzaProdotti(prodotti);
     } */
 
+    private void ShowMainMenu()
+    {
+        _productView.ShowProductMenu();
+        _categoryView.ShowCategoryMenu(); 
+        _baseView.ShowEndMenu
+    }
     private void VisualizzaProdotti()
 {
     // Crea una lista vuota per memorizzare i prodotti
