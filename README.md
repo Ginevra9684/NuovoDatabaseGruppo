@@ -45,20 +45,11 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 ## Nuove funzionalità
 - [x] Modello Utenti
 - [x] Modello Clienti
-- [] Funzione Menu : 14-visualizza utenti 
-- [ ] Model: Richiesta al database e return reader
-- [ ] Controller: nuova opzione switch, reader assegna a un'istanza del modello Utente, passa la lista utenti a view
-- [ ] UtentiView: metodo che ha come parametro una lista Utente, fa visualizzare gli utenti
-- [ ] UtentiView: aggiungere visualizzazione opzione menu
-- [ ] Funzione Menu : 15-cerca utente
-- [ ] Controller : richiama UtentiView per visualizzare richiesta nome utente , passa a model nome utente, riceve reader e riempe un'istanza Utente e la passa a view
-- [ ] Model : riceve nome utente e lo cerca, restituisce a controller reader
-- [ ] UtentiView : visualizza l'utente cercato
-- [ ] Funzione Menu : 16- visualizza clienti 
+- [ ] Funzione Menu : 14- visualizza clienti 
 - [ ] Model: Richiesta al database e return reader
 - [ ] Controller: nuova opzione switch, reader assegna a un'istanza del modello Cliente, passa la lista clienti a view
 - [ ] ClientiView: metodo che ha come parametro una lista Cliente, fa visualizzare i clienti
 - [ ] ClientiView: aggiungere visualizzazione opzione menu
 - [ ] Controller: aggiunta a ShowMainMenu delle due visualizzazioni menu in UtentiView e ClientiView
-- [ ] Funzione Menu : 17- cerca cliente
-- [ ] Funzione Menu : 18-Uscire (prima era numero 14 va spostata)
+- [ ] Funzione Menu : 15- cerca cliente
+- [ ] Funzione Menu : 16-Uscire (prima era numero 14 va spostata)
