@@ -244,13 +244,15 @@ public class Model
         SQLiteDataReader reader = command.ExecuteReader();
         return reader;
     }
-    public void ModificaCliente(Cliente cliente, string nome)
+    public void ModificaCliente(Cliente cliente, string nuovoNome)
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = $"UPDATE clienti SET nome = {nome} WHERE id = {cliente.Id}"; // crea il comando sql che modifica il prezzo del prodotto con nome uguale a quello inserito
+        string sql = "UPDATE clienti SET nome = @nuovoNome WHERE id = @id";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database ExecuteNonQuery() viene utilizzato per eseguire comandi che non restituiscono dati, ad esempio i comandi INSERT, UPDATE, DELETE
+        command.Parameters.AddWithValue("@nuovoNome", nuovoNome);
+        command.Parameters.AddWithValue("@id", cliente.Id);
+        command.ExecuteNonQuery();
         connection.Close();
     }
     public void EliminaCliente(Cliente cliente)
@@ -259,6 +261,7 @@ public class Model
         connection.Open();
         string sql = $"DELETE FROM clienti WHERE id = {cliente.Id}"; // crea il comando sql che elimina la categoria con nome uguale a quello inserito
         SQLiteCommand command = new SQLiteCommand(sql, connection);
+        command.Parameters.AddWithValue("@id", cliente.Id);
         command.ExecuteNonQuery();
         connection.Close();
     }
