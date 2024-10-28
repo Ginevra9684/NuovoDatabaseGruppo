@@ -328,20 +328,7 @@ public class Controller
         int id_categoria = Int32.Parse(Console.ReadLine()!);
         _model.InserisciProdotto(nome, prezzo, quantita, id_categoria);
     }
-    /*
-        private void VisualizzaProdotto()  // Menu opzione 9
-        {
-            string nome = _productView.InserisciNomeProdotto(); 
-            var reader = _model.CaricaProdotto(nome);
-            string stringa="";
-            while (reader.Read())
-            {
-                stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
-            }
-
-            _productView.VisualizzaProdotto();
-        }*/
-
+   
     private void VisualizzaProdotto()  // Menu opzione 9
     {
         // Richiede il nome del prodotto dalla vista
@@ -373,26 +360,43 @@ public class Controller
             _productView.Stampa("Prodotto non trovato.");
         }
     }
+
+    // metodo per ottenere i prodotti in base alla categoria specificata
     private void VisualizzaProdottiCategoria()    // Menu opzione 10
     {
-        //!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
+      
         VisualizzaCategorie();
-        Console.WriteLine("inserisci l'id della categoria");
-        int id_categoria = Int32.Parse(Console.ReadLine()!);
-        var reader = _model.VisualizzaProdottiCategoria(id_categoria);
-        string stringa = "";
+       
+        int id_categoria = _productView.InserisciIdCategoria();
+ // Ottiene i prodotti della categoria specificata
+    var prodottiCategoria = new List<Prodotto>();
+    using (var reader = _model.VisualizzaProdottiCategoria(id_categoria))
+    {
         while (reader.Read())
         {
-            stringa = stringa + $"id: {reader["id"]}, nome: {reader["nome"]}, prezzo: {reader["prezzo"]}, quantita: {reader["quantita"]}, id_categoria: {reader["id_categoria"]}\n";
+            var prodotto = new Prodotto
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
+                Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                Quantita = Convert.ToInt32(reader["quantita"]),
+                Id_categoria = Convert.ToInt32(reader["id_categoria"])
+            };
+            prodottiCategoria.Add(prodotto);
         }
-        //!!!CREARE VISUALIZZACATEGORIE PER SOSTITUIRE STAMPA
-        _categoryView.Stampa(stringa);
     }
+
+    // Visualizza i prodotti della categoria usando `ProductView`
+    _productView.VisualizzaProdottiCategoria(prodottiCategoria);
+}
+    
+
+
 
     private void InserisciCategoria()   // Menu opzione 11
     {
-        //!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
-        _model.VisualizzaCategorie();
+        
+        VisualizzaCategorie();
         Console.WriteLine("inserisci il nome della nuova categoria");
         string nome = Console.ReadLine()!;
         _model.InserisciCategoria(nome);
@@ -400,8 +404,8 @@ public class Controller
 
     private void EliminaCategoria() // Menu opzione 12
     {
-        //!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
-        _model.VisualizzaCategorie();
+        
+        VisualizzaCategorie();
         Console.WriteLine("inserisci il nome della categoria da eliminare");
         string nome = Console.ReadLine()!;
         _model.EliminaCategoria(nome);
@@ -409,19 +413,22 @@ public class Controller
 
     public void InserisciProdottoCategoria()    // Menu opzione 13
     {
-        //!!!SPOSTARE NELLA PRODUCTVIEW TITTI I WRITELINE
+
         // Chiama il metodo per visualizzare le categorie
-        _model.VisualizzaCategorie();
+        VisualizzaCategorie();
         //seleziona categoria
-        Console.WriteLine("inserisci l'id della categoria");
-        int id_categoria = Int32.Parse(Console.ReadLine()!);
+
+
+        // Chiede l'inserimento dell'ID categoria
+        int id_categoria = _productView.InserisciIdCategoria();
         //inserisci prodotto
-        Console.WriteLine("inserisci il nome del prodotto");
-        string nome = Console.ReadLine()!;
-        Console.WriteLine("inserisci il prezzo del prodotto");
-        decimal prezzo = Decimal.Parse(Console.ReadLine()!);
-        Console.WriteLine("inserisci la quantità del prodotto");
-        int quantita = Int32.Parse(Console.ReadLine()!);
+
+
+        string nome = _productView.InserisciNomeProdotto();
+
+
+        decimal prezzo = _productView.InserisciPrezzoProdotto();
+        int quantita = _productView.InserisciQuantitaProdotto();
         _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
     }
     private void VisualizzaCategorie()
@@ -435,7 +442,7 @@ public class Controller
                 Id = Convert.ToInt32(reader["id"]),
                 Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto"
             };
-        categorie.Add(categoria);
+            categorie.Add(categoria);
         }
         _categoryView.VisualizzaCategorie(categorie);
     }
