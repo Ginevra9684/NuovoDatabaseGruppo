@@ -31,7 +31,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 </details>
 
 
-## Following tasks 
+## Task sucessivi 
 
 - [x] creare un file ViewProdotti e un file ViewCategorie
 - [x] sostituire il metodo Stampa di View con i metodi corrispondenti ai metodi del controller
@@ -50,5 +50,22 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] ClientiView: metodo che ha come parametro una lista Cliente, fa visualizzare i clienti
 - [x] ClientiView: aggiungere visualizzazione opzione menu (tutte operazini CRUD relative al cliente)
 - [x] Controller: aggiunta a ShowMainMenu delle due visualizzazioni menu ClientiView
-- [ ] Funzione Menu : 15- cerca cliente
+- [x] Funzione Menu : 15- cerca cliente
 - [x] Funzione Menu : 16-Uscire (prima era numero 14 da spostare)
+
+## Aggiustamenti definitivi
+- [x] Divisione del controller in ProductController, CategoryController, CustomerController
+- [x] Divisione dei menu:
+- [x] In ProductView menu relativo ai prodotti
+- [x] In ProductController metodi relativi ai prodotti
+- [x] In CategoryView menu relativo alle categorie
+- [x] In CategoryController metodi relativi alle categorie
+- [x] In CustomerView menu relativo ai clienti
+- [x] In CustomerController metodi relativi ai clienti
+- [x] In BaseView menu principale
+- [x] In BaseController richiamati gli altri controller
+- [x] Aggiunta nuova tabella ordini
+- [ ] Creare OrdersView
+- [ ] Creare OrdersController
+- [ ] Metodo VisualizzaOrdini
+- [ ] Metodo InserisciOrdine
