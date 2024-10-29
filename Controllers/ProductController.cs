@@ -14,7 +14,7 @@ public class ProductController
 
     public void ProductsMenu()
     {
-        while(true)
+        while (true)
         {
             _productView.ShowProductMenu();
             var input = _productView.GetInput();
@@ -65,27 +65,7 @@ public class ProductController
     private void VisualizzaProdotti()
     {
         // Crea una lista vuota per memorizzare i prodotti
-
-        var prodotti = new List<Prodotto>();
-        // Apre il data reader all'interno di un blocco 'using'
-        using (var reader = _model.CaricaProdotti())
-        {
-            // Cicla attraverso ogni riga nel data reader
-            while (reader.Read())
-            {
-                // Crea un nuovo oggetto Prodotto e assegna i valori letti dal reader
-                var prodotto = new Prodotto
-                {
-                    Id = Convert.ToInt32(reader["id"]),
-                    Nome = reader["nome"].ToString(),
-                    Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["quantita"]),
-                    Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                };
-                // Aggiunge il prodotto alla lista
-                prodotti.Add(prodotto);
-            }
-        }  // Fine del blocco 'using' il reader viene automaticamente chiuso e liberato qui
+        var prodotti = _model.CaricaProdotti();
 
         // Passa la lista dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdotti(prodotti);
@@ -104,7 +84,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["giacienza"]),
+                    Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 prodottiOrdinati.Add(prodotto);
@@ -127,7 +107,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"].ToString(),
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["giacienza"]),
+                    Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 prodottiOrdinati.Add(prodotto);
@@ -167,7 +147,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["giacienza"]),
+                    Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
             }
@@ -200,7 +180,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["giacienza"]),
+                    Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
             }
@@ -226,13 +206,13 @@ public class ProductController
         Console.WriteLine("inserisci il prezzo del prodotto");
         decimal prezzo = Decimal.Parse(Console.ReadLine()!);
         Console.WriteLine("inserisci la quantità del prodotto");
-        int quantita = Int32.Parse(Console.ReadLine()!);
+        int giacenza = Int32.Parse(Console.ReadLine()!);
         // Visualizza le categorie disponibili
         Console.WriteLine("Categorie disponibili:");
         _model.VisualizzaCategorie(); // Chiamata al metodo che visualizza le categorie con i loro ID
         Console.WriteLine("inserisci l'id della categoria del prodotto");
         int id_categoria = Int32.Parse(Console.ReadLine()!);
-        _model.InserisciProdotto(nome, prezzo, quantita, id_categoria);
+        _model.InserisciProdotto(nome, prezzo, giacenza, id_categoria);
     }
 
     private void VisualizzaProdotto()  // Menu opzione 9
@@ -251,7 +231,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["giacienza"]),
+                    Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
             }
@@ -272,7 +252,7 @@ public class ProductController
     {
         _categoryController.VisualizzaCategorie();
         int id_categoria = _productView.InserisciIdCategoria();
-         // Ottiene i prodotti della categoria specificata
+        // Ottiene i prodotti della categoria specificata
         var prodottiCategoria = new List<Prodotto>();
         using (var reader = _model.VisualizzaProdottiCategoria(id_categoria))
         {
@@ -283,7 +263,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacienza = Convert.ToInt32(reader["giacienza"]),
+                    Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 prodottiCategoria.Add(prodotto);
@@ -294,7 +274,7 @@ public class ProductController
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
 
-     public void InserisciProdottoCategoria()    // Menu opzione 13
+    public void InserisciProdottoCategoria()    // Menu opzione 13
     {
         // Chiama il metodo per visualizzare le categorie
         _categoryController.VisualizzaCategorie();
