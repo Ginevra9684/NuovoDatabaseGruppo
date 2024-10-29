@@ -1,6 +1,8 @@
-public class Cliente 
+public class Cliente
 {
-    public int Id {get; set;}
-    public string Nome {get; set;}
-
+    // Identificatore univoco del cliente
+    public int Id { get; set; }
+    
+    // Nome del cliente
+    public string ?Nome { get; set; }
 }
