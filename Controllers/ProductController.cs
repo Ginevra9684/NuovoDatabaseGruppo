@@ -14,7 +14,7 @@ public class ProductController
 
     public void ProductsMenu()
     {
-        while (true)
+        while(true)
         {
             _productView.ShowProductMenu();
             var input = _productView.GetInput();
@@ -63,13 +63,13 @@ public class ProductController
     }
 
     private void VisualizzaProdotti()
-    {
-        // Crea una lista vuota per memorizzare i prodotti
-        var prodotti = _model.CaricaProdotti();
+{
+    // Crea una lista vuota per memorizzare i prodotti
+    var prodotti = _model.CaricaProdotti();
 
-        // Passa la lista dei prodotti alla vista per visualizzarla
-        _productView.VisualizzaProdotti(prodotti);
-    }
+    // Passa la lista dei prodotti alla vista per visualizzarla
+    _productView.VisualizzaProdotti(prodotti);
+}
 
     private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
     {
@@ -252,7 +252,7 @@ public class ProductController
     {
         _categoryController.VisualizzaCategorie();
         int id_categoria = _productView.InserisciIdCategoria();
-        // Ottiene i prodotti della categoria specificata
+         // Ottiene i prodotti della categoria specificata
         var prodottiCategoria = new List<Prodotto>();
         using (var reader = _model.VisualizzaProdottiCategoria(id_categoria))
         {
@@ -274,7 +274,7 @@ public class ProductController
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
 
-    public void InserisciProdottoCategoria()    // Menu opzione 13
+     public void InserisciProdottoCategoria()    // Menu opzione 13
     {
         // Chiama il metodo per visualizzare le categorie
         _categoryController.VisualizzaCategorie();
