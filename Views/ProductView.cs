@@ -10,11 +10,10 @@ public class ProductView : BaseView
         Stampa("5 - Eliminare un prodotto");
         Stampa("6 - Visualizzare il prodotto più costoso");
         Stampa("7 - Visualizzare il prodotto meno costoso");
-        Stampa("8 - Inserire un prodotto");
-        Stampa("9 - Visualizzare un prodotto");
-        Stampa("10 - Visualizzare i prodotti di una categoria");
-        Stampa("11 - inserire un prodotto in una categoria");
-        Stampa("12 - Torna a menu principale");
+        Stampa("8 - Visualizzare un prodotto");
+        Stampa("9 - Visualizzare i prodotti di una categoria");
+        Stampa("10 - inserire un prodotto in una categoria");
+        Stampa("1 - Torna a menu principale");
     }
     public int InserisciIdCategoria()
     {

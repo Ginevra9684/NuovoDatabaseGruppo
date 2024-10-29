@@ -6,7 +6,8 @@ public class BaseView
         Stampa("1 - Vai al menu prodotti");
         Stampa("2 - Vai al menu categorie");
         Stampa("3 - Vai al menu customers");
-        Stampa("4 - Esci");
+        Stampa("4 - Vai al menu ordini");
+        Stampa("5 - Esci");
     }
 
     public string GetInput()
