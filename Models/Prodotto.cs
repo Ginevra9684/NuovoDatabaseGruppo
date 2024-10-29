@@ -6,7 +6,7 @@ public class Prodotto
 
     public decimal Prezzo { get; set; }
 
-    public int Giacienza { get; set; }
+    public int Giacenza { get; set; }
 
     public int Id_categoria { get; set; }
 }

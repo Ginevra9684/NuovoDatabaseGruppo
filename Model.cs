@@ -62,14 +62,35 @@ public class Model
         }
     }
 
-    public SQLiteDataReader CaricaProdotti()  // Menu opzione 1
+    public List<Prodotto> CaricaProdotti()  // Menu opzione 1
     {
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"); // crea la connessione di nuovo perché è stata chiusa alla fine del while in modo da poter visualizzare i dati aggiornati
-        connection.Open();
-        string sql = "SELECT * FROM prodotti"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti
-        SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database
-        SQLiteDataReader reader = command.ExecuteReader(); // esegue il comando sql sulla connessione al database e salva i dati in reader che è un oggetto di tipo SQLiteDataReader incaricato di leggere i dati
-        return reader;
+        List<Prodotto> prodotti = new List<Prodotto>();
+
+        using (SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"))
+        {
+            connection.Open();
+            string sql = "SELECT * FROM prodotti";
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                using (SQLiteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var prodotto = new Prodotto
+                        {
+                            Id = Convert.ToInt32(reader["id"]),
+                            Nome = reader["nome"].ToString(),
+                            Prezzo = Convert.ToDecimal(reader["prezzo"]),
+                            Giacenza = Convert.ToInt32(reader["giacenza"]),
+                            Id_categoria = Convert.ToInt32(reader["id_categoria"])
+                        };
+                        prodotti.Add(prodotto);
+                    }
+                }
+            }
+        }
+
+        return prodotti;
     }
 
     public SQLiteDataReader CaricaProdottiOrdinatiPerPrezzo() // Menu opzione 2
@@ -161,18 +182,21 @@ public class Model
         // }
     }
 
-    public void InserisciProdotto(string nome, decimal prezzo, int quantita, int id_categoria) // Menu opzione 8
+    public void InserisciProdotto(string nome, decimal prezzo, int giacenza, int id_categoria) // Menu opzione 8
     {
-        SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
-        connection.Open();
-        string sql = "INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES (@nome, @prezzo, @giacenza, @id_categoria)";
-        SQLiteCommand command = new SQLiteCommand(sql, connection);
-        command.Parameters.AddWithValue("@nome", nome);
-        command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
-        command.Parameters.AddWithValue("@giacenza", Convert.ToInt32(quantita));
-        command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
-        command.ExecuteNonQuery();
-        connection.Close();
+        using (SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;"))
+        {
+            connection.Open();
+            string sql = "INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES (@nome, @prezzo, @giacenza, @id_categoria)";
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@nome", nome);
+                command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
+                command.Parameters.AddWithValue("@giacenza", Convert.ToInt32(giacenza));
+                command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
+                command.ExecuteNonQuery();
+            }
+        }
     }
 
     public SQLiteDataReader CaricaProdotto(string nome)   // Menu opzione 9
@@ -220,7 +244,7 @@ public class Model
     }
 
     // inserimento di prodotto chiamando prima la categoria e poi il prodotto in modo da avere in inserimento il nome della categoria invece dell id
-    public void InserisciProdottoCategoria(int id_categoria, string nome, decimal prezzo, int quantita)    // Menu opzione 13
+    public void InserisciProdottoCategoria(int id_categoria, string nome, decimal prezzo, int giacenza)    // Menu opzione 13
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
@@ -228,7 +252,7 @@ public class Model
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@nome", nome);
         command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
-        command.Parameters.AddWithValue("@giacenza", Convert.ToInt32(quantita));
+        command.Parameters.AddWithValue("@giacenza", Convert.ToInt32(giacenza));
         command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         command.ExecuteNonQuery();
         connection.Close();
@@ -278,51 +302,60 @@ public class Model
         connection.Close();
     }
 
-   public void InserisciOrdine(int clienteId, int prodottoId, int quantita)
+    public void InserisciOrdine(int clienteId, int prodottoId, int quantita)
     {
         using (SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"))
         {
             connection.Open();
-
-            // Verifica se c'è abbastanza giacenza
-            string checkStockSql = "SELECT giacenza FROM prodotti WHERE id = @prodottoId";
-            using (SQLiteCommand checkCommand = new SQLiteCommand(checkStockSql, connection))
+            using (SQLiteTransaction transaction = connection.BeginTransaction())
             {
-                checkCommand.Parameters.AddWithValue("@prodottoId", prodottoId);
-                int giacenza = Convert.ToInt32(checkCommand.ExecuteScalar());
-
-                if (giacenza < quantita)
+                try
                 {
-                    Console.WriteLine("Quantità insufficiente in magazzino.");
-                    return;
+                    // Verifica se c'è abbastanza giacenza
+                    string checkStockSql = "SELECT giacenza FROM prodotti WHERE id = @prodottoId";
+                    using (SQLiteCommand checkCommand = new SQLiteCommand(checkStockSql, connection, transaction))
+                    {
+                        checkCommand.Parameters.AddWithValue("@prodottoId", prodottoId);
+                        int giacenza = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                        if (giacenza < quantita)
+                        {
+                            Console.WriteLine("Quantità insufficiente in magazzino.");
+                            return;
+                        }
+                    }
+
+                    // Inserisce l'ordine
+                    string sql = "INSERT INTO ordini (cliente_id, prodotto_id, quantita, dataAcquisto) VALUES (@clienteId, @prodottoId, @quantita, CURRENT_TIMESTAMP)";
+                    using (SQLiteCommand command = new SQLiteCommand(sql, connection, transaction))
+                    {
+                        command.Parameters.AddWithValue("@clienteId", clienteId);
+                        command.Parameters.AddWithValue("@prodottoId", prodottoId);
+                        command.Parameters.AddWithValue("@quantita", quantita);
+                        command.ExecuteNonQuery();
+                    }
+
+                    // Aggiorna giacenza del prodotto
+                    string updateStockSql = "UPDATE prodotti SET giacenza = giacenza - @quantita WHERE id = @prodottoId";
+                    using (SQLiteCommand updateCommand = new SQLiteCommand(updateStockSql, connection, transaction))
+                    {
+                        updateCommand.Parameters.AddWithValue("@quantita", quantita);
+                        updateCommand.Parameters.AddWithValue("@prodottoId", prodottoId);
+                        updateCommand.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine($"Errore durante l'inserimento dell'ordine: {ex.Message}");
                 }
             }
-
-            // Inserisce l'ordine
-            string sql = "INSERT INTO ordini (cliente_id, prodotto_id, quantita, dataAcquisto) VALUES (@clienteId, @prodottoId, @quantita, CURRENT_TIMESTAMP)";
-            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
-            {
-                command.Parameters.AddWithValue("@clienteId", clienteId);
-                command.Parameters.AddWithValue("@prodottoId", prodottoId);
-                command.Parameters.AddWithValue("@quantita", quantita);
-                command.ExecuteNonQuery();
-            }
-
-            // Aggiorna giacenza del prodotto
-            string updateStockSql = "UPDATE prodotti SET giacenza = giacenza - @quantita WHERE id = @prodottoId";
-            using (SQLiteCommand updateCommand = new SQLiteCommand(updateStockSql, connection))
-            {
-                updateCommand.Parameters.AddWithValue("@quantita", quantita);
-                updateCommand.Parameters.AddWithValue("@prodottoId", prodottoId);
-                updateCommand.ExecuteNonQuery();
-            }
-
-            connection.Close();
         }
     }
 
-
-// metodo per visualizzare gli ordini
+    // metodo per visualizzare gli ordini
     public SQLiteDataReader VisualizzaOrdini()
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;");
