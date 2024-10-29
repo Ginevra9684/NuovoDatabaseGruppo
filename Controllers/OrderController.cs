@@ -6,7 +6,7 @@ public class OrderController
     private Model _model;  // Riferimento al modello per l'accesso ai dati degli ordini
     private OrderView _orderView;  // Riferimento alla vista per visualizzare l'interfaccia degli ordini
 
-    // Costruttore del controller degli ordini
+     // Costruttore che inizializza il controller degli ordini con il modello e la vista
     public OrderController(Model model, OrderView orderView)
     {
         _model = model;
@@ -53,24 +53,27 @@ public class OrderController
     // Metodo per visualizzare tutti gli ordini
     private void VisualizzaOrdini()
     {
+        // Chiama il metodo `VisualizzaOrdini` nel modello per ottenere un `DbDataReader` che contiene tutti gli ordini
+          // Utilizza `using` per assicurarsi che il reader venga chiuso automaticamente una volta completato
         using var reader = _model.VisualizzaOrdini();
         var ordini = new List<Ordine>();
 
         // Popola la lista degli ordini leggendo dal reader
         while (reader.Read())
         {
+            // Crea un nuovo oggetto Ordine con i dati estratti dal reader
             var ordine = new Ordine
             {
-                Id = Convert.ToInt32(reader["id"]),
-                DataAcquisto = Convert.ToDateTime(reader["dataAcquisto"]),
-                Quantita = reader["quantita"].ToString(),
-                cliente = new Cliente { Nome = reader["Cliente"].ToString() },
-                prodotto = new Prodotto { Nome = reader["Prodotto"].ToString() }
+                Id = Convert.ToInt32(reader["id"]),          // Converte l'ID dell'ordine in intero
+                DataAcquisto = Convert.ToDateTime(reader["dataAcquisto"]),        // Converte la data di acquisto in DateTime
+                Quantita = reader["quantita"].ToString(),            // Ottiene la quantità dell'ordine prendendola dlala colonna del db come stringa
+                cliente = new Cliente { Nome = reader["Cliente"].ToString() },       // Ottiene il nome del cliente e lo assegna
+                prodotto = new Prodotto { Nome = reader["Prodotto"].ToString() }       // Ottiene il nome del prodotto e lo assegna
             };
-            ordini.Add(ordine);
+            ordini.Add(ordine);  // Aggiunge l'ordine alla lista di ordini
         }
 
-        // Mostra tutti gli ordini utilizzando la vista
+        // Passa la lista di ordini completa alla vista per la visualizzazione all'utente
         _orderView.VisualizzaOrdini(ordini);
     }
 }

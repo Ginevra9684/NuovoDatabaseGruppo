@@ -1,10 +1,12 @@
 public class ProductController
 {
+     // Riferimenti al modello e alla vista per gestire i dati e l'interfaccia dei prodotti
     private Model _model;
     private ProductView _productView;
 
-    private CategoryController _categoryController;
+    private CategoryController _categoryController;   // Riferimento al controller delle categorie
 
+// Costruttore del controller dei prodotti
     public ProductController(Model model, ProductView productView, CategoryController categoryController)
     {
         _model = model;
@@ -12,12 +14,13 @@ public class ProductController
         _categoryController = categoryController;
     }
 
+  // Metodo principale per gestire il menu dei prodotti
     public void ProductsMenu()
     {
         while(true)
         {
-            _productView.ShowProductMenu();
-            var input = _productView.GetInput();
+            _productView.ShowProductMenu();  //richiama il metodo ShowProductMenu dalla view del prodotto
+            var input = _productView.GetInput(); //richiama l'input
             switch (input)
             {
                 case "1":
@@ -59,6 +62,7 @@ public class ProductController
         }
     }
 
+//Metodo Menu opzione 1
     private void VisualizzaProdotti()
 {
     // Crea una lista vuota per memorizzare i prodotti
@@ -68,12 +72,14 @@ public class ProductController
     _productView.VisualizzaProdotti(prodotti);
 }
 
+//Metodo Menu opzione 2 per visualizzare i prodotti ordinati per prezzo
     private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
     {
         var prodottiOrdinati = new List<Prodotto>();
-
+  // Usa un `DataReader` per leggere i prodotti ordinati per prezzo
         using (var reader = _model.CaricaProdottiOrdinatiPerPrezzo())
         {
+            // Legge ogni prodotto e crea un oggetto `Prodotto` per ciascuno
             while (reader.Read())
             {
                 var prodotto = new Prodotto
@@ -84,11 +90,11 @@ public class ProductController
                     Giacenza = Convert.ToInt32(reader["giacenza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
-                prodottiOrdinati.Add(prodotto);
+                prodottiOrdinati.Add(prodotto);  // Aggiunge il prodotto alla lista ordinata
             }
         }
 
-        _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);
+        _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);   // Visualizza la lista ordinata nella vista
     }
 
     private void VisualizzaProdottiOrdinatiPerQuantita() // Menu option 3
@@ -115,6 +121,7 @@ public class ProductController
         _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
     }
 
+// Metodo per modificare il prezzo di un prodotto specifico
     private void ModificaPrezzoProdotto()    // Menu opzione 4
     {
         string nome = _productView.InserisciNomeProdotto();
@@ -163,9 +170,11 @@ public class ProductController
         }
     }
 
+
+    // Metodo per visualizzare il prodotto meno costoso
     private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
     {
-        Prodotto? prodotto = null;
+        Prodotto? prodotto = null;       // Inizializza una variabile per indicare che inizialmente non è stato trovato ancora alcun prodotto 
 
         using (var reader = _model.CaricaProdottoMenoCostoso())
         {
@@ -212,6 +221,8 @@ public class ProductController
         _model.InserisciProdotto(nome, prezzo, giacenza, id_categoria);
     }
 */
+
+//Metodo Visualizzaprodotto Menu 8
     private void VisualizzaProdotto()  // Menu opzione 8
     {
         // Richiede il nome del prodotto dalla vista
@@ -244,7 +255,7 @@ public class ProductController
         }
     }
 
-    // metodo per ottenere i prodotti in base alla categoria specificata
+    // metodo per ottenere i prodotti in base alla categoria specificata Menu 9
     private void VisualizzaProdottiCategoria()    // Menu opzione 9
     {
         _categoryController.VisualizzaCategorie();
@@ -270,15 +281,16 @@ public class ProductController
         // Visualizza i prodotti della categoria usando `ProductView`
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
-
+ // Menu opzione 10: Metodo per inserire un nuovo prodotto in una categoria specifica
      public void InserisciProdottoCategoria()    // Menu opzione 10
     {
         // Chiama il metodo per visualizzare le categorie
         _categoryController.VisualizzaCategorie();
         //seleziona categoria
-        // Chiede l'inserimento dell'ID categoria
+       // Chiede all'utente di inserire l'ID della categoria selezionata per associare il nuovo prodotto
+    // a una specifica categoria.
         int id_categoria = _productView.InserisciIdCategoria();
-        //inserisci prodotto
+         // Chiede all'utente di inserire il nome del nuovo prodotto
         string nome = _productView.InserisciNomeProdotto();
         decimal prezzo = _productView.InserisciPrezzoProdotto();
         int quantita = _productView.InserisciQuantitaProdotto();
