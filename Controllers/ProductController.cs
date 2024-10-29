@@ -79,7 +79,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"].ToString(),
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["quantita"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 // Aggiunge il prodotto alla lista
@@ -104,7 +104,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["giacienza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 prodottiOrdinati.Add(prodotto);
@@ -127,7 +127,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"].ToString(),
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["giacienza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 prodottiOrdinati.Add(prodotto);
@@ -167,7 +167,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["giacienza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
             }
@@ -200,7 +200,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["giacienza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
             }
@@ -251,7 +251,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["giacienza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
             }
@@ -283,7 +283,7 @@ public class ProductController
                     Id = Convert.ToInt32(reader["id"]),
                     Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
                     Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Quantita = Convert.ToInt32(reader["quantita"]),
+                    Giacienza = Convert.ToInt32(reader["giacienza"]),
                     Id_categoria = Convert.ToInt32(reader["id_categoria"])
                 };
                 prodottiCategoria.Add(prodotto);
