@@ -14,9 +14,12 @@
         var customerView = new CustomerView();
         var customerController = new CustomerController(model, customerView);
 
+        var orderView = new OrderView();
+        var orderController = new OrderController(model, orderView);
+
         var baseView = new BaseView();
         // Creazione del Controller, passando le dipendenze al costruttore
-        var baseController = new BaseController(model, baseView, categoryController, productController, customerController);
+        var baseController = new BaseController(model, baseView, categoryController, productController, customerController, orderController);
 
         // Avvio del menu principale
         baseController.MainMenu();

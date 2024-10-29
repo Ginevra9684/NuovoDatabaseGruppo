@@ -42,18 +42,15 @@ public class ProductController
                     VisualizzaProdottoMenoCostoso();
                     break;
                 case "8":
-                    InserisciProdotto();
-                    break;
-                case "9":
                     VisualizzaProdotto();
                     break;
-                case "10":
+                case "9":
                     VisualizzaProdottiCategoria();
                     break;
-                case "11":
+                case "10":
                     InserisciProdottoCategoria();
                     break;
-                case "12":
+                case "11":
                     return;
                 default:
                     Console.WriteLine("scelta non valida");
@@ -197,7 +194,7 @@ public class ProductController
         }
     }
 
-
+/*
     private void InserisciProdotto()    // Menu opzione 8
     {
 
@@ -214,8 +211,8 @@ public class ProductController
         int id_categoria = Int32.Parse(Console.ReadLine()!);
         _model.InserisciProdotto(nome, prezzo, giacenza, id_categoria);
     }
-
-    private void VisualizzaProdotto()  // Menu opzione 9
+*/
+    private void VisualizzaProdotto()  // Menu opzione 8
     {
         // Richiede il nome del prodotto dalla vista
         string nome = _productView.InserisciNomeProdotto();
@@ -248,7 +245,7 @@ public class ProductController
     }
 
     // metodo per ottenere i prodotti in base alla categoria specificata
-    private void VisualizzaProdottiCategoria()    // Menu opzione 10
+    private void VisualizzaProdottiCategoria()    // Menu opzione 9
     {
         _categoryController.VisualizzaCategorie();
         int id_categoria = _productView.InserisciIdCategoria();
@@ -274,7 +271,7 @@ public class ProductController
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
 
-     public void InserisciProdottoCategoria()    // Menu opzione 13
+     public void InserisciProdottoCategoria()    // Menu opzione 10
     {
         // Chiama il metodo per visualizzare le categorie
         _categoryController.VisualizzaCategorie();

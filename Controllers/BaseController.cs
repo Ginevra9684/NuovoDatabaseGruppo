@@ -9,14 +9,17 @@ public class BaseController
     private ProductController _productController;
     private CustomerController _customerController;
 
+    private OrderController _orderController;
+
     // Costruttore del Controller riceve il Model e la View
-    public BaseController(Model model, BaseView baseView, CategoryController categoryController, ProductController productController, CustomerController customerController)
+    public BaseController(Model model, BaseView baseView, CategoryController categoryController, ProductController productController, CustomerController customerController, OrderController orderController)
     {
         _model = model;
         _baseView = baseView;
         _categoryController = categoryController;
         _productController = productController;
         _customerController = customerController ; 
+        _orderController = orderController ;
     }
 
     public void MainMenu()
@@ -37,6 +40,9 @@ public class BaseController
                     _customerController.CustomerMenu();
                     break;
                 case "4":
+                    _orderController.OrderMenu();
+                    break;
+                case "5":
                     _baseView.Stampa("Esci dal programma");
                     // BISOGNA AGGIUNGERE CHIUSURA CONNESSIONE AL DATABASE
                     return;
