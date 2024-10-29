@@ -2,9 +2,11 @@ public class CategoryView : BaseView
 {
     public void ShowCategoryMenu()
     {
-        Stampa("11 - inserire una categoria");
-        Stampa("12 - eliminare una categoria");
-        Stampa("13 - inserire un prodotto in una categoria");
+        Stampa("MENU CATEGORIA");
+        Stampa("1 - visualizza categorie");
+        Stampa("2 - inserire una categoria");
+        Stampa("3 - eliminare una categoria");
+        Stampa("4 - ritorna al menu principale");
     }
 
     public void VisualizzaCategorie(List<Categoria> categorie)

@@ -2,6 +2,7 @@ public class ProductView : BaseView
 {
     public void ShowProductMenu()
     {
+        Stampa("MENU PRODOTTI");
         Stampa("1 - Visualizzare i prodotti");
         Stampa("2 - Visualizzare i prodotti ordinati per prezzo");
         Stampa("3 - Visualizzare i prodotti ordinati per quantità");
@@ -12,6 +13,8 @@ public class ProductView : BaseView
         Stampa("8 - Inserire un prodotto");
         Stampa("9 - Visualizzare un prodotto");
         Stampa("10 - Visualizzare i prodotti di una categoria");
+        Stampa("11 - inserire un prodotto in una categoria");
+        Stampa("12 - Torna a menu principale");
     }
     public int InserisciIdCategoria()
     {
@@ -84,11 +87,4 @@ public class ProductView : BaseView
         }
     }
 
-    public void VisualizzaProdottiAdvanced(List<Prodotto> prodotti, List<Categoria> Categorie) // Menu opzione 14
-    {
-        foreach (var prodotto in prodotti)
-        {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Quantita} Categoria: {Categorie[prodotto.Id_categoria]}");
-        }
-    }
 }

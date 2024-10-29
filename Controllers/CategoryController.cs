@@ -2,15 +2,39 @@ public class CategoryController
 {
     private Model _model;
     private CategoryView _categoryView;
-    private ProductView _productView;
-    public CategoryController(Model model, CategoryView categoryView,ProductView productView)
+    public CategoryController(Model model, CategoryView categoryView )
     {
         _model = model;
         _categoryView = categoryView;
-        _productView = productView;
     }
 
-    public void VisualizzaCategorie()
+    public void CategoryMenu()
+    {
+        while(true)
+        {
+            _categoryView.ShowCategoryMenu();
+            var input = _categoryView.GetInput();
+            switch (input)
+            {
+                case "1":
+                    VisualizzaCategorie();
+                    break;
+                case "2":
+                    InserisciCategoria();
+                    break;
+                case "3":
+                    EliminaCategoria();
+                    break;
+                case "4":
+                    return;
+                default:
+                    _categoryView.Stampa("Opzione non valida");
+                    break;
+            }
+        }    
+    }
+
+    public void VisualizzaCategorie()   // Menu opzione 1
     {
         using var reader = _model.VisualizzaCategorie();
         var categorie = new List<Categoria>();
@@ -26,36 +50,18 @@ public class CategoryController
         _categoryView.VisualizzaCategorie(categorie);
     }
 
-    public void InserisciCategoria()
+    public void InserisciCategoria()    // Menu opzione 2
     {
         _categoryView.VisualizzaCategorie(new List<Categoria>());  // Visualizza le categorie attuali
         string nome = _categoryView.InserisciNomeCategoria();  // Usa la view per ottenere il nome
         _model.InserisciCategoria(nome);
     }
 
-    public void EliminaCategoria()
+    public void EliminaCategoria()  // Menu opzione 3
     {
         VisualizzaCategorie();  // Mostra le categorie disponibili
         string nome = _categoryView.InserisciNomeCategoria();  // Usa la view per ottenere il nome da eliminare
         _model.EliminaCategoria(nome);
     }
-
-     public void InserisciProdottoCategoria()    // Menu opzione 13
-    {
-        // Chiama il metodo per visualizzare le categorie
-        VisualizzaCategorie();
-        //seleziona categoria
-        // Chiede l'inserimento dell'ID categoria
-        int id_categoria = _productView.InserisciIdCategoria();
-        //inserisci prodotto
-        string nome = _productView.InserisciNomeProdotto();
-        decimal prezzo = _productView.InserisciPrezzoProdotto();
-        int quantita = _productView.InserisciQuantitaProdotto();
-        _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
-    }
-
-  
-
-
 
 }

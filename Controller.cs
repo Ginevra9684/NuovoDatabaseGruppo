@@ -1,5 +1,5 @@
 using System.Data.Common;
-
+/*
 public class Controller
 {
     private Model _model;
@@ -425,3 +425,4 @@ public class Controller
         _model.EliminaCliente(cliente);
     }
 }
+*/

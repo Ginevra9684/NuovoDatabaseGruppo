@@ -1,5 +1,13 @@
 public class BaseView
 {
+    public void ShowMainMenu()
+    {
+        Stampa("MAIN MENU");
+        Stampa("1 - Vai al menu prodotti");
+        Stampa("2 - Vai al menu categorie");
+        Stampa("3 - Vai al menu customers");
+        Stampa("4 - Esci");
+    }
 
     public string GetInput()
     {

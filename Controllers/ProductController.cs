@@ -5,14 +5,14 @@ public class ProductController
 
     private CategoryController _categoryController;
 
-    ProductController(Model model, ProductView productView, CategoryController categoryController)
+    public ProductController(Model model, ProductView productView, CategoryController categoryController)
     {
         _model = model;
         _productView = productView;
         _categoryController = categoryController;
     }
 
-    public void MenuProdottiController()
+    public void ProductsMenu()
     {
         while(true)
         {
@@ -51,9 +51,10 @@ public class ProductController
                     VisualizzaProdottiCategoria();
                     break;
                 case "11":
-                    Console.WriteLine("Torna a menu Principale");
-                    // BISOGNA FAR IN MODO DI CHIUDERE LA CONNESSIONE AL DATABSE QUI
-                    return; // Uscita dal ciclo 
+                    InserisciProdottoCategoria();
+                    break;
+                case "12":
+                    return;
                 default:
                     Console.WriteLine("scelta non valida");
                     break;
@@ -291,5 +292,19 @@ public class ProductController
 
         // Visualizza i prodotti della categoria usando `ProductView`
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
+    }
+
+     public void InserisciProdottoCategoria()    // Menu opzione 13
+    {
+        // Chiama il metodo per visualizzare le categorie
+        _categoryController.VisualizzaCategorie();
+        //seleziona categoria
+        // Chiede l'inserimento dell'ID categoria
+        int id_categoria = _productView.InserisciIdCategoria();
+        //inserisci prodotto
+        string nome = _productView.InserisciNomeProdotto();
+        decimal prezzo = _productView.InserisciPrezzoProdotto();
+        int quantita = _productView.InserisciQuantitaProdotto();
+        _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
     }
 }
