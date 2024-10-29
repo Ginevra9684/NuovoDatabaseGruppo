@@ -1,6 +1,5 @@
 public class BaseView
 {
-
     public string GetInput()
     {
         // Richiedo l'input finché non è valido
