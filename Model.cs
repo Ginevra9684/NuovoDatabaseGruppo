@@ -27,7 +27,7 @@ public class Model
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                 nome TEXT UNIQUE, 
                                 prezzo REAL, 
-                                quantita INTEGER CHECK (quantita >= 0), 
+                                giacenza INTEGER CHECK (giacenza >= 0), 
                                 id_categoria INTEGER, 
                                 FOREIGN KEY (id_categoria) REFERENCES categorie(id)
                             );
@@ -36,13 +36,25 @@ public class Model
                                 id INTEGER PRIMARY KEY AUTOINCREMENT, 
                                 nome TEXT NOT NULL
                             );
-                            
+
+                           CREATE TABLE ordini (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                            cliente_id INTEGER,
+                            prodotto_id INTEGER,
+                            quantita INTEGER CHECK (quantita >= 0),
+                            dataAcquisto DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            FOREIGN KEY (cliente_id) REFERENCES clienti(id),
+                            FOREIGN KEY (prodotto_id) REFERENCES prodotti(id)
+                        );
+
+
+                           
                             INSERT INTO categorie (nome) VALUES ('c1');
                             INSERT INTO categorie (nome) VALUES ('c2');
                             INSERT INTO categorie (nome) VALUES ('c3');
                             
-                            INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p1', 1, 10, 1);
-                            INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES ('p2', 2, 20, 2);";
+                            INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES ('p1', 1, 10, 1);
+                            INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES ('p2', 2, 20, 2);";
 
             SQLiteCommand command = new SQLiteCommand(sql, connection); // crea il comando sql da eseguire sulla connessione al database se non esiste
             command.ExecuteNonQuery(); // esegue il comando sql sulla connessione al database se non esiste
@@ -74,7 +86,7 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = "SELECT * FROM prodotti ORDER BY quantita"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti ordinati per quantita
+        string sql = "SELECT * FROM prodotti ORDER BY giacenza"; // crea il comando sql che seleziona tutti i dati dalla tabella prodotti ordinati per quantita
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         SQLiteDataReader reader = command.ExecuteReader();
         return reader;
@@ -153,11 +165,11 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
+        string sql = "INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES (@nome, @prezzo, @giacenza, @id_categoria)";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@nome", nome);
         command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
-        command.Parameters.AddWithValue("@quantita", Convert.ToInt32(quantita));
+        command.Parameters.AddWithValue("@giacenza", Convert.ToInt32(quantita));
         command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         command.ExecuteNonQuery();
         connection.Close();
@@ -212,11 +224,11 @@ public class Model
     {
         SQLiteConnection connection = new SQLiteConnection($"Data Source=database.db;Version=3;");
         connection.Open();
-        string sql = "INSERT INTO prodotti (nome, prezzo, quantita, id_categoria) VALUES (@nome, @prezzo, @quantita, @id_categoria)";
+        string sql = "INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES (@nome, @prezzo, @giacenza, @id_categoria)";
         SQLiteCommand command = new SQLiteCommand(sql, connection);
         command.Parameters.AddWithValue("@nome", nome);
         command.Parameters.AddWithValue("@prezzo", Convert.ToDecimal(prezzo));
-        command.Parameters.AddWithValue("@quantita", Convert.ToInt32(quantita));
+        command.Parameters.AddWithValue("@giacenza", Convert.ToInt32(quantita));
         command.Parameters.AddWithValue("@id_categoria", Convert.ToInt32(id_categoria));
         command.ExecuteNonQuery();
         connection.Close();
@@ -265,4 +277,70 @@ public class Model
         command.ExecuteNonQuery();
         connection.Close();
     }
+
+   public void InserisciOrdine(int clienteId, int prodottoId, int quantita)
+    {
+        using (SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;"))
+        {
+            connection.Open();
+
+            // Verifica se c'è abbastanza giacenza
+            string checkStockSql = "SELECT giacenza FROM prodotti WHERE id = @prodottoId";
+            using (SQLiteCommand checkCommand = new SQLiteCommand(checkStockSql, connection))
+            {
+                checkCommand.Parameters.AddWithValue("@prodottoId", prodottoId);
+                int giacenza = Convert.ToInt32(checkCommand.ExecuteScalar());
+
+                if (giacenza < quantita)
+                {
+                    Console.WriteLine("Quantità insufficiente in magazzino.");
+                    return;
+                }
+            }
+
+            // Inserisce l'ordine
+            string sql = "INSERT INTO ordini (cliente_id, prodotto_id, quantita, dataAcquisto) VALUES (@clienteId, @prodottoId, @quantita, CURRENT_TIMESTAMP)";
+            using (SQLiteCommand command = new SQLiteCommand(sql, connection))
+            {
+                command.Parameters.AddWithValue("@clienteId", clienteId);
+                command.Parameters.AddWithValue("@prodottoId", prodottoId);
+                command.Parameters.AddWithValue("@quantita", quantita);
+                command.ExecuteNonQuery();
+            }
+
+            // Aggiorna giacenza del prodotto
+            string updateStockSql = "UPDATE prodotti SET giacenza = giacenza - @quantita WHERE id = @prodottoId";
+            using (SQLiteCommand updateCommand = new SQLiteCommand(updateStockSql, connection))
+            {
+                updateCommand.Parameters.AddWithValue("@quantita", quantita);
+                updateCommand.Parameters.AddWithValue("@prodottoId", prodottoId);
+                updateCommand.ExecuteNonQuery();
+            }
+
+            connection.Close();
+        }
+    }
+
+
+// metodo per visualizzare gli ordini
+    public SQLiteDataReader VisualizzaOrdini()
+    {
+        SQLiteConnection connection = new SQLiteConnection($"Data Source={path};Version=3;");
+        connection.Open();
+
+        string sql = @"
+            SELECT ordini.id, clienti.nome AS Cliente, prodotti.nome AS Prodotto, ordini.quantita, ordini.dataAcquisto
+            FROM ordini
+            JOIN clienti ON ordini.cliente_id = clienti.id
+            JOIN prodotti ON ordini.prodotto_id = prodotti.id
+            ORDER BY ordini.dataAcquisto DESC";
+
+        SQLiteCommand command = new SQLiteCommand(sql, connection);
+        SQLiteDataReader reader = command.ExecuteReader();
+
+        return reader;
+    }
 }
+
+
+
