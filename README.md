@@ -26,10 +26,12 @@ La tabella cliente farà riferimento alla tabella utente tramite id univoco
 <summary>Dettagli</summary>
 L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - il Model contenga il database e i propri metodi
-- il controller contenga la logica del mene e i richiami ai vari metodi
+- il controller contenga la logica del main e i richiami ai vari metodi
 - la view faccia visualizzare i risultati di tutti i metodi richiamati dal menu del controller
 </details>
 
+<details>
+<summary>Procedure</summary>
 
 ## Task sucessivi 
 
@@ -69,3 +71,45 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [ ] Creare OrdersController
 - [ ] Metodo VisualizzaOrdini
 - [ ] Metodo InserisciOrdine
+- [ ] Aggiunta commenti
+- [ ] Conversione lingua
+- [ ] Revisione
+
+
+</details>
+
+## VERSIONE DEFINITIVA CON SQL
+
+<details>
+<summary>Funzionalità(da aggiungere)</summary>
+
+</details>
+
+<details>
+<summary>Schema(da aggiungere)</summary>
+
+    ```mermaid
+
+    ```
+
+</details>
+
+
+## PASSAGGIO AD ENTITY FRAMEWORK
+
+- [ ] Aggiungere i pacchetti per entity framework
+
+- dotnet add package Microsoft.EntityFrameworkCore;
+- oppure dotnet add package Microsoft.EntityFrameworkCore.Sqlite;
+- dotnet run
+- dotnet add package Microsoft.EntityFrameworkCore.Design
+- dotnet add package Microsoft.EntityFrameworkCore.Tools
+- Se non lo si ha mai installato in locale ----> dotnet tool install --global dotnet-ef 
+
+- [ ] Visto che Model.cs dovrebbe essere Database.cs lo si commenta e si crea il nuovo file Database.cs
+- [ ] Creare proprietà DB Context per far si che i modelli corrispondano ai campi delle tabelle
+- [ ] Interagire con le proprietà DB Context per estrapolare/aggiungere/modificare dati nelle varie tabelle invece di passare per stringhe SQL
+
+- [ ] Per creare la migrazione delle DB Context properties dotnet ef migrations add InitialCreate
+- [ ] Per salvare dotnet ef database update
+
