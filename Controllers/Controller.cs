@@ -9,6 +9,8 @@ public class Controller
 
     private BaseView _baseView;
     private ClienteView _clienteView;
+    private CategoryController _categoryController;
+    private CustomerController _customerController;
 
     // Costruttore del Controller riceve il Model e la View
     public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, ClienteView clienteView)
@@ -18,6 +20,8 @@ public class Controller
         _categoryView = categoryView;
         _baseView = baseView;
         _clienteView = clienteView;
+          _categoryController = new CategoryController(model, categoryView, productView);
+          _customerController = new CustomerController(model, clienteView);  // Inizializza il CustomerController
     }
 
     public void MainMenu()
@@ -57,28 +61,28 @@ public class Controller
                     VisualizzaProdotto();
                     break;
                 case "10":
-                    VisualizzaProdottiCategoria();
+                    _categoryController.VisualizzaCategorie();
                     break;
                 case "11":
-                    InserisciCategoria();
+                    _categoryController.InserisciCategoria();
                     break;
                 case "12":
-                    EliminaCategoria();
+                    _categoryController.EliminaCategoria();
                     break;
                 case "13":
-                    InserisciProdottoCategoria();
+                    _categoryController.InserisciProdottoCategoria();
                     break;
                 case "14":
-                    InserisciCliente();
+                    _customerController.InserisciCliente();
                     break;
                 case "15":
-                    VisualizzaClienti();
+                    _customerController.VisualizzaClienti();
                     break;
                 case "16":
-                ModificaCliente();
+                _customerController.ModificaCliente();
                 break;
                 case "17":
-                EliminaCliente();
+                _customerController.EliminaCliente();
                 break;
                 case "18":
                     Console.WriteLine("Uscita in corso...");
@@ -305,7 +309,7 @@ public class Controller
     }
 
     // metodo per ottenere i prodotti in base alla categoria specificata
-    private void VisualizzaProdottiCategoria()    // Menu opzione 10
+ /*   private void VisualizzaProdottiCategoria()    // Menu opzione 10
     {
         VisualizzaCategorie();
         int id_categoria = _productView.InserisciIdCategoria();
@@ -376,9 +380,9 @@ public class Controller
             categorie.Add(categoria);
         }
         _categoryView.VisualizzaCategorie(categorie);
-    }
+    }  */
 
-    private void InserisciCliente()    // Menu opzione 14
+/*    private void InserisciCliente()    // Menu opzione 14
     {
         Cliente cliente = new Cliente();
         cliente.Nome = _clienteView.InserisciCliente();
@@ -423,5 +427,5 @@ public class Controller
         VisualizzaClienti();
         cliente.Id = _clienteView.EliminaCliente();
         _model.EliminaCliente(cliente);
-    }
+    } */
 }
