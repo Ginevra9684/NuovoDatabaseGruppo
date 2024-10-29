@@ -7,10 +7,10 @@
         var baseView = new BaseView();
         var productView = new ProductView();   // Istanza della vista dei prodotti
         var categoryView = new CategoryView(); // Istanza della vista delle categorie
-        var clienteView = new ClienteView();
+        var customerView = new CustomerView();
 
         // Creazione del Controller, passando le dipendenze al costruttore
-        var controller = new Controller(model, productView, categoryView, baseView, clienteView);
+        var controller = new BaseController(model, productView, categoryView, baseView, customerView);
 
         // Avvio del menu principale
         controller.MainMenu();

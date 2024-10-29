@@ -1,4 +1,4 @@
-public class ClienteView : BaseView
+public class CustomerView : BaseView
 {
     // Metodo per visualizzare il menu relativo ai clienti
     public void ShowClientMenu()

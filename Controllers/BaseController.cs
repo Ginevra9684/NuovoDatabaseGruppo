@@ -1,6 +1,6 @@
 using System.Data.Common;
 
-public class Controller
+public class BaseController
 {
     private Model _model;
     private ProductView _productView;
@@ -8,20 +8,20 @@ public class Controller
     private CategoryView _categoryView;
 
     private BaseView _baseView;
-    private ClienteView _clienteView;
+    private CustomerView _customerView;
     private CategoryController _categoryController;
     private CustomerController _customerController;
 
     // Costruttore del Controller riceve il Model e la View
-    public Controller(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, ClienteView clienteView)
+    public BaseController(Model model, ProductView productView, CategoryView categoryView, BaseView baseView, CustomerView customerView)
     {
         _model = model;
         _productView = productView;
         _categoryView = categoryView;
         _baseView = baseView;
-        _clienteView = clienteView;
-          _categoryController = new CategoryController(model, categoryView, productView);
-          _customerController = new CustomerController(model, clienteView);  // Inizializza il CustomerController
+        _customerView = customerView;
+        _categoryController = new CategoryController(model, categoryView, productView);
+        _customerController = new CustomerController(model, customerView);  // Inizializza il CustomerController
     }
 
     public void MainMenu()
@@ -100,7 +100,7 @@ public class Controller
     {
         _productView.ShowProductMenu();
         _categoryView.ShowCategoryMenu();
-        _clienteView.ShowClientMenu();
+        _customerView.ShowClientMenu();
         _baseView.ShowEndMenu();
     }
     private void VisualizzaProdotti()

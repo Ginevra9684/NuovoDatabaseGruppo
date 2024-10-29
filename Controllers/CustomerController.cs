@@ -5,18 +5,18 @@ using System.Data.Common;
 public class CustomerController
 {
     private Model _model;
-    private ClienteView _clienteView;
+    private CustomerView _customerView;
 
-    public CustomerController(Model model, ClienteView clienteView)
+    public CustomerController(Model model, CustomerView clienteView)
     {
         _model = model;
-        _clienteView = clienteView;
+        _customerView = clienteView;
     }
 
     public void InserisciCliente()    // Menu opzione 14
     {
         Cliente cliente = new Cliente();
-        cliente.Nome = _clienteView.InserisciCliente();
+        cliente.Nome = _customerView.InserisciCliente();
         _model.InserisciCliente(cliente);
     }
 
@@ -37,13 +37,13 @@ public class CustomerController
             }
         }
 
-        _clienteView.VisualizzaClienti(clienti);
+        _customerView.VisualizzaClienti(clienti);
     }
 
     public void ModificaCliente()    // Menu opzione 16
     {
         VisualizzaClienti();
-        var (id, nuovoNome) = _clienteView.ModificaCliente();
+        var (id, nuovoNome) = _customerView.ModificaCliente();
         Cliente cliente = new Cliente { Id = id };
         _model.ModificaCliente(cliente, nuovoNome);
     }
@@ -52,7 +52,7 @@ public class CustomerController
     {
         Cliente cliente = new Cliente();
         VisualizzaClienti();
-        cliente.Id = _clienteView.EliminaCliente();
+        cliente.Id = _customerView.EliminaCliente();
         _model.EliminaCliente(cliente);
     }
 }
