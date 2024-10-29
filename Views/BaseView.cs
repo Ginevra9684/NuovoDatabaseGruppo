@@ -2,6 +2,7 @@ public class BaseView
 {
     public void ShowMainMenu()
     {
+        // Visualizza il menu principale con le opzioni disponibili
         Stampa("MAIN MENU");
         Stampa("1 - Vai al menu prodotti");
         Stampa("2 - Vai al menu categorie");
@@ -12,37 +13,36 @@ public class BaseView
 
     public string GetInput()
     {
-        // Richiedo l'input finché non è valido
+        // Continua a richiedere l'input finché non viene fornito un valore valido
         while (true)
         {
             try
             {
-                // Legge l'input dell'utente da console
+                // Legge l'input dell'utente dalla console
                 string? input = Console.ReadLine();
-                // Controlla se l'input è null, vuoto o composto solo da spazi bianchi
+
+                // Verifica che l'input non sia vuoto, nullo o composto solo da spazi
                 if (string.IsNullOrWhiteSpace(input))
                 {
-                    // Messaggio d'errore per avvisare l'utente che l'input non è valido
                     Console.WriteLine("Errore: l'input non può essere vuoto. Riprova:");
-                    continue; // Ritorna all'inizio del ciclo per chiedere nuovamente l'input
+                    continue; // Richiede nuovamente l'input
                 }
 
-                // Se l'input è valido, lo restituisce
+                // Ritorna l'input valido
                 return input;
             }
             catch (Exception ex)
             {
-                // Gestisce eventuali eccezioni durante la lettura dell'input
+                // Gestisce eccezioni che potrebbero verificarsi durante la lettura dell'input
                 Console.WriteLine($"Errore durante la lettura dell'input: {ex.Message}. Riprova:");
-                // Continua il ciclo per chiedere nuovamente l'input
-
+                // Il ciclo riparte, chiedendo un nuovo input
             }
         }
     }
 
     public void Stampa(string testo)
     {
+        // Stampa il testo fornito sulla console
         Console.WriteLine(testo);
     }
 }
-

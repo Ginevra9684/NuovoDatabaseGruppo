@@ -95,6 +95,8 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 </details>
 
 
+
+
 ## PASSAGGIO AD ENTITY FRAMEWORK
 
 - [ ] Aggiungere i pacchetti per entity framework
