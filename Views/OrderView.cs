@@ -69,7 +69,7 @@ public class OrderView : BaseView
 
         // Chiede la quantità e la assegna all'ordine
         Stampa("Inserisci la quantità:");
-        ordine.Quantita = GetInput();
+        ordine.Quantita = int.Parse(GetInput());
 
         return ordine;
     }

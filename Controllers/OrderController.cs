@@ -46,7 +46,7 @@ public class OrderController
         Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine();
 
         // Chiama il modello per inserire il nuovo ordine
-        _database.InserisciOrdine(nuovoOrdine.cliente.Id, nuovoOrdine.prodotto.Id, int.Parse(nuovoOrdine.Quantita));
+        _model.InserisciOrdine(nuovoOrdine.cliente.Id, nuovoOrdine.prodotto.Id, int.Parse(nuovoOrdine.Quantita));
         
         _orderView.Stampa("Ordine aggiunto con successo.");
     }
@@ -67,7 +67,7 @@ public class OrderController
             {
                 Id = Convert.ToInt32(reader["id"]),          // Converte l'ID dell'ordine in intero
                 DataAcquisto = Convert.ToDateTime(reader["dataAcquisto"]),        // Converte la data di acquisto in DateTime
-                Quantita = reader["quantita"].ToString(),            // Ottiene la quantità dell'ordine prendendola dlala colonna del db come stringa
+                Quantita = Convert.ToInt32(reader["quantita"]),             // Ottiene la quantità dell'ordine prendendola dlala colonna del db
                 cliente = new Cliente { Nome = reader["Cliente"].ToString() },       // Ottiene il nome del cliente e lo assegna
                 prodotto = new Prodotto { Nome = reader["Prodotto"].ToString() }       // Ottiene il nome del prodotto e lo assegna
             };

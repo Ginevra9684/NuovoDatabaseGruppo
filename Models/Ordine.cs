@@ -7,7 +7,8 @@ public class Ordine
     public DateTime DataAcquisto { get; set; }
 
     // Quantità del prodotto acquistato
-    public string ?Quantita { get; set; } 
+    //public string ?Quantita { get; set; } 
+    public int Quantita{get;set;}
 
     // Cliente associato all'ordine
     public Cliente ?cliente { get; set; } 
