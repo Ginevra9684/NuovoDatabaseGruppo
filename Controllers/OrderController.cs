@@ -39,6 +39,7 @@ public class OrderController
         }
     }
 
+/*
     // Metodo per aggiungere un nuovo ordine
     private void AggiungiOrdine()
     {
@@ -50,7 +51,16 @@ public class OrderController
         
         _orderView.Stampa("Ordine aggiunto con successo.");
     }
+*/
 
+    // Metodo per aggiungere un nuovo ordine (Menu opzione 1)
+    private void AggiungiOrdine()
+    {
+        Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine(); // Estrapola tutti i dati da inserire nel nuovoOrdine
+        _database.Ordini.Add(nuovoOrdine);  // Aggiunge il nuovo ordine tramite entity
+        _database.SaveChanges();    // Salva le modifiche tramite entity
+    }
+/*
     // Metodo per visualizzare tutti gli ordini
     private void VisualizzaOrdini()
     {
@@ -76,5 +86,12 @@ public class OrderController
 
         // Passa la lista di ordini completa alla vista per la visualizzazione all'utente
         _orderView.VisualizzaOrdini(ordini);
+    }
+*/
+    // Metodo per visualizzare tutti gli ordini (Menu opzione 2)
+    private void VisualizzaOrdini()
+    {
+        var ordini = _database.Ordini.ToList(); // Estrapola con entity una lista di ordini
+        _orderView.VisualizzaOrdini(ordini);    // Passa la lista alla view
     }
 }
