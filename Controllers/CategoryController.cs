@@ -2,13 +2,13 @@ public class CategoryController
 {
 
     // Riferimenti ai modelli e alla vista, iniettati tramite il costruttore
-    private Model _model;
+    private Database _database;
     private CategoryView _categoryView;
 
     // Costruttore che inizializza il controller con il modello e la vista
-    public CategoryController(Model model, CategoryView categoryView )
+    public CategoryController(Database database, CategoryView categoryView )
     {
-        _model = model;
+        _database = database;
         _categoryView = categoryView;
     }
 
@@ -39,7 +39,7 @@ public class CategoryController
             }
         }    
     }
-
+/*
   // Visualizza tutte le categorie (Opzione 1 nel menu)
     public void VisualizzaCategorie()   // Menu opzione 1
     {
@@ -59,8 +59,20 @@ public class CategoryController
         }
         // Passa la lista completa di categorie alla vista per la visualizzazione
         _categoryView.VisualizzaCategorie(categorie);
-    }
+    }  */
 
+
+    // Visualizza tutte le categorie (Opzione 1 nel menu)
+public void VisualizzaCategorie()   // Menu opzione 1
+{
+    // Ottiene tutte le categorie dal database e le converte in una lista
+    var categorie = _database.Categorie.ToList();
+
+    // Passa la lista completa di categorie alla vista per la visualizzazione
+    _categoryView.VisualizzaCategorie(categorie);
+}
+
+/*
     public void InserisciCategoria()    // Menu opzione 2
     {
         _categoryView.VisualizzaCategorie(new List<Categoria>());  // Visualizza le categorie attuali
@@ -68,12 +80,69 @@ public class CategoryController
         _model.InserisciCategoria(nome); //inserisce la categoria nel database tramite il modello
     }
 
+    */
+
+//Metodo per inserire una  categoria al databse
+public void InserisciCategoria()    // Menu opzione 2
+{
+    // Visualizza le categorie attuali (opzionale)
+    VisualizzaCategorie();
+
+    // Ottiene il nome della nuova categoria dalla vista
+    string nome = _categoryView.InserisciNomeCategoria();
+
+    // Crea una nuova istanza di Categoria con il nome inserito
+    var nuovaCategoria = new Categoria { Nome = nome };
+
+    // Aggiunge la nuova categoria al database
+    _database.Categorie.Add(nuovaCategoria);
+    _database.SaveChanges();  // Salva i cambiamenti nel database
+
+    // Conferma l'inserimento
+    _categoryView.Stampa("Categoria inserita con successo.");
+}
+
+/*
+
 // Metodo per eliminare una categoria esistente (Opzione 3 nel menu)
     public void EliminaCategoria()  // Menu opzione 3
     {
         VisualizzaCategorie();  // Mostra le categorie disponibili
         string nome = _categoryView.InserisciNomeCategoria();  // Usa la view per ottenere il nome da eliminare
         _model.EliminaCategoria(nome);    // Rimuove la categoria dal database tramite il modello
-    }
+    } */
+
+// Menu opzione 3 Metodo per eliminare la categoria
+    public void EliminaCategoria()  // Menu opzione 3
+{
+    // Visualizza le categorie disponibili per aiutare l'utente a selezionare quella corretta
+    VisualizzaCategorie();
+
+    // Ottiene il nome della categoria da eliminare
+    string nome = _categoryView.InserisciNomeCategoria();
+
+      // Cerca la categoria nel database in base al nome
+      //esamina tutti gli elementi in Categorie e cerca il primo elemento che soddisfa la condizione specificata (che il nome della categoria corrisponda al nome fornito)
+
+      var categoria = _database.Categorie.FirstOrDefault( c => c.Nome == nome);
+
+      // Verifica se la categoria esiste
+
+      if(categoria != null){
+        //rimuove la categoria trovata dal database
+
+        _database.Categorie.Remove(categoria);
+        _database.SaveChanges();
+         _categoryView.Stampa("Categoria eliminata con successo.");
+
+
+
+      }else{
+        // Visualizza un messaggio di errore se la categoria non è stata trovata
+        _categoryView.Stampa("Categoria non trovata.");
+      }
+
+
+}
 
 }
