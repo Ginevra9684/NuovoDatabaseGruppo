@@ -53,13 +53,15 @@ public class OrderController
     }
 */
 
-    // Metodo per aggiungere un nuovo ordine (Menu opzione 1)
+    // Metodo per aggiungere un nuovo ordine (Menu opzione 1) 
     private void AggiungiOrdine()
     {
         Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine(); // Estrapola tutti i dati da inserire nel nuovoOrdine
         _database.Ordini.Add(nuovoOrdine);  // Aggiunge il nuovo ordine tramite entity
         _database.SaveChanges();    // Salva le modifiche tramite entity
-    }
+    }  
+
+
 /*
     // Metodo per visualizzare tutti gli ordini
     private void VisualizzaOrdini()

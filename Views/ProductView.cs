@@ -32,10 +32,10 @@ public class ProductView : BaseView
     }
 
     // Inserisce il prezzo del prodotto
-    public decimal InserisciPrezzoProdotto()
+    public double InserisciPrezzoProdotto()
     {
         Stampa("Inserisci il prezzo del prodotto:");
-        return decimal.Parse(GetInput());
+        return double.Parse(GetInput());
     }
 
     // Inserisce la quantità del prodotto
@@ -73,13 +73,13 @@ public class ProductView : BaseView
     }
 
     // Modifica il prezzo di un prodotto, restituendo l'ID e il nuovo prezzo
-    public (int id, decimal nuovoPrezzo) ModificaPrezzoProdotto()
+    public (int id, double nuovoPrezzo) ModificaPrezzoProdotto()
     {
         Stampa("Inserisci l'ID del prodotto da modificare:");
         int id = int.Parse(GetInput());
         
         Stampa("Inserisci il nuovo prezzo del prodotto:");
-        decimal nuovoPrezzo = decimal.Parse(GetInput());
+        double nuovoPrezzo = Convert.ToDouble(GetInput());
 
         return (id, nuovoPrezzo);
     }

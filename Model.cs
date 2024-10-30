@@ -1,4 +1,4 @@
-using System.Data.Entity;
+/*using System.Data.Entity;
 using System.Data.SQLite;
 public class Model
 {
@@ -377,3 +377,4 @@ public class Model
 
 
 
+*/

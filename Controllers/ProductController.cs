@@ -178,7 +178,7 @@ private void ModificaPrezzoProdotto()
 
     // Richiede il nome e il nuovo prezzo del prodotto dalla vista
     string nome = _productView.InserisciNomeProdotto();
-    decimal nuovoPrezzo = _productView.InserisciPrezzoProdotto();
+    double nuovoPrezzo = _productView.InserisciPrezzoProdotto();
     //trova il prodotto nel database
     var prodotto = _database.Prodotti.FirstOrDefault(p => p.Nome == nome);
     // Se il prodotto esiste aggiorna il prezzo
@@ -485,13 +485,20 @@ private void VisualizzaProdottiCategoria()    // Menu opzione 9
 // Menu opzione 10 metodo per inserire il prodotto
     public void InserisciProdottoCategoria() // Menu opzione 10
 {
+
+    // Verifica se esistono categorie nel database
+    if (!_database.Categorie.Any())
+    {
+        _productView.Stampa("Non ci sono categorie disponibili. Inserisci una categoria prima di aggiungere un prodotto.");
+        return; // Termina l'esecuzione del metodo
+    }
     // Mostra le categorie disponibili
     _categoryController.VisualizzaCategorie();
 
     // Richiede l'ID della categoria da associare al nuovo prodotto
     int id_categoria = _productView.InserisciIdCategoria();
     string nome = _productView.InserisciNomeProdotto();
-    decimal prezzo = _productView.InserisciPrezzoProdotto();
+    double prezzo = _productView.InserisciPrezzoProdotto();
     int quantita = _productView.InserisciQuantitaProdotto();
 
         // Cerca la categoria nel database per verificare che esista

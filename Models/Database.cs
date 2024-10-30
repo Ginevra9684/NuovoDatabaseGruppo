@@ -13,4 +13,13 @@ public class Database : DbContext
     {
         options.UseSqlite("Data Source = database.db");  // Usa un database SQLite
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Prodotto>()
+            .HasOne(p => p.Categoria)
+            .WithMany()
+            .HasForeignKey(p => p.Id_categoria)
+            .OnDelete(DeleteBehavior.SetNull); // Imposta il riferimento a null quando la categoria viene eliminata
+    }
 }
