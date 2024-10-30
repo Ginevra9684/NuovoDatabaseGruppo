@@ -6,12 +6,16 @@ public class OrderController
 {
     private Database _database;  // Riferimento al modello per l'accesso ai dati degli ordini
     private OrderView _orderView;  // Riferimento alla vista per visualizzare l'interfaccia degli ordini
+    private ProductController _productController; // Riferimento al controller prodotti per richiamarne i metodi
+    private CustomerController _customerController; // Riferimento al controller clienti per richiamarne i metodi
 
-     // Costruttore che inizializza il controller degli ordini con il modello e la vista
-    public OrderController(Database database, OrderView orderView)
+     // Costruttore che inizializza il controller degli ordini con il modello, la vista e i controller di prodotti e clienti
+    public OrderController(Database database, OrderView orderView, ProductController productController, CustomerController customerController)
     {
         _database = database;
         _orderView = orderView;
+        _productController = productController;
+        _customerController = customerController;
     }
 
     // Metodo per mostrare il menu degli ordini
@@ -31,6 +35,12 @@ public class OrderController
                     VisualizzaOrdini();
                     break;
                 case "3":
+                    ModificaOrdine();
+                    break;
+                case "4":
+                    EliminaOrdine();
+                    break;
+                case "5":
                     return; // Torna al menu principale
                 default:
                     _orderView.Stampa("Opzione non valida.");
@@ -63,37 +73,39 @@ public class OrderController
 */
 
 // Metodo per aggiungere un ordine (Menu opzione 1)
-private void AggiungiOrdine()
-{
-    // Richiede i dettagli dell'ordine dall'utente tramite la vista e crea un nuovo ordine
-    Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine();
-
-    // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
-    // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
-    nuovoOrdine.cliente = _database.Clienti.Find(nuovoOrdine.cliente.Id);
-
-    // Recupera il prodotto esistente dal database utilizzando l'ID specificato nell'ordine
-    // Anche qui si garantisce che l'entità prodotto sia tracciata dal contesto di Entity Framework
-    nuovoOrdine.prodotto = _database.Prodotti.Find(nuovoOrdine.prodotto.Id);
-
-    // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
-    if (nuovoOrdine.cliente != null && nuovoOrdine.prodotto != null)
+    private void AggiungiOrdine()
     {
-        // Aggiunge il nuovo ordine 
-        _database.Ordini.Add(nuovoOrdine);
+        _productController.VisualizzaProdotti();
+        _customerController.VisualizzaClienti();
+        // Richiede i dettagli dell'ordine dall'utente tramite la vista e crea un nuovo ordine
+        Ordine nuovoOrdine = _orderView.AggiungiOrdine();
 
-        // Salva le modifiche nel database, inclusa la creazione del nuovo ordine
-        _database.SaveChanges();
+        // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
+        // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
+        nuovoOrdine.cliente = _database.Clienti.Find(nuovoOrdine.cliente.Id);
 
-        // Conferma l'aggiunta dell'ordine tramite la vista
-        _orderView.Stampa("Ordine aggiunto con successo.");
+        // Recupera il prodotto esistente dal database utilizzando l'ID specificato nell'ordine
+        // Anche qui si garantisce che l'entità prodotto sia tracciata dal contesto di Entity Framework
+        nuovoOrdine.prodotto = _database.Prodotti.Find(nuovoOrdine.prodotto.Id);
+
+        // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
+        if (nuovoOrdine.cliente != null && nuovoOrdine.prodotto != null)
+        {
+            // Aggiunge il nuovo ordine 
+            _database.Ordini.Add(nuovoOrdine);
+
+            // Salva le modifiche nel database, inclusa la creazione del nuovo ordine
+            _database.SaveChanges();
+
+            // Conferma l'aggiunta dell'ordine tramite la vista
+            _orderView.Stampa("Ordine aggiunto con successo.");
+        }
+        else
+        {
+            // Mostra un messaggio di errore se il cliente o il prodotto non sono stati trovati nel database
+            _orderView.Stampa("Errore: Cliente o prodotto non trovato.");
+        }
     }
-    else
-    {
-        // Mostra un messaggio di errore se il cliente o il prodotto non sono stati trovati nel database
-        _orderView.Stampa("Errore: Cliente o prodotto non trovato.");
-    }
-}
 
 
 
@@ -130,5 +142,44 @@ private void AggiungiOrdine()
     {
         var ordini = _database.Ordini.ToList(); // Estrapola con entity una lista di ordini
         _orderView.VisualizzaOrdini(ordini);    // Passa la lista alla view
+    }
+
+    // Metodo per modificare un ordine esistente (Menu opzione 3)
+    private void ModificaOrdine()
+    {
+        VisualizzaOrdini();
+        Ordine ordineDaModificare = _orderView.ModificaOrdine();
+
+        var ordine = _database.Ordini.FirstOrDefault(o => o.cliente.Id == ordineDaModificare.cliente.Id);   // Cerca un ordine tramite Id cliente
+        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == ordineDaModificare.prodotto.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
+        if (ordine != null && prodotto != null && ordineDaModificare.Quantita != null)
+        {
+            ordine.prodotto = prodotto; // Aggiorna il prodotto nell'ordine
+            ordineDaModificare.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
+            _database.SaveChanges();    // Salva le modifiche
+            _orderView.Stampa("Ordine modificato con successo.");
+        }
+        else
+        {
+            _orderView.Stampa("Ordine non trovato");
+        }
+    }
+
+    // Metodo per eliminare un ordine esistente (Menu opzione 4)
+    private void EliminaOrdine()
+    {
+        VisualizzaOrdini();
+        int id = _orderView.EliminaOrdine();
+        var ordine = _database.Ordini.FirstOrDefault(o => o.Id == id);  // Cerca l'ordine tramite id
+        if (ordine != null)
+        {
+            _database.Remove(ordine);   // Elimina l'ordine
+            _database.SaveChanges();    // Salva le modifiche
+            _orderView.Stampa("Ordine eliminato con successo.");
+        }
+        else
+        {
+            _orderView.Stampa("Ordine non trovato");
+        }
     }
 }

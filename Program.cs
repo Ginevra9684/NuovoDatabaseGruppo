@@ -50,7 +50,7 @@ class Program
             var categoryController = new CategoryController(database, categoryView);
             var productController = new ProductController(database, productView, categoryController);
             var customerController = new CustomerController(database, customerView);
-            var orderController = new OrderController(database, orderView);
+            var orderController = new OrderController(database, orderView, productController, customerController);
             var baseController = new BaseController(database, baseView, categoryController, productController, customerController, orderController);
 
             // Avvio del menu principale

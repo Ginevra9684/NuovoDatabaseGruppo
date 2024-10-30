@@ -45,4 +45,16 @@ public class BaseView
         // Stampa il testo fornito sulla console
         Console.WriteLine(testo);
     }
+
+    public void Proseguimento()
+    {
+        Stampa("Premere un tasto per proseguire...");
+        Console.ReadKey();
+        Console.Clear();
+    }
+
+    public void Errore()
+    {
+        Stampa("Opzione non valida\n");
+    }
 }
