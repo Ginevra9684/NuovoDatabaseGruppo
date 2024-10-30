@@ -1,15 +1,16 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
 public class OrderController
 {
-    private Model _model;  // Riferimento al modello per l'accesso ai dati degli ordini
+    private Database _database;  // Riferimento al modello per l'accesso ai dati degli ordini
     private OrderView _orderView;  // Riferimento alla vista per visualizzare l'interfaccia degli ordini
 
      // Costruttore che inizializza il controller degli ordini con il modello e la vista
-    public OrderController(Model model, OrderView orderView)
+    public OrderController(Database database, OrderView orderView)
     {
-        _model = model;
+        _database = database;
         _orderView = orderView;
     }
 
@@ -45,7 +46,7 @@ public class OrderController
         Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine();
 
         // Chiama il modello per inserire il nuovo ordine
-        _model.InserisciOrdine(nuovoOrdine.cliente.Id, nuovoOrdine.prodotto.Id, int.Parse(nuovoOrdine.Quantita));
+        _database.InserisciOrdine(nuovoOrdine.cliente.Id, nuovoOrdine.prodotto.Id, int.Parse(nuovoOrdine.Quantita));
         
         _orderView.Stampa("Ordine aggiunto con successo.");
     }

@@ -4,10 +4,10 @@ public class Database : DbContext
 {
 
 //---TABELLE DATABASE-----------------------------------------------------------------------------------------------------------------
-    private DbSet<Prodotto> _prodotti { get; set; }
-    private DbSet<Categoria> _categorie { get; set; }
-    private DbSet<Cliente> _clienti { get; set; }
-    private DbSet<Ordine> _ordini { get; set; }
+   public DbSet<Prodotto> Prodotti { get; set; }
+    public DbSet<Categoria> Categorie { get; set; }
+    public DbSet<Cliente> Clienti { get; set; }
+    public DbSet<Ordine> Ordini { get; set; }
 //------------------------------------------------------------------------------------------------------------------------------------
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
