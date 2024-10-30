@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class ProductController
 {
-    // Riferimenti al modello e alla vista per gestire i dati e l'interfaccia dei prodotti
+    // Riferimenti al Database e alla vista per gestire i dati e l'interfaccia dei prodotti
     //private Model _model;
 
     private Database _database;
@@ -194,12 +194,38 @@ private void ModificaPrezzoProdotto()
 
 }
 
+/*
     public void EliminaProdotto()   // Menu opzione 5
     {
         string nome = _productView.InserisciNomeProdotto();
         _model.EliminaProdotto(nome);
+    }  */
+
+
+    // Menu opzione 5 Metodo per eliminare un prodotto con Entity Framework
+public void EliminaProdotto()
+{
+    // Richiede il nome del prodotto da eliminare
+    string nome = _productView.InserisciNomeProdotto();
+//trova il prodotto nel database
+    var prodotto = _database.Prodotti.FirstOrDefault(p => p.Nome == nome);
+
+      // Se il prodotto esiste, lo elimina
+       if (prodotto != null)
+    {
+
+        _database.Prodotti.Remove(prodotto);   //rimuove il prodotto dal dbset
+        _database.SaveChanges();            //salva le modifiche nel database
+        _productView.Stampa("Prodotto eliminato con successo.");
+
+    } else
+    {
+        _productView.Stampa("Prodotto non trovato.");
     }
 
+}
+/*
+// Metodo per trovare il prodotto con il prezzo più alto nel database
     private void VisualizzaProdottoPiuCostoso() // Menu opzione 6
     {
         Prodotto? prodotto = null; // Inizializza una variabile `Prodotto` come `null`  per indicare che al momento non è stato trovato alcun prodotto se lo trova verrà popolato
@@ -234,7 +260,37 @@ private void ModificaPrezzoProdotto()
             _productView.Stampa("Nessun prodotto trovato.");
         }
     }
+*/
 
+
+//Menu opzione 6 metodo per visualizzare il prodotto più costoso
+
+private void VisualizzaProdottoPiuCostoso() // Menu opzione 6
+{
+     // Trova il prodotto con il prezzo più alto nel database
+
+     // Include in questo caso include i dettagli della categoria
+     //.FirstOrDefault(); in questo caso prende il primo prodotto con il prezzo più alto
+
+
+     var prodotto = _database.Prodotti.OrderByDescending(p => p.Prezzo).Include(p => p.Categoria).FirstOrDefault();
+// Verifica se il prodotto più costoso è stato trovato
+    if (prodotto != null)
+    {
+        // Se il prodotto esiste passa l'oggetto `Prodotto` alla vista per visualizzare i dettagli
+        _productView.VisualizzaProdottoPiuCostoso(prodotto);
+    }
+    else
+    {
+        // Se nessun prodotto è stato trovato, visualizza un messaggio di avviso
+        _productView.Stampa("Nessun prodotto trovato.");
+    }
+
+
+}
+
+
+/*
 
     // Metodo per visualizzare il prodotto meno costoso
     private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
@@ -266,7 +322,28 @@ private void ModificaPrezzoProdotto()
         {
             _productView.Stampa("Nessun prodotto trovato.");
         }
+    }  */
+
+//Menu opzione 7 metodo per visualizzare il prodotto meno costoso
+    private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
+{
+    // Trova il prodotto con il prezzo più basso nel database
+    //.OrderBy ordina i prodotti dal prezzo più basso a quello più alto
+    var prodotto = _database.Prodotti.OrderBy(p => p.Prezzo).Include(p => p.Categoria) .FirstOrDefault();
+
+    // Verifica se il prodotto meno costoso è stato trovato
+    if (prodotto != null)
+    {
+        // Se il prodotto esiste passa l'oggetto `Prodotto` alla vista per visualizzare i dettagli
+        _productView.VisualizzaProdottoMenoCostoso(prodotto);
     }
+    else
+    {
+        // Se nessun prodotto è stato trovato, visualizza un messaggio di avviso
+        _productView.Stampa("Nessun prodotto trovato.");
+    }
+}
+
 
     /*
         private void InserisciProdotto()    // Menu opzione 8
@@ -286,7 +363,7 @@ private void ModificaPrezzoProdotto()
             _model.InserisciProdotto(nome, prezzo, giacenza, id_categoria);
         }
     */
-
+/*
     //Metodo Visualizzaprodotto Menu 8
     private void VisualizzaProdotto()  // Menu opzione 8
     {
@@ -318,8 +395,30 @@ private void ModificaPrezzoProdotto()
         {
             _productView.Stampa("Prodotto non trovato.");
         }
+    } */
+
+//Menu opzione 8 metodo per visualizzare il singolo prodotto
+    private void VisualizzaProdotto()  // Menu opzione 8
+{
+    // Richiede il nome del prodotto dalla vista
+    string nome = _productView.InserisciNomeProdotto();
+    // Recupera i dati del prodotto dal database inclusa la categoria associata
+    var prodotto = _database.Prodotti.Include(p => p.Categoria).FirstOrDefault(p => p.Nome == nome);// Cerca il prodotto con il nome specificato
+
+     // Verifica se è stato trovato un prodotto e lo visualizza altrimenti stampa un messaggio di errore
+    if (prodotto != null)
+    {
+
+        _productView.VisualizzaProdotto(prodotto);
+         }
+    else
+    {
+        _productView.Stampa("Prodotto non trovato.");
     }
 
+}
+
+/*
     // metodo per ottenere i prodotti in base alla categoria specificata Menu 9
     private void VisualizzaProdottiCategoria()    // Menu opzione 9
     {
@@ -346,6 +445,27 @@ private void ModificaPrezzoProdotto()
         // Visualizza i prodotti della categoria usando `ProductView`
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
+*/
+
+//Menu opzione 9 metodo per visualizzare tutti i prodotti associati ad una categoria specifica
+private void VisualizzaProdottiCategoria()    // Menu opzione 9
+{
+    // visualizza le categorie disponibili
+    _categoryController.VisualizzaCategorie(); 
+// Richiede l'ID della categoria
+    int id_categoria = _productView.InserisciIdCategoria();
+
+    // Ottiene i prodotti della categoria specificata, includendo i dettagli della categoria
+    //Where(p => p.Id_categoria == id_categoria) filtra i prodotti in base all'ID della categoria specificata
+    //ToList() esegue la query e converte i risultati in una lista da passare alla view
+    var prodottiCategoria = _database.Prodotti.Include(p => p.Categoria).Where(p=>p.Id_categoria ==id_categoria).ToList();
+
+// Visualizza i prodotti della categoria usando `ProductView`
+    _productView.VisualizzaProdottiCategoria(prodottiCategoria);
+
+}
+
+/*
     // Menu opzione 10: Metodo per inserire un nuovo prodotto in una categoria specifica
     public void InserisciProdottoCategoria()    // Menu opzione 10
     {
@@ -360,5 +480,47 @@ private void ModificaPrezzoProdotto()
         decimal prezzo = _productView.InserisciPrezzoProdotto();
         int quantita = _productView.InserisciQuantitaProdotto();
         _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
+    }  */
+
+// Menu opzione 10 metodo per inserire il prodotto
+    public void InserisciProdottoCategoria() // Menu opzione 10
+{
+    // Mostra le categorie disponibili
+    _categoryController.VisualizzaCategorie();
+
+    // Richiede l'ID della categoria da associare al nuovo prodotto
+    int id_categoria = _productView.InserisciIdCategoria();
+    string nome = _productView.InserisciNomeProdotto();
+    decimal prezzo = _productView.InserisciPrezzoProdotto();
+    int quantita = _productView.InserisciQuantitaProdotto();
+
+        // Cerca la categoria nel database per verificare che esista
+       // quindi confronta l’ID di ciascuna Categoria con l’id_categoria fornito dall’utente
+       //Se una categoria con Id corrispondente a id_categoria esiste FirstOrDefault restituirà quella categoria
+
+        var categoria = _database.Categorie.FirstOrDefault(c => c.Id == id_categoria);
+
+          if (categoria != null)
+    {
+        // Crea un nuovo prodotto con le informazioni fornite dall'utente
+        var nuovoProdotto = new Prodotto{
+            Nome = nome,
+            Prezzo = prezzo,
+            Giacenza = quantita,
+            Categoria = categoria, // Associa la categoria esistente
+            Id_categoria = id_categoria
+        };
+        // Aggiunge il nuovo prodotto al database e salva le modifiche
+        _database.Prodotti.Add(nuovoProdotto);
+        _database.SaveChanges();
+
+        // Conferma l'inserimento alla vista
+        _productView.Stampa("Prodotto inserito con successo!");
+
+        } else
+    {
+        _productView.Stampa("Categoria non trovata. Inserimento annullato.");
     }
+
+}
 }
