@@ -53,13 +53,48 @@ public class OrderController
     }
 */
 
-    // Metodo per aggiungere un nuovo ordine (Menu opzione 1) 
+ /*   // Metodo per aggiungere un nuovo ordine (Menu opzione 1) 
     private void AggiungiOrdine()
     {
         Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine(); // Estrapola tutti i dati da inserire nel nuovoOrdine
         _database.Ordini.Add(nuovoOrdine);  // Aggiunge il nuovo ordine tramite entity
         _database.SaveChanges();    // Salva le modifiche tramite entity
     }  
+*/
+
+// Metodo per aggiungere un ordine (Menu opzione 1)
+private void AggiungiOrdine()
+{
+    // Richiede i dettagli dell'ordine dall'utente tramite la vista e crea un nuovo ordine
+    Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine();
+
+    // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
+    // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
+    nuovoOrdine.cliente = _database.Clienti.Find(nuovoOrdine.cliente.Id);
+
+    // Recupera il prodotto esistente dal database utilizzando l'ID specificato nell'ordine
+    // Anche qui si garantisce che l'entità prodotto sia tracciata dal contesto di Entity Framework
+    nuovoOrdine.prodotto = _database.Prodotti.Find(nuovoOrdine.prodotto.Id);
+
+    // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
+    if (nuovoOrdine.cliente != null && nuovoOrdine.prodotto != null)
+    {
+        // Aggiunge il nuovo ordine 
+        _database.Ordini.Add(nuovoOrdine);
+
+        // Salva le modifiche nel database, inclusa la creazione del nuovo ordine
+        _database.SaveChanges();
+
+        // Conferma l'aggiunta dell'ordine tramite la vista
+        _orderView.Stampa("Ordine aggiunto con successo.");
+    }
+    else
+    {
+        // Mostra un messaggio di errore se il cliente o il prodotto non sono stati trovati nel database
+        _orderView.Stampa("Errore: Cliente o prodotto non trovato.");
+    }
+}
+
 
 
 /*
