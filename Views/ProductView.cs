@@ -50,7 +50,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
         }
     }
 
@@ -59,7 +59,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
         }
     }
 
@@ -68,7 +68,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
         }
     }
 
@@ -94,19 +94,19 @@ public class ProductView : BaseView
     // Visualizza il prodotto più costoso
     public void VisualizzaProdottoPiuCostoso(Prodotto prodotto)
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
     }
 
     // Visualizza il prodotto meno costoso
     public void VisualizzaProdottoMenoCostoso(Prodotto prodotto)
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
     }
 
     // Visualizza i dettagli di un prodotto specifico
     public void VisualizzaProdotto(Prodotto prodotto)
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
     }
 
     // Visualizza tutti i prodotti appartenenti a una categoria specifica
@@ -114,7 +114,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Id categoria: {prodotto.Id_categoria}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
         }
     }
 }
