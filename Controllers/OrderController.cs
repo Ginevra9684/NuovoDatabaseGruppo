@@ -83,11 +83,11 @@ public class OrderController
 
         // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
         // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
-        nuovoOrdine.cliente = _database.Clienti.Find(nuovoOrdine.cliente.Id);
+        nuovoOrdine.cliente = _database.Clienti.Find(nuovoOrdine.cliente!.Id);
 
         // Recupera il prodotto esistente dal database utilizzando l'ID specificato nell'ordine
         // Anche qui si garantisce che l'entità prodotto sia tracciata dal contesto di Entity Framework
-        nuovoOrdine.prodotto = _database.Prodotti.Find(nuovoOrdine.prodotto.Id);
+        nuovoOrdine.prodotto = _database.Prodotti.Find(nuovoOrdine.prodotto!.Id);
 
         // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
         if (nuovoOrdine.cliente != null && nuovoOrdine.prodotto != null)
@@ -162,13 +162,17 @@ public class OrderController
         Ordine ordineDaModificare = _orderView.ModificaOrdine();
 
         var ordine = _database.Ordini.FirstOrDefault(o => o.Id == ordineDaModificare.Id);   // Cerca un ordine tramite Id cliente
-        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == ordineDaModificare.prodotto.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
-        if (ordine != null && prodotto != null && ordineDaModificare.Quantita != null)
+        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == ordineDaModificare.prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
+        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= prodotto.Giacenza)
         {
             ordine.prodotto = prodotto; // Aggiorna il prodotto nell'ordine
             ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
             _database.SaveChanges();    // Salva le modifiche
             _orderView.Stampa("Ordine modificato con successo.");
+        }
+        else if (ordineDaModificare.Quantita > prodotto!.Giacenza)
+        {
+            _orderView.Stampa("Giacenza prodotto non sufficiente");
         }
         else
         {
