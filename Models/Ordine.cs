@@ -1,18 +1,22 @@
-public class Ordine
+using System.Configuration;
+
+public class Ordine : General
 {
-    // Identificatore univoco dell'ordine
-    public int Id { get; set; }
+    private DateTime dataAcquisto;
+    // private override string Nome = "";
+
+    public override string Nome { get => Nome; set => Nome = $"BRT-{Id}_{Cliente!.Id}"; }
 
     // Data in cui è stato effettuato l'acquisto
-    public DateTime DataAcquisto { get; set; }
+    public DateTime DataAcquisto { get => dataAcquisto; set => dataAcquisto = value; }
 
     // Quantità del prodotto acquistato
     //public string ?Quantita { get; set; } 
     public int Quantita{get;set;}
 
     // Cliente associato all'ordine
-    public Cliente ?cliente { get; set; } 
+    public Cliente? Cliente { get; set; } 
 
     // Prodotto associato all'ordine
-    public Prodotto ?prodotto { get; set; }
+    public Prodotto? Prodotto { get; set; }
 }

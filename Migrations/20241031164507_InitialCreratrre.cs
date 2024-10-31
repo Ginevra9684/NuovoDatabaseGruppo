@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NuovoDatabaseGruppo.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateDeleteBehavior : Migration
+    public partial class InitialCreratrre : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace NuovoDatabaseGruppo.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: true)
+                    Nome = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace NuovoDatabaseGruppo.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: true)
+                    Nome = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,7 +44,7 @@ namespace NuovoDatabaseGruppo.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nome = table.Column<string>(type: "TEXT", nullable: true),
-                    Prezzo = table.Column<decimal>(type: "TEXT", nullable: false),
+                    Prezzo = table.Column<double>(type: "REAL", nullable: false),
                     Giacenza = table.Column<int>(type: "INTEGER", nullable: false),
                     Id_categoria = table.Column<int>(type: "INTEGER", nullable: true)
                 },
@@ -65,35 +65,36 @@ namespace NuovoDatabaseGruppo.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: false),
                     DataAcquisto = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Quantita = table.Column<int>(type: "INTEGER", nullable: false),
-                    clienteId = table.Column<int>(type: "INTEGER", nullable: true),
-                    prodottoId = table.Column<int>(type: "INTEGER", nullable: true)
+                    ClienteId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ProdottoId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ordini", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ordini_Clienti_clienteId",
-                        column: x => x.clienteId,
+                        name: "FK_Ordini_Clienti_ClienteId",
+                        column: x => x.ClienteId,
                         principalTable: "Clienti",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Ordini_Prodotti_prodottoId",
-                        column: x => x.prodottoId,
+                        name: "FK_Ordini_Prodotti_ProdottoId",
+                        column: x => x.ProdottoId,
                         principalTable: "Prodotti",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ordini_clienteId",
+                name: "IX_Ordini_ClienteId",
                 table: "Ordini",
-                column: "clienteId");
+                column: "ClienteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ordini_prodottoId",
+                name: "IX_Ordini_ProdottoId",
                 table: "Ordini",
-                column: "prodottoId");
+                column: "ProdottoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Prodotti_Id_categoria",

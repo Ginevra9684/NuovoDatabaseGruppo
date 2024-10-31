@@ -23,6 +23,7 @@ namespace NuovoDatabaseGruppo.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -37,6 +38,7 @@ namespace NuovoDatabaseGruppo.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Nome")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -50,23 +52,27 @@ namespace NuovoDatabaseGruppo.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ClienteId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("DataAcquisto")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProdottoId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Quantita")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("clienteId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("prodottoId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("clienteId");
+                    b.HasIndex("ClienteId");
 
-                    b.HasIndex("prodottoId");
+                    b.HasIndex("ProdottoId");
 
                     b.ToTable("Ordini");
                 });
@@ -98,17 +104,17 @@ namespace NuovoDatabaseGruppo.Migrations
 
             modelBuilder.Entity("Ordine", b =>
                 {
-                    b.HasOne("Cliente", "cliente")
+                    b.HasOne("Cliente", "Cliente")
                         .WithMany()
-                        .HasForeignKey("clienteId");
+                        .HasForeignKey("ClienteId");
 
-                    b.HasOne("Prodotto", "prodotto")
+                    b.HasOne("Prodotto", "Prodotto")
                         .WithMany()
-                        .HasForeignKey("prodottoId");
+                        .HasForeignKey("ProdottoId");
 
-                    b.Navigation("cliente");
+                    b.Navigation("Cliente");
 
-                    b.Navigation("prodotto");
+                    b.Navigation("Prodotto");
                 });
 
             modelBuilder.Entity("Prodotto", b =>

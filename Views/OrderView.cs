@@ -19,7 +19,7 @@ public class OrderView : BaseView
         // Chiede l'ID del cliente e lo assegna all'ordine
         // Stampa("Inserisci l'ID del cliente:");
         int idCliente = GetIntInput("Inserisci l'ID del cliente:");
-        ordine.cliente = new Cliente { Id = idCliente };
+        ordine.Cliente = new Cliente { Id = idCliente };
 
         // Imposta la data di acquisto come data e ora attuale
         ordine.DataAcquisto = DateTime.Now;
@@ -27,7 +27,7 @@ public class OrderView : BaseView
         // Chiede l'ID del prodotto e lo assegna all'ordine
         // Stampa("Inserisci l'ID del prodotto:");
         int idProdotto = GetIntInput("Inserisci l'ID del prodotto:");
-        ordine.prodotto = new Prodotto { Id = idProdotto };
+        ordine.Prodotto = new Prodotto { Id = idProdotto };
 
         // Chiede la quantità e la assegna all'ordine
         // Stampa("Inserisci la quantità:");
@@ -52,9 +52,9 @@ public class OrderView : BaseView
             Stampa($"Data Acquisto: {ordine.DataAcquisto.ToString("yyyy-MM-dd HH:mm:ss")}");
 
             // Visualizza il nome del cliente associato, se presente
-            if (ordine.cliente != null)
+            if (ordine.Cliente != null)
             {
-                Stampa($"Cliente: {ordine.cliente.Nome}");
+                Stampa($"Cliente: {ordine.Cliente.Nome}");
             }
             else
             {
@@ -62,9 +62,9 @@ public class OrderView : BaseView
             }
 
             // Visualizza il nome del prodotto associato, se presente
-            if (ordine.prodotto != null)
+            if (ordine.Prodotto != null)
             {
-                Stampa($"Prodotto: {ordine.prodotto.Nome}");
+                Stampa($"Prodotto: {ordine.Prodotto.Nome}");
             }
             else
             {
@@ -86,7 +86,7 @@ public class OrderView : BaseView
 
         // Stampa("Inserisci l'ID del nuovo prodotto :");
         int idProdotto = GetIntInput("Inserisci l'ID del nuovo prodotto :"); // Richiede l'id del nuovo prodotto
-        ordine.prodotto = new Prodotto { Id = idProdotto };
+        ordine.Prodotto = new Prodotto { Id = idProdotto };
 
         // Stampa("Inserisci la quantità:");
         ordine.Quantita = GetIntInput("Inserisci la quantità:");    // Richiede la nuova quantità
