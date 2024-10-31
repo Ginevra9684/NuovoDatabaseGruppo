@@ -37,7 +37,7 @@ public class Model
                                 nome TEXT NOT NULL
                             );
 
-                           CREATE TABLE ordini (
+                            CREATE TABLE ordini (
                             id INTEGER PRIMARY KEY AUTOINCREMENT, 
                             cliente_id INTEGER,
                             prodotto_id INTEGER,
@@ -48,7 +48,6 @@ public class Model
                         );
 
 
-                           
                             INSERT INTO categorie (nome) VALUES ('c1');
                             INSERT INTO categorie (nome) VALUES ('c2');
                             INSERT INTO categorie (nome) VALUES ('c3');

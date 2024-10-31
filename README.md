@@ -67,13 +67,15 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] In BaseView menu principale
 - [x] In BaseController richiamati gli altri controller
 - [x] Aggiunta nuova tabella ordini
-- [ ] Creare OrdersView
-- [ ] Creare OrdersController
-- [ ] Metodo VisualizzaOrdini
-- [ ] Metodo InserisciOrdine
-- [ ] Aggiunta commenti
-- [ ] Conversione lingua
-- [ ] Revisione
+- [x] Creare OrdersView
+- [x] Creare OrdersController
+- [x] Metodo VisualizzaOrdini
+- [x] Metodo InserisciOrdine
+- [x] Metodo ModificaOrdine
+- [x] Metodo EliminaOrdine
+- [x] Aggiunta commenti
+- [x] Conversione lingua
+- [x] Revisione
 
 
 </details>
@@ -99,7 +101,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 
 ## PASSAGGIO AD ENTITY FRAMEWORK
 
-- [ ] Aggiungere i pacchetti per entity framework
+- [x] Aggiungere i pacchetti per entity framework
 
 - dotnet add package Microsoft.EntityFrameworkCore;
 - oppure dotnet add package Microsoft.EntityFrameworkCore.Sqlite;
@@ -108,10 +110,11 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - dotnet add package Microsoft.EntityFrameworkCore.Tools
 - Se non lo si ha mai installato in locale ----> dotnet tool install --global dotnet-ef 
 
-- [ ] Visto che Model.cs dovrebbe essere Database.cs lo si commenta e si crea il nuovo file Database.cs
-- [ ] Creare proprietà DB Context per far si che i modelli corrispondano ai campi delle tabelle
-- [ ] Interagire con le proprietà DB Context per estrapolare/aggiungere/modificare dati nelle varie tabelle invece di passare per stringhe SQL
+- [x] Visto che Model.cs dovrebbe essere Database.cs lo si commenta e si crea il nuovo file Database.cs
+- [x] Creare proprietà DB Context per far si che i modelli corrispondano ai campi delle tabelle
+- [x] Interagire con le proprietà DB Context per estrapolare/aggiungere/modificare dati nelle varie tabelle invece di passare per stringhe SQL
 
-- [ ] Per creare la migrazione delle DB Context properties dotnet ef migrations add InitialCreate
-- [ ] Per salvare dotnet ef database update
+- [x] Per creare la migrazione delle DB Context properties dotnet ef migrations add InitialCreate
+- [x] Per salvare dotnet ef database update
+- [x] Cancellazione del reader dai controller e passaggio dei parametri giusti ad entity
 

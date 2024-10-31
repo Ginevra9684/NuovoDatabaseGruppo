@@ -148,14 +148,15 @@ public class OrderController
     private void ModificaOrdine()
     {
         VisualizzaOrdini();
+        _productController.VisualizzaProdotti();
         Ordine ordineDaModificare = _orderView.ModificaOrdine();
 
-        var ordine = _database.Ordini.FirstOrDefault(o => o.cliente.Id == ordineDaModificare.cliente.Id);   // Cerca un ordine tramite Id cliente
+        var ordine = _database.Ordini.FirstOrDefault(o => o.Id == ordineDaModificare.Id);   // Cerca un ordine tramite Id cliente
         var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == ordineDaModificare.prodotto.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
         if (ordine != null && prodotto != null && ordineDaModificare.Quantita != null)
         {
             ordine.prodotto = prodotto; // Aggiorna il prodotto nell'ordine
-            ordineDaModificare.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
+            ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
             _database.SaveChanges();    // Salva le modifiche
             _orderView.Stampa("Ordine modificato con successo.");
         }
