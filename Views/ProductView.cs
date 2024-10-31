@@ -8,13 +8,14 @@ public class ProductView : BaseView
         Stampa("2 - Visualizzare i prodotti ordinati per prezzo");
         Stampa("3 - Visualizzare i prodotti ordinati per quantità");
         Stampa("4 - Modificare il prezzo di un prodotto");
-        Stampa("5 - Eliminare un prodotto");
-        Stampa("6 - Visualizzare il prodotto più costoso");
-        Stampa("7 - Visualizzare il prodotto meno costoso");
-        Stampa("8 - Visualizzare un prodotto");
-        Stampa("9 - Visualizzare i prodotti di una categoria");
-        Stampa("10 - Inserire un prodotto in una categoria");
-        Stampa("11 - Torna al menu principale");
+        Stampa("5 - Modificare la giacenza di un prodotto");
+        Stampa("6 - Eliminare un prodotto");
+        Stampa("7 - Visualizzare il prodotto più costoso");
+        Stampa("8 - Visualizzare il prodotto meno costoso");
+        Stampa("9 - Visualizzare un prodotto");
+        Stampa("10 - Visualizzare i prodotti di una categoria");
+        Stampa("11 - Inserire un prodotto in una categoria");
+        Stampa("12 - Torna al menu principale");
     }
 
     // Inserisce l'ID della categoria
@@ -29,6 +30,12 @@ public class ProductView : BaseView
     {
         Stampa("Inserisci il nome del prodotto:");
         return GetInput();
+    }
+
+    // Inserisce l'Id del prodotto
+    public int InserisciIdProdotto()
+    {
+        return GetIntInput("Inserisci l'Id del prodotto:");
     }
 
     // Inserisce il prezzo del prodotto
