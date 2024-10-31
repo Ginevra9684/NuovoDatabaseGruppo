@@ -178,6 +178,7 @@ public class ProductController
 //Menu Opzione 4
     private void ModificaPrezzoProdotto()
     {
+        VisualizzaProdotti();
         // Richiede il nome e il nuovo prezzo del prodotto dalla vista
         string nome = _productView.InserisciNomeProdotto();
         double nuovoPrezzo = _productView.InserisciPrezzoProdotto();
@@ -208,6 +209,7 @@ public class ProductController
     // Menu opzione 5 Metodo per eliminare un prodotto con Entity Framework
     public void EliminaProdotto()
     {
+        VisualizzaProdotti();
         // Richiede il nome del prodotto da eliminare
         string nome = _productView.InserisciNomeProdotto();
         //trova il prodotto nel database
