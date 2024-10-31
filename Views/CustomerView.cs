@@ -31,15 +31,15 @@ public class CustomerView : BaseView
       // Metodo per eliminare un cliente restituisce l'ID del cliente da eliminare
     public int EliminaCliente()
     {
-        Stampa("Inserisci l'ID del cliente da eliminare:");
-        return int.Parse(GetInput());
+        // Stampa("Inserisci l'ID del cliente da eliminare:");
+        return GetIntInput("Inserisci l'ID del cliente da eliminare:");
     }
 
       // Metodo per modificare un cliente, restituisce un nuovo nome da aggiornare
     public (int id, string nuovoNome) ModificaCliente()
     {
-        Stampa("Inserisci l'ID del cliente da modificare:");
-        int id = int.Parse(GetInput());
+        // Stampa("Inserisci l'ID del cliente da modificare:");
+        int id = GetIntInput("Inserisci l'ID del cliente da modificare:");
         
         Stampa("Inserisci il nuovo nome del cliente:");
         string nuovoNome = GetInput();

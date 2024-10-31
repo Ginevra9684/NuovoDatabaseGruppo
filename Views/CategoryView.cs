@@ -23,8 +23,8 @@ public class CategoryView : BaseView
     public int InserisciIdCategoria()
     {
         // Chiede l'ID della categoria e lo restituisce come intero
-        Stampa("Inserisci l'ID della categoria:");
-        return int.Parse(GetInput());
+        // Stampa("Inserisci l'ID della categoria:");
+        return GetIntInput("Inserisci l'ID della categoria:");
     }
 
     public string InserisciNomeCategoria()

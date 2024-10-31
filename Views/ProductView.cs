@@ -20,8 +20,8 @@ public class ProductView : BaseView
     // Inserisce l'ID della categoria
     public int InserisciIdCategoria()
     {
-        Stampa("Inserisci l'ID della categoria:");
-        return int.Parse(GetInput());
+        //Stampa("Inserisci l'ID della categoria:");
+        return GetIntInput("Inserisci l'ID della categoria:");
     }
 
     // Inserisce il nome del prodotto
@@ -34,15 +34,15 @@ public class ProductView : BaseView
     // Inserisce il prezzo del prodotto
     public double InserisciPrezzoProdotto()
     {
-        Stampa("Inserisci il prezzo del prodotto:");
-        return double.Parse(GetInput());
+        // Stampa("Inserisci il prezzo del prodotto:");
+        return GetDoubleInput("Inserisci il prezzo del prodotto:");
     }
 
     // Inserisce la quantità del prodotto
     public int InserisciQuantitaProdotto()
     {
-        Stampa("Inserisci la quantità del prodotto:");
-        return int.Parse(GetInput());
+        // Stampa("Inserisci la quantità del prodotto:");
+        return GetIntInput("Inserisci la quantità del prodotto:");
     }
 
     // Visualizza la lista completa dei prodotti
@@ -50,7 +50,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome ?? "Nome sconosciuto"}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
         }
     }
 
@@ -59,7 +59,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
         }
     }
 
@@ -68,18 +68,18 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
         }
     }
 
     // Modifica il prezzo di un prodotto, restituendo l'ID e il nuovo prezzo
     public (int id, double nuovoPrezzo) ModificaPrezzoProdotto()
     {
-        Stampa("Inserisci l'ID del prodotto da modificare:");
-        int id = int.Parse(GetInput());
         
-        Stampa("Inserisci il nuovo prezzo del prodotto:");
-        double nuovoPrezzo = Convert.ToDouble(GetInput());
+        int id = GetIntInput("Inserisci l'ID del prodotto da modificare:");
+        
+        // Stampa("Inserisci il nuovo prezzo del prodotto:");
+        double nuovoPrezzo = GetDoubleInput("Inserisci il nuovo prezzo del prodotto:");
 
         return (id, nuovoPrezzo);
     }
@@ -87,26 +87,26 @@ public class ProductView : BaseView
     // Metodo per eliminare un prodotto, restituisce l'ID del prodotto da eliminare
     public int EliminaProdotto()
     {
-        Stampa("Inserisci l'ID del prodotto da eliminare:");
-        return int.Parse(GetInput());
+        // Stampa("Inserisci l'ID del prodotto da eliminare:");
+        return GetIntInput("Inserisci l'ID del prodotto da eliminare:");
     }
 
     // Visualizza il prodotto più costoso
     public void VisualizzaProdottoPiuCostoso(Prodotto prodotto)
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
     }
 
     // Visualizza il prodotto meno costoso
     public void VisualizzaProdottoMenoCostoso(Prodotto prodotto)
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
     }
 
     // Visualizza i dettagli di un prodotto specifico
     public void VisualizzaProdotto(Prodotto prodotto)
     {
-        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+        Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
     }
 
     // Visualizza tutti i prodotti appartenenti a una categoria specifica
@@ -114,7 +114,7 @@ public class ProductView : BaseView
     {
         foreach (var prodotto in prodotti)
         {
-            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria.Nome}");
+            Stampa($"Id: {prodotto.Id}, Nome: {prodotto.Nome}, Prezzo: {prodotto.Prezzo}, Quantità: {prodotto.Giacenza}, Categoria: {prodotto.Categoria!.Nome}");
         }
     }
 }

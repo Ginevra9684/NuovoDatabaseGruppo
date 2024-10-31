@@ -17,21 +17,21 @@ public class OrderView : BaseView
         Ordine ordine = new Ordine();
 
         // Chiede l'ID del cliente e lo assegna all'ordine
-        Stampa("Inserisci l'ID del cliente:");
-        int idCliente = int.Parse(GetInput());
+        // Stampa("Inserisci l'ID del cliente:");
+        int idCliente = GetIntInput("Inserisci l'ID del cliente:");
         ordine.cliente = new Cliente { Id = idCliente };
 
         // Imposta la data di acquisto come data e ora attuale
         ordine.DataAcquisto = DateTime.Now;
 
         // Chiede l'ID del prodotto e lo assegna all'ordine
-        Stampa("Inserisci l'ID del prodotto:");
-        int idProdotto = int.Parse(GetInput());
+        // Stampa("Inserisci l'ID del prodotto:");
+        int idProdotto = GetIntInput("Inserisci l'ID del prodotto:");
         ordine.prodotto = new Prodotto { Id = idProdotto };
 
         // Chiede la quantità e la assegna all'ordine
-        Stampa("Inserisci la quantità:");
-        ordine.Quantita = int.Parse(GetInput());
+        // Stampa("Inserisci la quantità:");
+        ordine.Quantita = GetIntInput("Inserisci la quantità:");
 
         return ordine;
     }
@@ -80,16 +80,16 @@ public class OrderView : BaseView
     public Ordine ModificaOrdine()
     {
         Ordine ordine = new Ordine();   // Istanza di un oggetto ordine
-        Stampa("Inserisci l'ID dell'ordine di riferimento:");
-        int id = int.Parse(GetInput());  // Richiede l'id dell'ordine di riferimento
+        // Stampa("Inserisci l'ID dell'ordine di riferimento:");
+        int id = GetIntInput("Inserisci l'ID dell'ordine di riferimento:");  // Richiede l'id dell'ordine di riferimento
         ordine.Id = id;
 
-        Stampa("Inserisci l'ID del nuovo prodotto :");
-        int idProdotto = int.Parse(GetInput()); // Richiede l'id del nuovo prodotto
+        // Stampa("Inserisci l'ID del nuovo prodotto :");
+        int idProdotto = GetIntInput("Inserisci l'ID del nuovo prodotto :"); // Richiede l'id del nuovo prodotto
         ordine.prodotto = new Prodotto { Id = idProdotto };
 
-        Stampa("Inserisci la quantità:");
-        ordine.Quantita = int.Parse(GetInput());    // Richiede la nuova quantità
+        // Stampa("Inserisci la quantità:");
+        ordine.Quantita = GetIntInput("Inserisci la quantità:");    // Richiede la nuova quantità
 
         return ordine;
     }
@@ -97,8 +97,8 @@ public class OrderView : BaseView
     //Elimina un ordine (Menu opzione 4)
     public int EliminaOrdine()
     {
-        Stampa("Inserisci l'ID dell'ordine di riferimento:");
-        int id = int.Parse(GetInput());
+        // Stampa("Inserisci l'ID dell'ordine di riferimento:");
+        int id = GetIntInput("Inserisci l'ID dell'ordine di riferimento:");
         return id;
     }
 }
