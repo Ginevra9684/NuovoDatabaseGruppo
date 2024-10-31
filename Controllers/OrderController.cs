@@ -21,6 +21,7 @@ public class OrderController
     // Metodo per mostrare il menu degli ordini
     public void OrderMenu()
     {
+        Console.Clear();
         while (true)
         {
             _orderView.ShowOrderMenu();
@@ -43,7 +44,7 @@ public class OrderController
                 case "5":
                     return; // Torna al menu principale
                 default:
-                    _orderView.Stampa("Opzione non valida.");
+                    _orderView.Errore();
                     break;
             }
         }
@@ -144,14 +145,14 @@ public class OrderController
         _orderView.VisualizzaOrdini(ordini);    // Passa la lista alla view
     }*/
 
-        private void VisualizzaOrdini()
-{
-    // Carica gli ordini con i dettagli del cliente e del prodotto collegati
-    var ordini = _database.Ordini.Include(o => o.cliente).Include(o => o.prodotto).ToList();
+    private void VisualizzaOrdini()
+    {
+        // Carica gli ordini con i dettagli del cliente e del prodotto collegati
+        var ordini = _database.Ordini.Include(o => o.cliente).Include(o => o.prodotto).ToList();
 
-    // Passa la lista degli ordini alla vista per la visualizzazione
-    _orderView.VisualizzaOrdini(ordini);
-}
+        // Passa la lista degli ordini alla vista per la visualizzazione
+        _orderView.VisualizzaOrdini(ordini);
+    }
 
     // Metodo per modificare un ordine esistente (Menu opzione 3)
     private void ModificaOrdine()

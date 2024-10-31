@@ -16,6 +16,7 @@ public class CustomerController
 // Metodo principale per la gestione del menu clienti
     public void CustomerMenu()
     {
+        Console.Clear();
         while(true)
         {
             _customerView.ShowCustomerMenu(); // Visualizza il menu delle opzioni relative ai clienti
@@ -37,8 +38,12 @@ public class CustomerController
                 case "5":
                     return;
                 default:
-                    _customerView.Stampa("opzione non valida");
+                    _customerView.Errore();
                     break;
+            }
+            if (input != "5")
+            {
+                _customerView.Proseguimento();
             }
         }
     }

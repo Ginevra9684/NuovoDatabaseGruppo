@@ -16,6 +16,7 @@ public class CategoryController
 
     public void CategoryMenu()
     {
+        Console.Clear();
         while(true)
         {
             _categoryView.ShowCategoryMenu();
@@ -34,8 +35,12 @@ public class CategoryController
                 case "4":
                     return;
                 default:
-                    _categoryView.Stampa("Opzione non valida");
+                    _categoryView.Errore();
                     break;
+            }
+            if (input != "4")
+            {
+                _categoryView.Proseguimento();
             }
         }    
     }

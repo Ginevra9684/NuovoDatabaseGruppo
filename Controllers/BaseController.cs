@@ -32,6 +32,7 @@ public class BaseController
     {
         while (true)
         {
+            Console.Clear();
             _baseView.ShowMainMenu(); // Mostra il menu principale all'utente
             var input = _baseView.GetInput();  // Ottiene l'input dell'utente
             switch (input)
@@ -52,7 +53,8 @@ public class BaseController
                     _baseView.Stampa("Esci dal programma");
                     return;
                 default:
-                    _baseView.Stampa("Scelta non valida");
+                    _baseView.Errore();
+                    _baseView.Proseguimento();
                     break;
             }
         }

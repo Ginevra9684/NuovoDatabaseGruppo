@@ -21,6 +21,7 @@ public class ProductController
     // Metodo principale per gestire il menu dei prodotti
     public void ProductsMenu()
     {
+        Console.Clear();
         while (true)
         {
             _productView.ShowProductMenu();  //richiama il metodo ShowProductMenu dalla view del prodotto
@@ -60,8 +61,12 @@ public class ProductController
                 case "11":
                     return;
                 default:
-                    Console.WriteLine("scelta non valida");
+                    _productView.Errore();
                     break;
+            }
+            if (input != "11")
+            {
+                _productView.Proseguimento();
             }
         }
     }
