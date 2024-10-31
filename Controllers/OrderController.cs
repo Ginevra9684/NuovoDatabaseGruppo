@@ -90,16 +90,21 @@ public class OrderController
         nuovoOrdine.Prodotto = _database.Prodotti.Find(nuovoOrdine.Prodotto!.Id);
 
         // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
-        if (nuovoOrdine.Cliente != null && nuovoOrdine.Prodotto != null)
+        if (nuovoOrdine.Cliente != null && nuovoOrdine.Prodotto != null && nuovoOrdine.Quantita <= nuovoOrdine.Prodotto.Giacenza)
         {
             // Aggiunge il nuovo ordine 
             _database.Ordini.Add(nuovoOrdine);
+            nuovoOrdine.Prodotto.Giacenza -= nuovoOrdine.Quantita;
 
             // Salva le modifiche nel database, inclusa la creazione del nuovo ordine
             _database.SaveChanges();
 
             // Conferma l'aggiunta dell'ordine tramite la vista
             _orderView.Stampa("Ordine aggiunto con successo.");
+        }
+        else if (nuovoOrdine.Quantita > nuovoOrdine.Prodotto!.Giacenza)
+        {
+            _orderView.Stampa("Giacenza prodotto non sufficiente");
         }
         else
         {
@@ -163,14 +168,15 @@ public class OrderController
 
         var ordine = _database.Ordini.FirstOrDefault(o => o.Id == ordineDaModificare.Id);   // Cerca un ordine tramite Id cliente
         var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == ordineDaModificare.Prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
-        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= prodotto.Giacenza)
+        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita))
         {
             ordine.Prodotto = prodotto; // Aggiorna il prodotto nell'ordine
+            prodotto.Giacenza = prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita;
             ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
             _database.SaveChanges();    // Salva le modifiche
             _orderView.Stampa("Ordine modificato con successo.");
         }
-        else if (ordineDaModificare.Quantita > prodotto!.Giacenza)
+        else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita - ordineDaModificare.Quantita))
         {
             _orderView.Stampa("Giacenza prodotto non sufficiente");
         }
@@ -188,6 +194,7 @@ public class OrderController
         var ordine = _database.Ordini.FirstOrDefault(o => o.Id == id);  // Cerca l'ordine tramite id
         if (ordine != null)
         {
+            ordine.Prodotto!.Giacenza += ordine.Quantita;
             _database.Remove(ordine);   // Elimina l'ordine
             _database.SaveChanges();    // Salva le modifiche
             _orderView.Stampa("Ordine eliminato con successo.");
