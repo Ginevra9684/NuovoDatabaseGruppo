@@ -49,6 +49,7 @@ public class OrderView : BaseView
         {
             // Visualizza i dettagli di ogni ordine
             Stampa($"ID Ordine: {ordine.Id}");
+            Stampa($"Nome Ordine: {ordine.Nome}");
             Stampa($"Data Acquisto: {ordine.DataAcquisto.ToString("yyyy-MM-dd HH:mm:ss")}");
 
             // Visualizza il nome del cliente associato, se presente

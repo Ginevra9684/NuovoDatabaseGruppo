@@ -5,7 +5,7 @@ public class Ordine : General
     private DateTime dataAcquisto;
     // private override string Nome = "";
 
-    public override string Nome { get => Nome; set => Nome = $"BRT-{Id}_{Cliente!.Id}"; }
+    public override string Nome { get {return $"BRT-{Id}_{Cliente!.Id}"; } }
 
     // Data in cui è stato effettuato l'acquisto
     public DateTime DataAcquisto { get => dataAcquisto; set => dataAcquisto = value; }
