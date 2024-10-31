@@ -137,12 +137,21 @@ public class OrderController
         _orderView.VisualizzaOrdini(ordini);
     }
 */
-    // Metodo per visualizzare tutti gli ordini (Menu opzione 2)
+  /*  // Metodo per visualizzare tutti gli ordini (Menu opzione 2)
     private void VisualizzaOrdini()
     {
         var ordini = _database.Ordini.ToList(); // Estrapola con entity una lista di ordini
         _orderView.VisualizzaOrdini(ordini);    // Passa la lista alla view
-    }
+    }*/
+
+        private void VisualizzaOrdini()
+{
+    // Carica gli ordini con i dettagli del cliente e del prodotto collegati
+    var ordini = _database.Ordini.Include(o => o.cliente).Include(o => o.prodotto).ToList();
+
+    // Passa la lista degli ordini alla vista per la visualizzazione
+    _orderView.VisualizzaOrdini(ordini);
+}
 
     // Metodo per modificare un ordine esistente (Menu opzione 3)
     private void ModificaOrdine()
