@@ -81,35 +81,42 @@ public class OrderController
         // Richiede i dettagli dell'ordine dall'utente tramite la vista e crea un nuovo ordine
         Ordine nuovoOrdine = _orderView.AggiungiOrdine();
 
-        // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
-        // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
-        nuovoOrdine.Cliente = _database.Clienti.Find(nuovoOrdine.Cliente!.Id);
-
-        // Recupera il prodotto esistente dal database utilizzando l'ID specificato nell'ordine
-        // Anche qui si garantisce che l'entità prodotto sia tracciata dal contesto di Entity Framework
-        nuovoOrdine.Prodotto = _database.Prodotti.Find(nuovoOrdine.Prodotto!.Id);
-
-        // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
-        if (nuovoOrdine.Cliente != null && nuovoOrdine.Prodotto != null && nuovoOrdine.Quantita <= nuovoOrdine.Prodotto.Giacenza)
+        if (_database.Clienti != null)
         {
-            // Aggiunge il nuovo ordine 
-            _database.Ordini.Add(nuovoOrdine);
-            nuovoOrdine.Prodotto.Giacenza -= nuovoOrdine.Quantita;
+            // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
+            // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
+            nuovoOrdine.Cliente = _database.Clienti.Find(nuovoOrdine.Cliente!.Id);
 
-            // Salva le modifiche nel database, inclusa la creazione del nuovo ordine
-            _database.SaveChanges();
+            // Recupera il prodotto esistente dal database utilizzando l'ID specificato nell'ordine
+            // Anche qui si garantisce che l'entità prodotto sia tracciata dal contesto di Entity Framework
+            nuovoOrdine.Prodotto = _database.Prodotti.Find(nuovoOrdine.Prodotto!.Id);
 
-            // Conferma l'aggiunta dell'ordine tramite la vista
-            _orderView.Stampa("Ordine aggiunto con successo.");
-        }
-        else if (nuovoOrdine.Quantita > nuovoOrdine.Prodotto!.Giacenza)
-        {
-            _orderView.Stampa("Giacenza prodotto non sufficiente");
+            // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
+            if (nuovoOrdine.Cliente != null && nuovoOrdine.Prodotto != null && nuovoOrdine.Quantita <= nuovoOrdine.Prodotto.Giacenza)
+            {
+                // Aggiunge il nuovo ordine 
+                _database.Ordini.Add(nuovoOrdine);
+                nuovoOrdine.Prodotto.Giacenza -= nuovoOrdine.Quantita;
+
+                // Salva le modifiche nel database, inclusa la creazione del nuovo ordine
+                _database.SaveChanges();
+
+                // Conferma l'aggiunta dell'ordine tramite la vista
+                _orderView.Stampa("Ordine aggiunto con successo.");
+            }
+            else if (nuovoOrdine.Quantita > nuovoOrdine.Prodotto!.Giacenza)
+            {
+                _orderView.Stampa("Giacenza prodotto non sufficiente");
+            }
+            else
+            {
+                // Mostra un messaggio di errore se il cliente o il prodotto non sono stati trovati nel database
+                _orderView.Stampa("Errore: Cliente o prodotto non trovato.");
+            }
         }
         else
         {
-            // Mostra un messaggio di errore se il cliente o il prodotto non sono stati trovati nel database
-            _orderView.Stampa("Errore: Cliente o prodotto non trovato.");
+            Console.WriteLine("Nessun cliente risulta registrato");
         }
     }
 
