@@ -83,80 +83,18 @@ public class ProductController
         _productView.VisualizzaProdotti(prodotti);
     }
 
-    /*
-    //Metodo Menu opzione 1
-        private void VisualizzaProdotti()
-    {
-        // Crea una lista vuota per memorizzare i prodotti
-        var prodotti = _model.CaricaProdotti();
-
-        // Passa la lista dei prodotti alla vista per visualizzarla
-        _productView.VisualizzaProdotti(prodotti);
-    }
-    */
-    //Metodo Menu opzione 2 per visualizzare i prodotti ordinati per prezzo
-    /*  private void VisualizzaProdottiOrdinatiPerPrezzo() // Menu option 2
-    {
-        var prodottiOrdinati = new List<Prodotto>();
-    // Usa un `DataReader` per leggere i prodotti ordinati per prezzo
-        using (var reader = _model.CaricaProdottiOrdinatiPerPrezzo())
-        {
-              // Legge ogni prodotto e crea un oggetto `Prodotto` per ciascuno
-            while (reader.Read())
-            {
-                var prodotto = new Prodotto
-                {
-                    Id = Convert.ToInt32(reader["id"]),
-                    Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
-                    Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                    Giacenza = Convert.ToInt32(reader["giacenza"]),
-                    Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                };
-                prodottiOrdinati.Add(prodotto);  // Aggiunge il prodotto alla lista ordinata
-            }
-        }
-
-          _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);   // Visualizza la lista ordinata nella vista
-    }*/
-
     //  Menu opzione 2 metodo per visualizzare i prodotti sortati per prezzo
     private void VisualizzaProdottiOrdinatiPerPrezzo()
     {
         // Ottiene tutti i prodotti ordinati per prezzo, inclusa la categoria associata
         var prodottiOrdinati = _database.Prodotti
-                                        .Include(p => p.Categoria)   // Include la categoria associata
-                                        .OrderBy(p => p.Prezzo)       // Ordina per prezzo
-                                        .ToList();
+            .Include(p => p.Categoria)   // Include la categoria associata
+            .OrderBy(p => p.Prezzo)       // Ordina per prezzo
+            .ToList();
 
         // Passa la lista ordinata dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);
     }
-
-    /*
-        private void VisualizzaProdottiOrdinatiPerQuantita() // Menu option 3
-        {
-            var prodottiOrdinati = new List<Prodotto>();
-
-            using (var reader = _model.CaricaProdottiOrdinatiPerQuantita())
-            {
-                while (reader.Read())
-                {
-                    var prodotto = new Prodotto
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Nome = reader["nome"].ToString(),
-                        Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                        Giacenza = Convert.ToInt32(reader["giacenza"]),
-                        Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                    };
-                    prodottiOrdinati.Add(prodotto);
-                }
-            }
-
-            // Passa la lista dei prodotti ordinati per quantità alla vista
-            _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
-        }
-    */
 
     // Menu opzione 3 metodo per visualizzare i prodotti in base alla quantita
     private void VisualizzaProdottiOrdinatiPerQuantita()
@@ -167,16 +105,6 @@ public class ProductController
         _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
     }
 
-    /*
-        //Menu Opzione 4 Metodo per modificare il prezzo di un prodotto specifico
-        private void ModificaPrezzoProdotto()    // Menu opzione 4
-        {
-            string nome = _productView.InserisciNomeProdotto();
-            decimal prezzo = _productView.InserisciPrezzoProdotto();
-            _model.ModificaPrezzoProdotto(nome, prezzo);    // Passa al Model il nome e il prezzo
-        }*/
-
-
     // Metodo per modificare il prezzo di un prodotto specifico con Entity Framework
     //Menu Opzione 4
     private void ModificaPrezzoProdotto()
@@ -184,13 +112,13 @@ public class ProductController
         VisualizzaProdotti();
         // Richiede il nome e il nuovo prezzo del prodotto dalla vista
         int id = _productView.InserisciIdProdotto();
-        double nuovoPrezzo = _productView.InserisciPrezzoProdotto();
         //trova il prodotto nel database
         var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == id);
         // Se il prodotto esiste aggiorna il prezzo
 
         if (prodotto != null)
         {
+            double nuovoPrezzo = _productView.InserisciPrezzoProdotto();
             prodotto.Prezzo = nuovoPrezzo;  //// Imposta il nuovo prezzo
             _database.SaveChanges();   //salva le modifiche nel database
             _productView.Stampa("Prezzo aggiornato con successo.");
@@ -222,13 +150,6 @@ public class ProductController
             _productView.Stampa("Prodotto non trovato.");
         }
     }
-    /*
-        public void EliminaProdotto()   // Menu opzione 5
-        {
-            string nome = _productView.InserisciNomeProdotto();
-            _model.EliminaProdotto(nome);
-        }  */
-
 
     // Menu opzione 5 Metodo per eliminare un prodotto con Entity Framework
     public void EliminaProdotto()
@@ -251,43 +172,6 @@ public class ProductController
             _productView.Stampa("Prodotto non trovato.");
         }
     }
-    /*
-    // Metodo per trovare il prodotto con il prezzo più alto nel database
-        private void VisualizzaProdottoPiuCostoso() // Menu opzione 6
-        {
-            Prodotto? prodotto = null; // Inizializza una variabile `Prodotto` come `null`  per indicare che al momento non è stato trovato alcun prodotto se lo trova verrà popolato
-
-            // Esegue il caricamento del prodotto più costoso utilizzando un blocco `using` per gestire automaticamente la chiusura del `DataReader`
-            using (var reader = _model.CaricaProdottoPiuCostoso())
-            {
-                // Verifica se ci sono risultati nel `DataReader`
-                if (reader.Read())
-                {
-
-                    prodotto = new Prodotto
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
-                        Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                        Giacenza = Convert.ToInt32(reader["giacenza"]),
-                        Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                    };
-                }
-            } // chiude automaticamente il `DataReader`
-
-            // Verifica se il prodotto più costoso è stato trovato
-            if (prodotto != null)
-            {
-                // Se il prodotto esiste, passa l'oggetto `Prodotto` alla vista per visualizzare i dettagli
-                _productView.VisualizzaProdottoPiuCostoso(prodotto);
-            }
-            else
-            {
-                // Se nessun prodotto è stato trovato, visualizza un messaggio di avviso
-                _productView.Stampa("Nessun prodotto trovato.");
-            }
-        }
-    */
 
     //Menu opzione 6 metodo per visualizzare il prodotto più costoso
     private void VisualizzaProdottoPiuCostoso() // Menu opzione 6
@@ -309,41 +193,6 @@ public class ProductController
         }
     }
 
-
-    /*
-
-        // Metodo per visualizzare il prodotto meno costoso
-        private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
-        {
-            Prodotto? prodotto = null;       // Inizializza una variabile per indicare che inizialmente non è stato trovato ancora alcun prodotto 
-
-            using (var reader = _model.CaricaProdottoMenoCostoso())
-            {
-                // Se esiste un record, popola l'oggetto `Prodotto`
-                if (reader.Read())
-                {
-                    prodotto = new Prodotto
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
-                        Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                        Giacenza = Convert.ToInt32(reader["giacenza"]),
-                        Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                    };
-                }
-            }
-
-            // Passa il prodotto alla vista se è stato trovato, altrimenti mostra un messaggio di avviso
-            if (prodotto != null)
-            {
-                _productView.VisualizzaProdottoMenoCostoso(prodotto);
-            }
-            else
-            {
-                _productView.Stampa("Nessun prodotto trovato.");
-            }
-        }  */
-
     //Menu opzione 7 metodo per visualizzare il prodotto meno costoso
     private void VisualizzaProdottoMenoCostoso() // Menu opzione 7
     {
@@ -364,59 +213,6 @@ public class ProductController
         }
     }
 
-
-    /*
-        private void InserisciProdotto()    // Menu opzione 8
-        {
-
-            Console.WriteLine("inserisci il nome del prodotto");
-            string nome = Console.ReadLine()!;
-            Console.WriteLine("inserisci il prezzo del prodotto");
-            decimal prezzo = Decimal.Parse(Console.ReadLine()!);
-            Console.WriteLine("inserisci la quantità del prodotto");
-            int giacenza = Int32.Parse(Console.ReadLine()!);
-            // Visualizza le categorie disponibili
-            Console.WriteLine("Categorie disponibili:");
-            _model.VisualizzaCategorie(); // Chiamata al metodo che visualizza le categorie con i loro ID
-            Console.WriteLine("inserisci l'id della categoria del prodotto");
-            int id_categoria = Int32.Parse(Console.ReadLine()!);
-            _model.InserisciProdotto(nome, prezzo, giacenza, id_categoria);
-        }
-    */
-    /*
-        //Metodo Visualizzaprodotto Menu 8
-        private void VisualizzaProdotto()  // Menu opzione 8
-        {
-            // Richiede il nome del prodotto dalla vista
-            string nome = _productView.InserisciNomeProdotto();
-            Prodotto? prodotto = null;
-            // Recupera i dati del prodotto dal database
-            using (var reader = _model.CaricaProdotto(nome))
-            {
-                // Se esiste un prodotto con il nome specificato, lo carica
-                if (reader.Read())
-                {
-                    prodotto = new Prodotto
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
-                        Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                        Giacenza = Convert.ToInt32(reader["giacenza"]),
-                        Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                    };
-                }
-            }
-            // Verifica se è stato trovato un prodotto e lo visualizza, altrimenti stampa un messaggio di errore
-            if (prodotto != null)
-            {
-                _productView.VisualizzaProdotto(prodotto); // Passa il prodotto alla vista per la visualizzazione
-            }
-            else
-            {
-                _productView.Stampa("Prodotto non trovato.");
-            }
-        } */
-
     //Menu opzione 8 metodo per visualizzare il singolo prodotto
     private void VisualizzaProdotto()  // Menu opzione 8
     {
@@ -436,35 +232,6 @@ public class ProductController
         }
     }
 
-    /*
-        // metodo per ottenere i prodotti in base alla categoria specificata Menu 9
-        private void VisualizzaProdottiCategoria()    // Menu opzione 9
-        {
-            _categoryController.VisualizzaCategorie();
-            int id_categoria = _productView.InserisciIdCategoria();
-            // Ottiene i prodotti della categoria specificata
-            var prodottiCategoria = new List<Prodotto>();
-            using (var reader = _model.VisualizzaProdottiCategoria(id_categoria))
-            {
-                while (reader.Read())
-                {
-                    var prodotto = new Prodotto
-                    {
-                        Id = Convert.ToInt32(reader["id"]),
-                        Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto",
-                        Prezzo = Convert.ToDecimal(reader["prezzo"]),
-                        Giacenza = Convert.ToInt32(reader["giacenza"]),
-                        Id_categoria = Convert.ToInt32(reader["id_categoria"])
-                    };
-                    prodottiCategoria.Add(prodotto);
-                }
-            }
-
-            // Visualizza i prodotti della categoria usando `ProductView`
-            _productView.VisualizzaProdottiCategoria(prodottiCategoria);
-        }
-    */
-
     //Menu opzione 9 metodo per visualizzare tutti i prodotti associati ad una categoria specifica
     private void VisualizzaProdottiCategoria()    // Menu opzione 9
     {
@@ -481,23 +248,6 @@ public class ProductController
         // Visualizza i prodotti della categoria usando `ProductView`
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
     }
-
-    /*
-        // Menu opzione 10: Metodo per inserire un nuovo prodotto in una categoria specifica
-        public void InserisciProdottoCategoria()    // Menu opzione 10
-        {
-            // Chiama il metodo per visualizzare le categorie
-            _categoryController.VisualizzaCategorie();
-            //seleziona categoria
-            // Chiede all'utente di inserire l'ID della categoria selezionata per associare il nuovo prodotto
-            // a una specifica categoria.
-            int id_categoria = _productView.InserisciIdCategoria();
-            // Chiede all'utente di inserire il nome del nuovo prodotto
-            string nome = _productView.InserisciNomeProdotto();
-            decimal prezzo = _productView.InserisciPrezzoProdotto();
-            int quantita = _productView.InserisciQuantitaProdotto();
-            _model.InserisciProdottoCategoria(id_categoria, nome, prezzo, quantita);
-        }  */
 
     // Menu opzione 10 metodo per inserire il prodotto
     public void InserisciProdottoCategoria() // Menu opzione 10
@@ -546,6 +296,5 @@ public class ProductController
         {
             _productView.Stampa("Categoria non trovata. Inserimento annullato.");
         }
-
     }
 }

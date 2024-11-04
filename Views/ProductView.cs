@@ -14,7 +14,7 @@ public class ProductView : BaseView
         Stampa("8 - Visualizzare il prodotto meno costoso");
         Stampa("9 - Visualizzare un prodotto");
         Stampa("10 - Visualizzare i prodotti di una categoria");
-        Stampa("11 - Inserire un prodotto in una categoria");
+        Stampa("11 - Inserire un prodotto");
         Stampa("12 - Torna al menu principale");
     }
 

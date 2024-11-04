@@ -1,11 +1,5 @@
-public class Prodotto
+public class Prodotto :General
 {
-    // Identificatore univoco del prodotto
-    public int Id { get; set; }
-    
-    // Nome del prodotto, può essere null
-    public string ?Nome { get; set; }
-    
     // Prezzo del prodotto
     public double Prezzo { get; set; }
     

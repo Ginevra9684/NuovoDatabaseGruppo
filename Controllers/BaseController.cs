@@ -1,5 +1,3 @@
-using System.Data.Common;
-
 public class BaseController
 {
     // Riferimento al modello dell'applicazione, che gestisce l'accesso e le operazioni sui dati

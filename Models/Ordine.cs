@@ -1,5 +1,3 @@
-using System.Configuration;
-
 public class Ordine : General
 {
     private DateTime dataAcquisto;
@@ -11,7 +9,6 @@ public class Ordine : General
     public DateTime DataAcquisto { get => dataAcquisto; set => dataAcquisto = value; }
 
     // Quantità del prodotto acquistato
-    //public string ?Quantita { get; set; } 
     public int Quantita{get;set;}
 
     // Cliente associato all'ordine

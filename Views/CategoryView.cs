@@ -6,7 +6,7 @@ public class CategoryView : BaseView
         Stampa("MENU CATEGORIA");
         Stampa("1 - visualizza categorie");
         Stampa("2 - inserire una categoria");
-        //Stampa("3 - eliminare una categoria");
+        Stampa("3 - modificare una categoria");
         Stampa("3 - ritorna al menu principale");
     }
 
@@ -18,6 +18,11 @@ public class CategoryView : BaseView
         {
             Stampa($"Id: {categoria.Id}, Nome: {categoria.Nome}"); // Stampa ID e Nome di ogni categoria
         }
+    }
+
+    public void ModificaCategoria( string nome)
+    {
+        
     }
 
     public int InserisciIdCategoria()
