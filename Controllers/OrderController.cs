@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 public class OrderController
 {
     private Database _database;  // Riferimento al modello per l'accesso ai dati degli ordini
@@ -95,58 +93,98 @@ public class OrderController
         }
     }
 
-    private void VisualizzaOrdini()
-    {
-        // Carica gli ordini con i dettagli del cliente e del prodotto collegati
-        var ordini = _database.Ordini.Include(o => o.Cliente).Include(o => o.Prodotto).ToList();
 
-        // Passa la lista degli ordini alla vista per la visualizzazione
-        _orderView.VisualizzaOrdini(ordini);
+
+private void VisualizzaOrdini()
+{
+    // Carica gli ordini con i dettagli del cliente e del prodotto collegati
+    var ordini = new List<Ordine>();
+    foreach (var ordine in _database.Ordini)
+    {
+        // Carica il cliente e il prodotto associati all'ordine
+        ordine.Cliente = TrovaClientePerId(ordine.Cliente!.Id);
+        ordine.Prodotto = TrovaProdottoPerId(ordine.Prodotto!.Id);
+        ordini.Add(ordine);
     }
 
-    // Metodo per modificare un ordine esistente (Menu opzione 3)
-    private void ModificaOrdine()
-    {
-        VisualizzaOrdini();
-        _productController.VisualizzaProdotti();
-        Ordine ordineDaModificare = _orderView.ModificaOrdine();
+    // Passa la lista degli ordini alla vista per la visualizzazione
+    _orderView.VisualizzaOrdini(ordini);
+}
 
-        var ordine = _database.Ordini.FirstOrDefault(o => o.Id == ordineDaModificare.Id);   // Cerca un ordine tramite Id cliente
-        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == ordineDaModificare.Prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
-        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita))
-        {
-            ordine.Prodotto = prodotto; // Aggiorna il prodotto nell'ordine
-            prodotto.Giacenza = prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita;
-            ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
-            _database.SaveChanges();    // Salva le modifiche
-            _orderView.Stampa("Ordine modificato con successo.");
-        }
-        else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita - ordineDaModificare.Quantita))
-        {
-            _orderView.Stampa("Giacenza prodotto non sufficiente");
-        }
-        else
-        {
-            _orderView.Stampa("Ordine non trovato");
-        }
-    }
+private void ModificaOrdine()
+{
+    VisualizzaOrdini();
+    _productController.VisualizzaProdotti();
+    Ordine ordineDaModificare = _orderView.ModificaOrdine();
 
-    // Metodo per eliminare un ordine esistente (Menu opzione 4)
-    private void EliminaOrdine()
+    Ordine? ordine = TrovaOrdinePerId(ordineDaModificare.Id);  // Cerca un ordine tramite Id cliente
+    Prodotto? prodotto = TrovaProdottoPerId(ordineDaModificare.Prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
+    
+    if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita))
     {
-        VisualizzaOrdini();
-        int id = _orderView.EliminaOrdine();
-        var ordine = _database.Ordini.FirstOrDefault(o => o.Id == id);  // Cerca l'ordine tramite id
-        if (ordine != null)
-        {
-            ordine.Prodotto!.Giacenza += ordine.Quantita;
-            _database.Remove(ordine);   // Elimina l'ordine
-            _database.SaveChanges();    // Salva le modifiche
-            _orderView.Stampa("Ordine eliminato con successo.");
-        }
-        else
-        {
-            _orderView.Stampa("Ordine non trovato");
-        }
+        ordine.Prodotto = prodotto; // Aggiorna il prodotto nell'ordine
+        prodotto.Giacenza = prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita;
+        ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
+        _database.SaveChanges();    // Salva le modifiche
+        _orderView.Stampa("Ordine modificato con successo.");
     }
+    else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita - ordineDaModificare.Quantita))
+    {
+        _orderView.Stampa("Giacenza prodotto non sufficiente");
+    }
+    else
+    {
+        _orderView.Stampa("Ordine non trovato");
+    }
+}
+
+private void EliminaOrdine()
+{
+    VisualizzaOrdini();
+    int id = _orderView.EliminaOrdine();
+    Ordine? ordine = TrovaOrdinePerId(id);  // Cerca l'ordine tramite id
+    if (ordine != null)
+    {
+        ordine.Prodotto!.Giacenza += ordine.Quantita;
+        _database.Remove(ordine);   // Elimina l'ordine
+        _database.SaveChanges();    // Salva le modifiche
+        _orderView.Stampa("Ordine eliminato con successo.");
+    }
+    else
+    {
+        _orderView.Stampa("Ordine non trovato");
+    }
+}
+
+// Metodi di supporto per cercare oggetti senza LINQ o Lambda
+private Ordine? TrovaOrdinePerId(int id)
+{
+    foreach (var ordine in _database.Ordini)
+    {
+        if (ordine.Id == id)
+            return ordine;
+    }
+    return null;
+}
+
+private Prodotto? TrovaProdottoPerId(int id)
+{
+    foreach (var prodotto in _database.Prodotti)
+    {
+        if (prodotto.Id == id)
+            return prodotto;
+    }
+    return null;
+}
+
+private Cliente? TrovaClientePerId(int id)
+{
+    foreach (var cliente in _database.Clienti)
+    {
+        if (cliente.Id == id)
+            return cliente;
+    }
+    return null;
+}
+
 }

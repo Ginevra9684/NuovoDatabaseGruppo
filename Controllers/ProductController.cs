@@ -77,7 +77,7 @@ public class ProductController
     public void VisualizzaProdotti()
     {
         // Ottiene tutti i prodotti dal database, inclusa la categoria associata
-        var prodotti = _database.Prodotti.Include(p => p.Categoria).ToList();
+        List<Prodotto> prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
 
         // Passa la lista dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdotti(prodotti);
@@ -88,9 +88,10 @@ public class ProductController
     {
         // Ottiene tutti i prodotti ordinati per prezzo, inclusa la categoria associata
         var prodottiOrdinati = _database.Prodotti
-            .Include(p => p.Categoria)   // Include la categoria associata
+            .Include(nameof(Prodotto.Categoria))   // Include la categoria associata
             .OrderBy(p => p.Prezzo)       // Ordina per prezzo
             .ToList();
+            prodottiOrdinati.Sort();
 
         // Passa la lista ordinata dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);
@@ -100,7 +101,8 @@ public class ProductController
     private void VisualizzaProdottiOrdinatiPerQuantita()
     {
         // Ottiene tutti i prodotti ordinati per quantità (giacenza), inclusa la categoria associata
-        var prodottiOrdinati = _database.Prodotti.Include(p => p.Categoria).OrderBy(p => p.Giacenza).ToList();
+        List<Prodotto> prodottiOrdinati = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        prodottiOrdinati.Sort();
         // Passa la lista ordinata dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
     }

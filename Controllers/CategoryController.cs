@@ -6,18 +6,18 @@ public class CategoryController
     private CategoryView _categoryView;
 
     // Costruttore che inizializza il controller con il modello e la vista
-    public CategoryController(Database database, CategoryView categoryView )
+    public CategoryController(Database database, CategoryView categoryView)
     {
         _database = database;
         _categoryView = categoryView;
     }
 
-     // Metodo per gestire il menu delle categorie
+    // Metodo per gestire il menu delle categorie
 
     public void CategoryMenu()
     {
         Console.Clear();
-        while(true)
+        while (true)
         {
             _categoryView.ShowCategoryMenu();
             var input = _categoryView.GetInput();
@@ -42,27 +42,6 @@ public class CategoryController
             {
                 _categoryView.Proseguimento();
             }
-        }    
-    }
-
-    private void ModificaCategoria()
-    {
-        VisualizzaCategorie();
-        int id = _categoryView.InserisciIdCategoria();
-
-        var categoria = _database.Categorie.FirstOrDefault(p => p.Id == id);
-        // Se il prodotto esiste aggiorna il prezzo
-
-        if (categoria != null)
-        {
-            string nuovoNome = _categoryView.InserisciNomeCategoria();
-            categoria.Nome = nuovoNome;  //// Imposta il nuovo prezzo
-            _database.SaveChanges();   //salva le modifiche nel database
-            _categoryView.Stampa("Nome aggiornato con successo.");
-        }
-        else
-        {
-            _categoryView.Stampa("Prodotto non trovato.");
         }
     }
 
@@ -76,7 +55,7 @@ public class CategoryController
         _categoryView.VisualizzaCategorie(categorie);
     }
 
-//Metodo per inserire una  categoria al databse
+    //Metodo per inserire una  categoria al databse
     public void InserisciCategoria()    // Menu opzione 2
     {
         // Visualizza le categorie attuali (opzionale)
@@ -94,5 +73,34 @@ public class CategoryController
 
         // Conferma l'inserimento
         _categoryView.Stampa("Categoria inserita con successo.");
+    }
+
+    private void ModificaCategoria()
+    {
+        VisualizzaCategorie();
+        int id = _categoryView.InserisciIdCategoria();
+
+        Categoria? categoria = null;
+        foreach (var c in _database.Categorie)
+        {
+            if (c.Id == id)
+            {
+                categoria = c;
+                break;
+            }
+        }
+        // Se il prodotto esiste aggiorna il prezzo
+
+        if (categoria != null)
+        {
+            string nuovoNome = _categoryView.InserisciNomeCategoria();
+            categoria.Nome = nuovoNome;  //// Imposta il nuovo prezzo
+            _database.SaveChanges();   //salva le modifiche nel database
+            _categoryView.Stampa("Nome aggiornato con successo.");
+        }
+        else
+        {
+            _categoryView.Stampa("Prodotto non trovato.");
+        }
     }
 }
