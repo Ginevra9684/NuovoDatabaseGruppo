@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public class CustomerController
 {
     // Riferimenti al modello e alla vista passati tramite il costruttore 
@@ -127,6 +129,11 @@ public class CustomerController
 
         if (cliente != null)
         {
+            List<Ordine> ordini = _database.Ordini.Include(nameof(Ordine.Cliente)).ToList();
+            foreach (var ordine in ordini)
+            {
+                if (ordine.Cliente!.Id == cliente.Id) _database.Ordini.Remove(ordine);
+            }
             _database.Clienti.Remove(cliente);
             _database.SaveChanges();
             _customerView.Stampa("Cliente eliminato con successo.");

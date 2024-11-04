@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 public class OrderController
 {
     private Database _database;  // Riferimento al modello per l'accesso ai dati degli ordini
@@ -43,19 +45,20 @@ public class OrderController
                     _orderView.Errore();
                     break;
             }
+            _orderView.Proseguimento();
         }
     }
 
     // Metodo per aggiungere un ordine (Menu opzione 1)
     private void AggiungiOrdine()
     {
-        _productController.VisualizzaProdotti();
-        _customerController.VisualizzaClienti();
         // Richiede i dettagli dell'ordine dall'utente tramite la vista e crea un nuovo ordine
-        Ordine nuovoOrdine = _orderView.AggiungiOrdine();
 
-        if (_database.Clienti != null)
+        if (_database.Clienti.Count() > 0 && _database.Prodotti.Count() > 0)
         {
+            _productController.VisualizzaProdotti();
+            _customerController.VisualizzaClienti();
+            Ordine nuovoOrdine = _orderView.AggiungiOrdine();
             // Recupera il cliente esistente dal database utilizzando l'ID specificato nell'ordine
             // In questo modo si assicura che l'entità cliente sia tracciata dal contesto di Entity Framework
             nuovoOrdine.Cliente = _database.Clienti.Find(nuovoOrdine.Cliente!.Id);
@@ -89,8 +92,9 @@ public class OrderController
         }
         else
         {
-            Console.WriteLine("Nessun cliente risulta registrato");
+            Console.WriteLine("Nessun cliente risulta registrato o nessun prodotto a magazzino");
         }
+
     }
 
 
@@ -99,7 +103,7 @@ public class OrderController
     {
         // Carica gli ordini con i dettagli del cliente e del prodotto collegati
         var ordini = new List<Ordine>();
-        foreach (var ordine in _database.Ordini)
+        foreach (var ordine in _database.Ordini.Include(nameof(Ordine.Cliente)).Include(nameof(Ordine.Prodotto)))
         {
             // Carica il cliente e il prodotto associati all'ordine
             ordine.Cliente = TrovaClientePerId(ordine.Cliente!.Id);

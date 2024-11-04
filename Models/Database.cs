@@ -11,8 +11,8 @@ public class Database : DbContext
     //------------------------------------------------------------------------------------------------------------------------------------
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        options.UseSqlite($"Data Source = database.db");  // Usa un database SQLite
-        // options.UseSqlite($"Data Source = {AppContext.BaseDirectory}..\\..\\..\\database.db");  // Usa un database SQLite, utile per il debug
+        // options.UseSqlite($"Data Source = database.db");  // Usa un database SQLite
+        options.UseSqlite($"Data Source = {AppContext.BaseDirectory}..\\..\\..\\database.db");  // Usa un database SQLite, utile per il debug
     }
 
   /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
