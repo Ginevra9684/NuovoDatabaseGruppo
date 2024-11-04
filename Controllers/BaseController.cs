@@ -3,7 +3,6 @@ public class BaseController
     // Riferimento al modello dell'applicazione, che gestisce l'accesso e le operazioni sui dati
     // private Model _model;
 
-    private Database _database;
     // Riferimento alla vista principale dell'applicazione utilizzata per visualizzare il menu principale e i messaggi generali
     private BaseView _baseView;
 
@@ -15,9 +14,8 @@ public class BaseController
     private OrderController _orderController;
 
     // Costruttore del controller principale, che riceve come parametri il modello, la vista di base e i controller per categorie prodotti clienti e ordini
-    public BaseController(Database database, BaseView baseView, CategoryController categoryController, ProductController productController, CustomerController customerController, OrderController orderController)
+    public BaseController(BaseView baseView, CategoryController categoryController, ProductController productController, CustomerController customerController, OrderController orderController)
     {
-        _database = database;  // Inizializza il riferimento al modello, che verrà utilizzato per le operazioni generali sui dati
         _baseView = baseView;         // Inizializza il riferimento alla vista principale
         _categoryController = categoryController;  // Inizializza il controller delle categorie, che sarà chiamato per gestire tutte le operazioni relative alle categorie
         _productController = productController; // Inizializza il controller dei prodotti che sarà chiamato per gestire tutte le operazioni relative ai prodotti
