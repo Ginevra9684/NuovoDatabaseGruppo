@@ -30,7 +30,7 @@ public class CategoryController
                     InserisciCategoria();
                     break;
                 case "3":
-                    EliminaCategoria();
+                    ModificaCategoria();
                     break;
                 case "4":
                     return;
@@ -44,28 +44,27 @@ public class CategoryController
             }
         }    
     }
-/*
-  // Visualizza tutte le categorie (Opzione 1 nel menu)
-    public void VisualizzaCategorie()   // Menu opzione 1
+
+    private void ModificaCategoria()
     {
-        using var reader = _model.VisualizzaCategorie(); // Ottiene i dati delle categorie dal modello
-        var categorie = new List<Categoria>();
+        VisualizzaCategorie();
+        int id = _categoryView.InserisciIdCategoria();
 
-        // Crea una lista di oggetti Categoria dai dati recuperati dal database
-        while (reader.Read())
+        var categoria = _database.Categorie.FirstOrDefault(p => p.Id == id);
+        // Se il prodotto esiste aggiorna il prezzo
+
+        if (categoria != null)
         {
-            var categoria = new Categoria
-            {
-                Id = Convert.ToInt32(reader["id"]),  // Converte il valore dell'ID  in un intero e lo assegna alla proprietà Id
-                // Assegna il valore del nome della categoria controllando per eventuali valori null
-                Nome = reader["nome"]?.ToString() ?? "Nome sconosciuto"  
-            };
-            categorie.Add(categoria);
+            string nuovoNome = _categoryView.InserisciNomeCategoria();
+            categoria.Nome = nuovoNome;  //// Imposta il nuovo prezzo
+            _database.SaveChanges();   //salva le modifiche nel database
+            _categoryView.Stampa("Nome aggiornato con successo.");
         }
-        // Passa la lista completa di categorie alla vista per la visualizzazione
-        _categoryView.VisualizzaCategorie(categorie);
-    }  */
-
+        else
+        {
+            _categoryView.Stampa("Prodotto non trovato.");
+        }
+    }
 
     // Visualizza tutte le categorie (Opzione 1 nel menu)
     public void VisualizzaCategorie()   // Menu opzione 1
@@ -76,16 +75,6 @@ public class CategoryController
         // Passa la lista completa di categorie alla vista per la visualizzazione
         _categoryView.VisualizzaCategorie(categorie);
     }
-
-/*
-    public void InserisciCategoria()    // Menu opzione 2
-    {
-        _categoryView.VisualizzaCategorie(new List<Categoria>());  // Visualizza le categorie attuali
-        string nome = _categoryView.InserisciNomeCategoria();  // Usa la view per ottenere il nome
-        _model.InserisciCategoria(nome); //inserisce la categoria nel database tramite il modello
-    }
-
-    */
 
 //Metodo per inserire una  categoria al databse
     public void InserisciCategoria()    // Menu opzione 2
@@ -106,46 +95,4 @@ public class CategoryController
         // Conferma l'inserimento
         _categoryView.Stampa("Categoria inserita con successo.");
     }
-
-/*
-
-// Metodo per eliminare una categoria esistente (Opzione 3 nel menu)
-    public void EliminaCategoria()  // Menu opzione 3
-    {
-        VisualizzaCategorie();  // Mostra le categorie disponibili
-        string nome = _categoryView.InserisciNomeCategoria();  // Usa la view per ottenere il nome da eliminare
-        _model.EliminaCategoria(nome);    // Rimuove la categoria dal database tramite il modello
-    } */
-
-// Menu opzione 3 Metodo per eliminare la categoria
-/*
-    public void EliminaCategoria()  // Menu opzione 3
-    {
-        // Visualizza le categorie disponibili per aiutare l'utente a selezionare quella corretta
-        VisualizzaCategorie();
-
-        // Ottiene il nome della categoria da eliminare
-        string nome = _categoryView.InserisciNomeCategoria();
-
-        // Cerca la categoria nel database in base al nome
-        //esamina tutti gli elementi in Categorie e cerca il primo elemento che soddisfa la condizione specificata (che il nome della categoria corrisponda al nome fornito)
-
-        var categoria = _database.Categorie.FirstOrDefault( c => c.Nome == nome);
-
-        // Verifica se la categoria esiste
-
-        if(categoria != null){
-            //rimuove la categoria trovata dal database
-
-            _database.Categorie.Remove(categoria);
-            _database.SaveChanges();
-            _categoryView.Stampa("Categoria eliminata con successo.");
-        }
-        else
-        {
-            // Visualizza un messaggio di errore se la categoria non è stata trovata
-            _categoryView.Stampa("Categoria non trovata.");
-        }
-    }
-*/
 }
