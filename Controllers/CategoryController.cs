@@ -118,6 +118,7 @@ public class CategoryController
     } */
 
 // Menu opzione 3 Metodo per eliminare la categoria
+/*
     public void EliminaCategoria()  // Menu opzione 3
     {
         // Visualizza le categorie disponibili per aiutare l'utente a selezionare quella corretta
@@ -146,4 +147,5 @@ public class CategoryController
             _categoryView.Stampa("Categoria non trovata.");
         }
     }
+*/
 }

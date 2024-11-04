@@ -6,8 +6,8 @@ public class CategoryView : BaseView
         Stampa("MENU CATEGORIA");
         Stampa("1 - visualizza categorie");
         Stampa("2 - inserire una categoria");
-        Stampa("3 - eliminare una categoria");
-        Stampa("4 - ritorna al menu principale");
+        //Stampa("3 - eliminare una categoria");
+        Stampa("3 - ritorna al menu principale");
     }
 
     public void VisualizzaCategorie(List<Categoria> categorie)
