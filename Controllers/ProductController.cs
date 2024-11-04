@@ -89,10 +89,21 @@ public class ProductController
         // Ottiene tutti i prodotti ordinati per prezzo, inclusa la categoria associata
         var prodottiOrdinati = _database.Prodotti
             .Include(nameof(Prodotto.Categoria))   // Include la categoria associata
-            .OrderBy(p => p.Prezzo)       // Ordina per prezzo
             .ToList();
-            prodottiOrdinati.Sort();
 
+        for (int i = 0; i < prodottiOrdinati.Count - 1; i++)
+        {
+            for (int j = i + 1; j < prodottiOrdinati.Count; j++)
+            {
+                if (prodottiOrdinati[i].Prezzo > prodottiOrdinati[j].Prezzo)
+                {
+                    // Scambia i prodotti se il prezzo di i è maggiore del prezzo di j
+                    var temp = prodottiOrdinati[i];
+                    prodottiOrdinati[i] = prodottiOrdinati[j];
+                    prodottiOrdinati[j] = temp;
+                }
+            }
+        }
         // Passa la lista ordinata dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdottiOrdinatiPerPrezzo(prodottiOrdinati);
     }
@@ -115,13 +126,23 @@ public class ProductController
         // Richiede il nome e il nuovo prezzo del prodotto dalla vista
         int id = _productView.InserisciIdProdotto();
         //trova il prodotto nel database
-        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == id);
+        var prodotti = _database.Prodotti.ToList();
+
+        Prodotto? prodotto = null;
+        // Scorri la lista di prodotti per trovare quello con l'ID specificato
+        foreach (var prod in prodotti)
+        {
+            if (prod.Id == id)
+            {
+                prodotto = prod;
+            }
+        }
         // Se il prodotto esiste aggiorna il prezzo
 
         if (prodotto != null)
         {
             double nuovoPrezzo = _productView.InserisciPrezzoProdotto();
-            prodotto.Prezzo = nuovoPrezzo;  //// Imposta il nuovo prezzo
+            prodotto.Prezzo = nuovoPrezzo;  // Imposta il nuovo prezzo
             _database.SaveChanges();   //salva le modifiche nel database
             _productView.Stampa("Prezzo aggiornato con successo.");
         }
@@ -136,13 +157,22 @@ public class ProductController
         VisualizzaProdotti();
         // Richiede il nome e il nuovo prezzo del prodotto dalla vista
         int id = _productView.InserisciIdProdotto();
-        int nuovaGiacenza = _productView.InserisciQuantitaProdotto();
-        //trova il prodotto nel database
-        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == id);
+        var prodotti = _database.Prodotti.ToList();
+
+        Prodotto? prodotto = null;
+        // Scorri la lista di prodotti per trovare quello con l'ID specificato
+        foreach (var prod in prodotti)
+        {
+            if (prod.Id == id)
+            {
+                prodotto = prod;
+            }
+        }
         // Se il prodotto esiste aggiorna il prezzo
 
         if (prodotto != null)
         {
+            int nuovaGiacenza = _productView.InserisciQuantitaProdotto();
             prodotto.Giacenza = nuovaGiacenza;  //// Imposta il nuovo prezzo
             _database.SaveChanges();   //salva le modifiche nel database
             _productView.Stampa("Giacenza aggiornata con successo.");
@@ -159,8 +189,17 @@ public class ProductController
         VisualizzaProdotti();
         // Richiede il nome del prodotto da eliminare
         int id = _productView.InserisciIdProdotto();
-        //trova il prodotto nel database
-        var prodotto = _database.Prodotti.FirstOrDefault(p => p.Id == id);
+        var prodotti = _database.Prodotti.ToList();
+
+        Prodotto? prodotto = null;
+        // Scorri la lista di prodotti per trovare quello con l'ID specificato
+        foreach (var prod in prodotti)
+        {
+            if (prod.Id == id)
+            {
+                prodotto = prod;
+            }
+        }
 
         // Se il prodotto esiste, lo elimina
         if (prodotto != null)
@@ -181,12 +220,23 @@ public class ProductController
         // Trova il prodotto con il prezzo più alto nel database
         // Include in questo caso include i dettagli della categoria
         //.FirstOrDefault(); in questo caso prende il primo prodotto con il prezzo più alto
-        var prodotto = _database.Prodotti.OrderByDescending(p => p.Prezzo).Include(p => p.Categoria).FirstOrDefault();
+        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+
+        // Ordina manualmente i prodotti per prezzo in ordine decrescente
+        var prodottoMaxPrezzo = prodotti.First();
+        foreach (var prodotto in prodotti)
+        {
+            if (prodotto.Prezzo > prodottoMaxPrezzo.Prezzo)
+            {
+                prodottoMaxPrezzo = prodotto;
+            }
+        }
+        // Seleziona il primo prodotto ordinato
         // Verifica se il prodotto più costoso è stato trovato
-        if (prodotto != null)
+        if (prodottoMaxPrezzo != null)
         {
             // Se il prodotto esiste passa l'oggetto `Prodotto` alla vista per visualizzare i dettagli
-            _productView.VisualizzaProdottoPiuCostoso(prodotto);
+            _productView.VisualizzaProdottoPiuCostoso(prodottoMaxPrezzo);
         }
         else
         {
@@ -200,13 +250,25 @@ public class ProductController
     {
         // Trova il prodotto con il prezzo più basso nel database
         //.OrderBy ordina i prodotti dal prezzo più basso a quello più alto
-        var prodotto = _database.Prodotti.OrderBy(p => p.Prezzo).Include(p => p.Categoria).FirstOrDefault();
+        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
 
-        // Verifica se il prodotto meno costoso è stato trovato
-        if (prodotto != null)
+        // Ordina manualmente i prodotti per prezzo in ordine decrescente
+        var prodottoMinPrezzo = prodotti.First();
+        foreach (var prodotto in prodotti)
+        {
+            if (prodotto.Prezzo < prodottoMinPrezzo.Prezzo)
+            {
+                prodottoMinPrezzo = prodotto;
+            }
+        }
+
+        // Seleziona il primo prodotto ordinato
+
+        // Verifica se il prodotto più costoso è stato trovato
+        if (prodottoMinPrezzo != null)
         {
             // Se il prodotto esiste passa l'oggetto `Prodotto` alla vista per visualizzare i dettagli
-            _productView.VisualizzaProdottoMenoCostoso(prodotto);
+            _productView.VisualizzaProdottoMenoCostoso(prodottoMinPrezzo);
         }
         else
         {
@@ -221,8 +283,17 @@ public class ProductController
         // Richiede il nome del prodotto dalla vista
         string nome = _productView.InserisciNomeProdotto();
         // Recupera i dati del prodotto dal database inclusa la categoria associata
-        var prodotto = _database.Prodotti.Include(p => p.Categoria).FirstOrDefault(p => p.Nome == nome);// Cerca il prodotto con il nome specificato
+        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
 
+        Prodotto? prodotto = null;
+        // Scorri la lista di prodotti per trovare quello con l'ID specificato
+        foreach (var prod in prodotti)
+        {
+            if (prod.Nome == nome)
+            {
+                prodotto = prod;
+            }
+        }
         // Verifica se è stato trovato un prodotto e lo visualizza altrimenti stampa un messaggio di errore
         if (prodotto != null)
         {
@@ -245,7 +316,11 @@ public class ProductController
         // Ottiene i prodotti della categoria specificata, includendo i dettagli della categoria
         //Where(p => p.Id_categoria == id_categoria) filtra i prodotti in base all'ID della categoria specificata
         //ToList() esegue la query e converte i risultati in una lista da passare alla view
-        var prodottiCategoria = _database.Prodotti.Include(p => p.Categoria).Where(p => p.Id_categoria == id_categoria).ToList();
+        var prodottiCategoria = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        foreach (Prodotto prod in prodottiCategoria)
+        {
+            if (prod.Categoria!.Id != id_categoria) prodottiCategoria.Remove(prod);
+        }
 
         // Visualizza i prodotti della categoria usando `ProductView`
         _productView.VisualizzaProdottiCategoria(prodottiCategoria);
@@ -266,18 +341,29 @@ public class ProductController
 
         // Richiede l'ID della categoria da associare al nuovo prodotto
         int id_categoria = _productView.InserisciIdCategoria();
-        string nome = _productView.InserisciNomeProdotto();
-        double prezzo = _productView.InserisciPrezzoProdotto();
-        int quantita = _productView.InserisciQuantitaProdotto();
+
 
         // Cerca la categoria nel database per verificare che esista
         // quindi confronta l’ID di ciascuna Categoria con l’id_categoria fornito dall’utente
         //Se una categoria con Id corrispondente a id_categoria esiste FirstOrDefault restituirà quella categoria
 
-        var categoria = _database.Categorie.FirstOrDefault(c => c.Id == id_categoria);
 
+        var categorie = _database.Categorie.ToList();
+
+        Categoria? categoria = null;
+        // Scorri la lista di prodotti per trovare quello con l'ID specificato
+        foreach (var cat in categorie)
+        {
+            if (cat.Id == id_categoria)
+            {
+                categoria = cat;
+            }
+        }
         if (categoria != null)
         {
+            string nome = _productView.InserisciNomeProdotto();
+            double prezzo = _productView.InserisciPrezzoProdotto();
+            int quantita = _productView.InserisciQuantitaProdotto();
             // Crea un nuovo prodotto con le informazioni fornite dall'utente
             var nuovoProdotto = new Prodotto
             {

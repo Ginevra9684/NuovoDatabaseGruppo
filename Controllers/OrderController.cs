@@ -5,7 +5,7 @@ public class OrderController
     private ProductController _productController; // Riferimento al controller prodotti per richiamarne i metodi
     private CustomerController _customerController; // Riferimento al controller clienti per richiamarne i metodi
 
-     // Costruttore che inizializza il controller degli ordini con il modello, la vista e i controller di prodotti e clienti
+    // Costruttore che inizializza il controller degli ordini con il modello, la vista e i controller di prodotti e clienti
     public OrderController(Database database, OrderView orderView, ProductController productController, CustomerController customerController)
     {
         _database = database;
@@ -46,7 +46,7 @@ public class OrderController
         }
     }
 
-// Metodo per aggiungere un ordine (Menu opzione 1)
+    // Metodo per aggiungere un ordine (Menu opzione 1)
     private void AggiungiOrdine()
     {
         _productController.VisualizzaProdotti();
@@ -95,96 +95,96 @@ public class OrderController
 
 
 
-private void VisualizzaOrdini()
-{
-    // Carica gli ordini con i dettagli del cliente e del prodotto collegati
-    var ordini = new List<Ordine>();
-    foreach (var ordine in _database.Ordini)
+    private void VisualizzaOrdini()
     {
-        // Carica il cliente e il prodotto associati all'ordine
-        ordine.Cliente = TrovaClientePerId(ordine.Cliente!.Id);
-        ordine.Prodotto = TrovaProdottoPerId(ordine.Prodotto!.Id);
-        ordini.Add(ordine);
+        // Carica gli ordini con i dettagli del cliente e del prodotto collegati
+        var ordini = new List<Ordine>();
+        foreach (var ordine in _database.Ordini)
+        {
+            // Carica il cliente e il prodotto associati all'ordine
+            ordine.Cliente = TrovaClientePerId(ordine.Cliente!.Id);
+            ordine.Prodotto = TrovaProdottoPerId(ordine.Prodotto!.Id);
+            ordini.Add(ordine);
+        }
+
+        // Passa la lista degli ordini alla vista per la visualizzazione
+        _orderView.VisualizzaOrdini(ordini);
     }
 
-    // Passa la lista degli ordini alla vista per la visualizzazione
-    _orderView.VisualizzaOrdini(ordini);
-}
+    private void ModificaOrdine()
+    {
+        VisualizzaOrdini();
+        _productController.VisualizzaProdotti();
+        Ordine ordineDaModificare = _orderView.ModificaOrdine();
 
-private void ModificaOrdine()
-{
-    VisualizzaOrdini();
-    _productController.VisualizzaProdotti();
-    Ordine ordineDaModificare = _orderView.ModificaOrdine();
+        Ordine? ordine = TrovaOrdinePerId(ordineDaModificare.Id);  // Cerca un ordine tramite Id cliente
+        Prodotto? prodotto = TrovaProdottoPerId(ordineDaModificare.Prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
 
-    Ordine? ordine = TrovaOrdinePerId(ordineDaModificare.Id);  // Cerca un ordine tramite Id cliente
-    Prodotto? prodotto = TrovaProdottoPerId(ordineDaModificare.Prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
-    
-    if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita))
-    {
-        ordine.Prodotto = prodotto; // Aggiorna il prodotto nell'ordine
-        prodotto.Giacenza = prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita;
-        ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
-        _database.SaveChanges();    // Salva le modifiche
-        _orderView.Stampa("Ordine modificato con successo.");
+        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita))
+        {
+            ordine.Prodotto = prodotto; // Aggiorna il prodotto nell'ordine
+            prodotto.Giacenza = prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita;
+            ordine.Quantita = ordineDaModificare.Quantita;  // Aggiorna la quantità nell'ordine
+            _database.SaveChanges();    // Salva le modifiche
+            _orderView.Stampa("Ordine modificato con successo.");
+        }
+        else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita - ordineDaModificare.Quantita))
+        {
+            _orderView.Stampa("Giacenza prodotto non sufficiente");
+        }
+        else
+        {
+            _orderView.Stampa("Ordine non trovato");
+        }
     }
-    else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita - ordineDaModificare.Quantita))
-    {
-        _orderView.Stampa("Giacenza prodotto non sufficiente");
-    }
-    else
-    {
-        _orderView.Stampa("Ordine non trovato");
-    }
-}
 
-private void EliminaOrdine()
-{
-    VisualizzaOrdini();
-    int id = _orderView.EliminaOrdine();
-    Ordine? ordine = TrovaOrdinePerId(id);  // Cerca l'ordine tramite id
-    if (ordine != null)
+    private void EliminaOrdine()
     {
-        ordine.Prodotto!.Giacenza += ordine.Quantita;
-        _database.Remove(ordine);   // Elimina l'ordine
-        _database.SaveChanges();    // Salva le modifiche
-        _orderView.Stampa("Ordine eliminato con successo.");
+        VisualizzaOrdini();
+        int id = _orderView.EliminaOrdine();
+        Ordine? ordine = TrovaOrdinePerId(id);  // Cerca l'ordine tramite id
+        if (ordine != null)
+        {
+            ordine.Prodotto!.Giacenza += ordine.Quantita;
+            _database.Remove(ordine);   // Elimina l'ordine
+            _database.SaveChanges();    // Salva le modifiche
+            _orderView.Stampa("Ordine eliminato con successo.");
+        }
+        else
+        {
+            _orderView.Stampa("Ordine non trovato");
+        }
     }
-    else
-    {
-        _orderView.Stampa("Ordine non trovato");
-    }
-}
 
-// Metodi di supporto per cercare oggetti senza LINQ o Lambda
-private Ordine? TrovaOrdinePerId(int id)
-{
-    foreach (var ordine in _database.Ordini)
+    // Metodi di supporto per cercare oggetti senza LINQ o Lambda
+    private Ordine? TrovaOrdinePerId(int id)
     {
-        if (ordine.Id == id)
-            return ordine;
+        foreach (var ordine in _database.Ordini)
+        {
+            if (ordine.Id == id)
+                return ordine;
+        }
+        return null;
     }
-    return null;
-}
 
-private Prodotto? TrovaProdottoPerId(int id)
-{
-    foreach (var prodotto in _database.Prodotti)
+    private Prodotto? TrovaProdottoPerId(int id)
     {
-        if (prodotto.Id == id)
-            return prodotto;
+        foreach (var prodotto in _database.Prodotti)
+        {
+            if (prodotto.Id == id)
+                return prodotto;
+        }
+        return null;
     }
-    return null;
-}
 
-private Cliente? TrovaClientePerId(int id)
-{
-    foreach (var cliente in _database.Clienti)
+    private Cliente? TrovaClientePerId(int id)
     {
-        if (cliente.Id == id)
-            return cliente;
+        foreach (var cliente in _database.Clienti)
+        {
+            if (cliente.Id == id)
+                return cliente;
+        }
+        return null;
     }
-    return null;
-}
 
 }
