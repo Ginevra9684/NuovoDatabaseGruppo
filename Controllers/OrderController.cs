@@ -120,7 +120,7 @@ public class OrderController
         Ordine? ordine = TrovaOrdinePerId(ordineDaModificare.Id);  // Cerca un ordine tramite Id cliente
         Prodotto? prodotto = TrovaProdottoPerId(ordineDaModificare.Prodotto!.Id);  // Cerca il nuovo prodotto tramite id nei prodotti
 
-        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita))
+        if (ordine != null && prodotto != null && ordineDaModificare.Quantita <= (prodotto.Giacenza + ordine.Quantita))
         {
             ordine.Prodotto = prodotto; // Aggiorna il prodotto nell'ordine
             prodotto.Giacenza = prodotto.Giacenza + ordine.Quantita - ordineDaModificare.Quantita;
@@ -128,7 +128,7 @@ public class OrderController
             _database.SaveChanges();    // Salva le modifiche
             _orderView.Stampa("Ordine modificato con successo.");
         }
-        else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita - ordineDaModificare.Quantita))
+        else if (ordineDaModificare.Quantita > (prodotto!.Giacenza + ordine!.Quantita))
         {
             _orderView.Stampa("Giacenza prodotto non sufficiente");
         }
