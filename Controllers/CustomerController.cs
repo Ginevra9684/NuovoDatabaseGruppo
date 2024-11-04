@@ -62,15 +62,23 @@ public class CustomerController
         if (cliente.Count == 0)
         {
             _customerView.Stampa("Nessun cliente presente.");
-            return true;
+            return false;
         }
         return true;
 
     }
     private Cliente? TrovaClienteById(int id)
     {
-        return _database.Clienti.FirstOrDefault(c => c.Id == id);
+        foreach (Cliente cliente in _database.Clienti)
+        {
+            if (cliente.Id == id)
+            {
+                return cliente;
+            }
+        }
+        return null;
     }
+
 
     // Metodo per inserire un nuovo cliente (Menu Opzione 1)
     public void InserisciCliente()
