@@ -30,7 +30,7 @@ public class CategoryController
                     InserisciCategoria();
                     break;
                 case "3":
-                    EliminaCategoria();
+                    // EliminaCategoria();
                     break;
                 case "4":
                     return;
