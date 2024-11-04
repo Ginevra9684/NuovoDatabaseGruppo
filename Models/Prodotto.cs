@@ -1,4 +1,4 @@
-public class Prodotto :General
+public class Prodotto : General
 {
     // Prezzo del prodotto
     public double Prezzo { get; set; }

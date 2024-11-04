@@ -20,11 +20,6 @@ public class CategoryView : BaseView
         }
     }
 
-    public void ModificaCategoria( string nome)
-    {
-        
-    }
-
     public int InserisciIdCategoria()
     {
         // Chiede l'ID della categoria e lo restituisce come intero
