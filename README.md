@@ -1236,6 +1236,477 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 
 </details>
 
+# PROGETTAZIONE WEBAPP : STORE OROLOGI
 
+## PIANIFICAZIONE
+
+<details>
+<summary>Steps</summary>
+
+- Identificazione delle pagine necessarie alla web app
+- Identificazione dei ViewModel per ogni pagina
+- Identificazione delle proprietà necessarie per ogni ViewModel
+- Decisione del tipo di utenti 
+- Stabilire le diverse visualizzazione a seconda del tipo di utente
+- Identificazione del posizionamento dei link
+- Creazione layout senza logiche backend
+- Implementazione delle partialViews
+- Decisione degli stili condivisi con css
+- Listare i metodi necessari per ogni pagina
+- Conservazione di fonti multimediali (loghi, fonts, video ecc)
+- Inizializzare l'archetico della WebApp
+- Creare git.ignore e aggiungere progetto alla sln
+- Effettuare lo scaffolding delle pagine entity che si desidera personalizzare
+- Controllare la presenza di CDN e pacchetti da installare
+- Decisione della lingua 
+- Decisione dello standard del codice e dei commenti
+- Divisione del lavoro su più branch
+
+</details>
+
+## Pagine
+
+- HOME
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class HomeViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- PRODOTTI
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class ProdottiViewModel
+{
+    public List<Prodotto> Prodotti {get; set;}
+    public int MinPrezzo {get; set;}
+    public int MaxPrezzo {get; set;}
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- AGGIUNGI PRODOTTO
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class AggiungiProdottoViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- ELIMINA PRODOTTO
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class EliminaProdottoViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- DETTAGLIO PRODOTTO
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class DettaglioProdottoViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- PROFILO UTENTE
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class ProfiloUtenteViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- PROFILO ADMIN
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class ProfiloAdminViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- LOGIN
+- REGISTER
+- CARRELLO
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class CarrelloViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+- ORDINI
+<details>
+<summary>Descrizione</summary>
+
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+
+</details>
+
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class OrdiniViewModel
+{
+    
+}
+```
+</details>
+
+
+<details>
+<summary>Metodi Controller</summary>
+
+
+</details>
+
+
+<details>
+<summary>View</summary>
+
+
+</details>
+
+<details>
+<summary>MODELLI GENERICI</summary>
+
+    PRODOTTI
+
+    ```c#
+
+    ```
+
+    CATEGORIA
+
+    ```c#
+    
+    ```
+
+    MARCA
+    
+    ```c#
+    
+    ```
+
+
+</details>
+
+<details>
+<summary>CDN</summary>
+
+
+</details>
+
+<details>
+<summary>Loghi</summary>
+
+
+</details>
+
+<details>
+<summary>Fonts</summary>
+
+
+</details>
+
+<details>
+<summary>CSS</summary>
+
+```CSS
+
+```
+</details>
+
+<details>
+<summary>Partial Views</summary>
+
+```HTML
+
+```
+</details>
+
+<details>
+<summary>Standards codice</summary>
+
+- Metodi scritti in PascalCase
+- Proprietà dei modelli scritti in PascalCase
+- Variabili scritte in camelCase
+- Commenti corti e non ripetitivi
+- Corrispondenza delle variabili tra i vari file
+
+</details>
+
+<details>
+<summary>Schema collegamenti pagine</summary>
+
+```mermaid
+
+```
+
+
+</details>
+
+<details>
+<summary>Ultimi Steps</summary>
+
+- Controllo eccezioni
+- Revisione commenti e nomenclature
+- Test App
+
+</details>
 
 
