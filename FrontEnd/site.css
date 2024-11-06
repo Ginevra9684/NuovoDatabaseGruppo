@@ -8,10 +8,6 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
 html {
   position: relative;
   min-height: 100%;
@@ -19,4 +15,158 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/*CARRELLO*/
+/* Effetto hover per il pulsante del carrello */
+.btn-cart i {
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  display: inline-block;
+}
+
+.btn-cart:hover i {
+  color: #e1a900;
+  transform: scale(1.2);
+}
+
+input:focus, textarea:focus, .btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Ottimizzazione del layout del carrello */
+.modal-body {
+  padding: 1.5rem;
+}
+
+.cart-items {
+  margin-bottom: 1.5rem;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Impostazioni per gestire le immagini */
+.cart-item img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+  padding-left: 1rem;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+}
+
+.cart-item-actions button {
+  padding: .5rem 1rem;
+  font-size: 1.5rem;
+}
+
+.total-price {
+  font-weight: bold;
+}
+
+.modal-footer {
+  padding: 1.5rem;
+}
+
+/* Media queries per la responsività */
+/* Adattamenti per tablet e schermi medi */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px; /* Abbassa la dimensione del font per dispositivi tablet */
+  }
+
+  .modal-body {
+    padding: 1rem; /* Riduci il padding sui dispositivi mobili */
+  }
+
+  .cart-item img {
+    max-height: 250px; /* Imposta una dimensione massima per le immagini sui dispositivi mobili */
+    height: auto;
+  }
+
+  .cart-item-details h6 {
+    font-size: 1rem; /* Riduci la dimensione del testo sui dispositivi mobili */
+  }
+
+  .total-price {
+    font-size: 1.2rem; /* Riduci la dimensione del totale per adattarlo meglio */
+  }
+
+  .cart-item-actions button {
+    font-size: 1.2rem;
+  }
+}
+
+/* Adattamenti per dispositivi più piccoli */
+@media (max-width: 576px) {
+  html {
+    font-size: 14px; /* Abbassa ulteriormente la dimensione del font */
+  }
+
+  .cart-item img {
+    max-height: 200px; /* Imposta una dimensione ancora più piccola per le immagini */
+  }
+
+  .cart-item-actions button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .modal-dialog {
+    max-width: 100%; /* La modale occupa tutta la larghezza dello schermo sui dispositivi più piccoli */
+  }
+
+  .modal-header h5 {
+    font-size: 1.2rem; /* Riduci la dimensione del titolo della modale */
+  }
+
+  .modal-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .modal-footer .btn {
+    margin-top: 0.5rem;
+  }
+}
+
+/* Ulteriori ottimizzazioni per mobile-first */
+@media (max-width: 400px) {
+  .cart-item-actions button {
+    font-size: 0.8rem; /* Font più piccolo per schermi molto piccoli */
+  }
+
+  .cart-item-details h6 {
+    font-size: 0.9rem; /* Riduci ancora il testo */
+  }
+
+  .total-price {
+    font-size: 1rem; /* Riduci ulteriormente la dimensione del totale */
+  }
+}
+
+/* Ottimizzazioni per layout orizzontale (landscape) su dispositivi mobili */
+@media (orientation: landscape) {
+  .cart-item {
+    flex-direction: row; /* Modifica la direzione del layout per la modalità landscape */
+  }
+
+  .cart-item-details {
+    padding-left: 1.5rem;
+  }
 }
