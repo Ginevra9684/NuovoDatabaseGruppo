@@ -8,19 +8,18 @@ funzione : supervisionare i vari brench
 
 - branch modificaDatabase
 
-- [x]  funzione : aggiungere tabella utente e cliente
-- [x]  campi utente : nome e cognome
-- [x]  campi cliente : id utente e codice cliente
+- [x] funzione : aggiungere tabella utente e cliente
+- [x] campi utente : nome e cognome
+- [x] campi cliente : id utente e codice cliente
 
 <details>
 <summary>Dettagli</summary>
 La tabella cliente farà riferimento alla tabella utente tramite id univoco
 </details>
 
-
 - branch divisioneMVC
 
-- [x]  funzione : suddividere applicazione in metodi
+- [x] funzione : suddividere applicazione in metodi
 
 <details>
 <summary>Dettagli</summary>
@@ -33,7 +32,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 <details>
 <summary>Procedure</summary>
 
-## Task sucessivi 
+## Task sucessivi
 
 - [x] creare un file ViewProdotti e un file ViewCategorie
 - [x] sostituire il metodo Stampa di View con i metodi corrispondenti ai metodi del controller
@@ -45,8 +44,9 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] far si che i metodi del controller non passino una stringa alla view ma un modello (es Prodotto, Categoria)
 
 ## Nuove funzionalità
+
 - [x] Modello Clienti
-- [x] Funzione Menu : 14- visualizza clienti 
+- [x] Funzione Menu : 14- visualizza clienti
 - [x] Model: Richiesta al database e return reader CRUD
 - [x] Controller: nuova opzione switch, reader assegna a un'istanza del modello Cliente, passa la lista clienti a view
 - [x] ClientiView: metodo che ha come parametro una lista Cliente, fa visualizzare i clienti
@@ -56,6 +56,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] Funzione Menu : 16-Uscire (prima era numero 14 da spostare)
 
 ## Aggiustamenti definitivi
+
 - [x] Divisione del controller in ProductController, CategoryController, CustomerController
 - [x] Divisione dei menu:
 - [x] In ProductView menu relativo ai prodotti
@@ -77,7 +78,6 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - [x] Conversione lingua
 - [x] Revisione
 
-
 </details>
 
 ## VERSIONE DEFINITIVA CON SQL
@@ -88,7 +88,6 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - Menu base che rimanda a menu categorie, ordini, prodotti, clienti
 - Funzionalità CRUD per i sottomenu
 - Collegamento ad un database tramite SQL per la permanenza dei dati
-
 
 </details>
 
@@ -117,26 +116,26 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
                 // Definisce il comando SQL per creare le tabelle e inserire alcuni dati di esempio
                 string sql = @"
                                 CREATE TABLE categorie (
-                                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     nome TEXT UNIQUE
                                 );
-                                
+
                                 CREATE TABLE prodotti (
-                                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                                    nome TEXT UNIQUE, 
-                                    prezzo REAL, 
-                                    giacenza INTEGER CHECK (giacenza >= 0), 
-                                    id_categoria INTEGER, 
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    nome TEXT UNIQUE,
+                                    prezzo REAL,
+                                    giacenza INTEGER CHECK (giacenza >= 0),
+                                    id_categoria INTEGER,
                                     FOREIGN KEY (id_categoria) REFERENCES categorie(id)
                                 );
-                                
+
                                 CREATE TABLE clienti (
-                                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     nome TEXT NOT NULL
                                 );
 
                                 CREATE TABLE ordini (
-                                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                                     cliente_id INTEGER,
                                     prodotto_id INTEGER,
                                     quantita INTEGER CHECK (quantita >= 0),
@@ -148,7 +147,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
                                 INSERT INTO categorie (nome) VALUES ('c1');
                                 INSERT INTO categorie (nome) VALUES ('c2');
                                 INSERT INTO categorie (nome) VALUES ('c3');
-                                
+
                                 INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES ('p1', 1, 10, 1);
                                 INSERT INTO prodotti (nome, prezzo, giacenza, id_categoria) VALUES ('p2', 2, 20, 2);";
 
@@ -495,7 +494,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - dotnet run
 - dotnet add package Microsoft.EntityFrameworkCore.Design
 - dotnet add package Microsoft.EntityFrameworkCore.Tools
-- Se non lo si ha mai installato in locale ----> dotnet tool install --global dotnet-ef 
+- Se non lo si ha mai installato in locale ----> dotnet tool install --global dotnet-ef
 
 - [x] Visto che Model.cs dovrebbe essere Database.cs lo si commenta e si crea il nuovo file Database.cs
 - [x] Creare proprietà DB Context per far si che i modelli corrispondano ai campi delle tabelle
@@ -510,7 +509,6 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 <details>
 <summary>TUTTI I FILE</summary>
 
-
 <details>
 <summary>Models</summary>
 
@@ -524,6 +522,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         public virtual string Nome { get; set; } = "";
     }
     ```
+
 </details>
 
 <details>
@@ -532,9 +531,10 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
     public class Categoria : General
     {
-        
+
     }
     ```
+
 </details>
 
 <details>
@@ -543,9 +543,10 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
     public class Cliente : General
     {
-        
+
     }
     ```
+
 </details>
 
 <details>
@@ -554,6 +555,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 <details>
@@ -571,16 +573,17 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         public DateTime DataAcquisto { get => dataAcquisto; set => dataAcquisto = value; }
 
         // Quantità del prodotto acquistato
-        //public string ?Quantita { get; set; } 
+        //public string ?Quantita { get; set; }
         public int Quantita{get;set;}
 
         // Cliente associato all'ordine
-        public Cliente? Cliente { get; set; } 
+        public Cliente? Cliente { get; set; }
 
         // Prodotto associato all'ordine
         public Prodotto? Prodotto { get; set; }
     }
     ```
+
 </details>
 
 <details>
@@ -591,7 +594,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 
     public class Database : DbContext
     {
-        
+
         //---TABELLE DATABASE-----------------------------------------------------------------------------------------------------------------
         public DbSet<Prodotto> Prodotti { get; set; }
         public DbSet<Categoria> Categorie { get; set; }
@@ -613,6 +616,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         }
     }
     ```
+
 </details>
 
 </details>
@@ -687,6 +691,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         }
     }
     ```
+
 </details>
 
 <details>
@@ -695,6 +700,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 <details>
@@ -703,6 +709,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 <details>
@@ -770,18 +777,18 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 
             // Chiama il modello per inserire il nuovo ordine
             _model.InserisciOrdine(nuovoOrdine.cliente.Id, nuovoOrdine.prodotto.Id, int.Parse(nuovoOrdine.Quantita));
-            
+
             _orderView.Stampa("Ordine aggiunto con successo.");
         }
     */
 
-    /*   // Metodo per aggiungere un nuovo ordine (Menu opzione 1) 
+    /*   // Metodo per aggiungere un nuovo ordine (Menu opzione 1)
         private void AggiungiOrdine()
         {
             Ordine nuovoOrdine = _orderView.InserisciNuovoOrdine(); // Estrapola tutti i dati da inserire nel nuovoOrdine
             _database.Ordini.Add(nuovoOrdine);  // Aggiunge il nuovo ordine tramite entity
             _database.SaveChanges();    // Salva le modifiche tramite entity
-        }  
+        }
     */
 
     // Metodo per aggiungere un ordine (Menu opzione 1)
@@ -803,7 +810,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
             // Verifica che il cliente e il prodotto siano validi non null prima di aggiungere l'ordine
             if (nuovoOrdine.Cliente != null && nuovoOrdine.Prodotto != null && nuovoOrdine.Quantita <= nuovoOrdine.Prodotto.Giacenza)
             {
-                // Aggiunge il nuovo ordine 
+                // Aggiunge il nuovo ordine
                 _database.Ordini.Add(nuovoOrdine);
                 nuovoOrdine.Prodotto.Giacenza -= nuovoOrdine.Quantita;
 
@@ -917,6 +924,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         }
     }
     ```
+
 </details>
 
 <details>
@@ -925,6 +933,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 </details>
@@ -1055,6 +1064,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         }
     }
     ```
+
 </details>
 
 <details>
@@ -1063,6 +1073,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 <details>
@@ -1071,6 +1082,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 <details>
@@ -1116,7 +1128,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
         }
 
         // Visualizza tutti gli ordini presenti nella lista fornita (Menu opzione 2)
-        public void VisualizzaOrdini(List<Ordine> ordini)   
+        public void VisualizzaOrdini(List<Ordine> ordini)
         {
             if (ordini.Count == 0)
             {
@@ -1184,6 +1196,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     }
 
     ```
+
 </details>
 
 <details>
@@ -1192,6 +1205,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
     ```C#
 
     ```
+
 </details>
 
 </details>
@@ -1209,7 +1223,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
             {
                 // Assicura che il database sia creato se non esiste
                 database.Database.EnsureCreated();
-                
+
                 // Creazione delle istanze delle Views
                 var categoryView = new CategoryView();
                 var productView = new ProductView();
@@ -1233,7 +1247,6 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 
 </details>
 
-
 </details>
 
 # PROGETTAZIONE WEBAPP : STORE OROLOGI
@@ -1246,7 +1259,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - Identificazione delle pagine necessarie alla web app
 - Identificazione dei ViewModel per ogni pagina
 - Identificazione delle proprietà necessarie per ogni ViewModel
-- Decisione del tipo di utenti 
+- Decisione del tipo di utenti
 - Stabilire le diverse visualizzazione a seconda del tipo di utente
 - Identificazione del posizionamento dei link
 - Creazione layout senza logiche backend
@@ -1258,7 +1271,7 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 - Creare git.ignore e aggiungere progetto alla sln
 - Effettuare lo scaffolding delle pagine entity che si desidera personalizzare
 - Controllare la presenza di CDN e pacchetti da installare
-- Decisione della lingua 
+- Decisione della lingua
 - Decisione dello standard del codice e dei commenti
 - Divisione del lavoro su più branch
 
@@ -1270,15 +1283,12 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1286,22 +1296,19 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 ```C#
 public class HomeViewModel
 {
-    
+
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1309,15 +1316,12 @@ public class HomeViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1325,24 +1329,27 @@ public class HomeViewModel
 ```C#
 public class ProdottiViewModel
 {
-    public List<Prodotto> Prodotti {get; set;}
-    public int MinPrezzo {get; set;}
-    public int MaxPrezzo {get; set;}
+    List<Orologio> Orologi {get; set;}
+    List<Categoria> Categorie {get; set;}
+    List<Marca> Marche {get; set;}
+    List<Materiale> Materiali {get; set;}
+    List<Tipologia> Tipologie {get; set;}
+    public decimal MinPrezzo { get; set; }
+    public decimal MaxPrezzo { get; set; }
+    public int NumeroPagine { get; set; }
+    public int PaginaCorrente { get; set; }
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1350,15 +1357,12 @@ public class ProdottiViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1366,22 +1370,24 @@ public class ProdottiViewModel
 ```C#
 public class AggiungiProdottoViewModel
 {
-    
+    public Orologio Orologio {get; set;}
+    public List<Categoria> Categorie {get; set;}
+    public List<Marca> Marche {get; set;}
+    public List<Materiale> Materiali {get; set;}
+    public List<Tipologia> Tipologie {get; set;}
+
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1389,15 +1395,12 @@ public class AggiungiProdottoViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1405,22 +1408,19 @@ public class AggiungiProdottoViewModel
 ```C#
 public class EliminaProdottoViewModel
 {
-    
+    public Orologio Orologio {get; set;}
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1428,15 +1428,12 @@ public class EliminaProdottoViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1444,22 +1441,20 @@ public class EliminaProdottoViewModel
 ```C#
 public class DettaglioProdottoViewModel
 {
-    
+    public Orologio Orologio {get; set;}
+    public string Descrizione {get; set;}
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1467,15 +1462,12 @@ public class DettaglioProdottoViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1483,22 +1475,21 @@ public class DettaglioProdottoViewModel
 ```C#
 public class ProfiloUtenteViewModel
 {
-    
+    public Cliente Cliente {get; set;}
+    public List<Ordine> Ordini {get; set;}
+    public List<Orologio> Wishlist {get; set;}
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1506,15 +1497,12 @@ public class ProfiloUtenteViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1522,22 +1510,19 @@ public class ProfiloUtenteViewModel
 ```C#
 public class ProfiloAdminViewModel
 {
-    
+
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1547,15 +1532,12 @@ public class ProfiloAdminViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1563,22 +1545,19 @@ public class ProfiloAdminViewModel
 ```C#
 public class CarrelloViewModel
 {
-    
+    public List<Orologio> Carrello {get; set;}
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
@@ -1586,15 +1565,12 @@ public class CarrelloViewModel
 <details>
 <summary>Descrizione</summary>
 
-
 </details>
 
 <details>
 <summary>Lista link</summary>
 
-
 </details>
-
 
 <details>
 <summary>ViewModel</summary>
@@ -1602,45 +1578,48 @@ public class CarrelloViewModel
 ```C#
 public class OrdiniViewModel
 {
-    
+
 }
 ```
-</details>
 
+</details>
 
 <details>
 <summary>Metodi Controller</summary>
 
-
 </details>
-
 
 <details>
 <summary>View</summary>
-
 
 </details>
 
 <details>
 <summary>MODELLI GENERICI</summary>
 
-    PRODOTTI
+    OROLOGI
 
-    ```c#
+```c#
+    public class orologi : prodotti
+    {
 
-    ```
+    }
+
+```
 
     CATEGORIA
 
-    ```c#
-    
-    ```
+```c#
+   public class Categoria : General{
+   } 
+
+```
 
     MARCA
-    
-    ```c#
-    
-    ```
+
+```c#
+
+```
 
 
 </details>
@@ -1648,18 +1627,15 @@ public class OrdiniViewModel
 <details>
 <summary>CDN</summary>
 
-
 </details>
 
 <details>
 <summary>Loghi</summary>
 
-
 </details>
 
 <details>
 <summary>Fonts</summary>
-
 
 </details>
 
@@ -1669,6 +1645,7 @@ public class OrdiniViewModel
 ```CSS
 
 ```
+
 </details>
 
 <details>
@@ -1677,6 +1654,7 @@ public class OrdiniViewModel
 ```HTML
 
 ```
+
 </details>
 
 <details>
@@ -1697,7 +1675,6 @@ public class OrdiniViewModel
 
 ```
 
-
 </details>
 
 <details>
@@ -1708,5 +1685,3 @@ public class OrdiniViewModel
 - Test App
 
 </details>
-
-
