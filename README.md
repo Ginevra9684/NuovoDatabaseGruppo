@@ -1283,10 +1283,16 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 <details>
 <summary>Descrizione</summary>
 
+- Visualizzazione di un carousel di cards con i prodotti più venduti
+- Visualizzazione di un carousel di cards con gli ultimi arrivi
+
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina prodotti
+- Pagina dettaglio prodotto
 
 </details>
 
@@ -1296,7 +1302,8 @@ L'applicazione deve essere suddivisa utilizzando il pattern MVC in modo che:
 ```C#
 public class HomeViewModel
 {
-
+    public List<Orologio> ProdottiPiuVenduti
+    public List<Orologio> UltimiArrivi
 }
 ```
 
@@ -1313,13 +1320,43 @@ public class HomeViewModel
 </details>
 
 - PRODOTTI
+
 <details>
 <summary>Descrizione</summary>
+
+VERSIONE NORMALE :
+
+- Visualizzazione di tutti i prodotti inpaginati
+- Filtro per prezzo
+- Filtro per data di aggiunta
+- Filtro per categoria
+- Filtro per marca
+- Filtro per materiale 
+- Filtro per tipologia
+- Filtro per Genere
+- Su schermo grande i filtri saranno in una sidebar
+- Su schermo piccolo i filtri saranno dei pulsanti in alto
+- Ogni card ha un pulsante per aggiungere alla wishlist
+- Ogni card ha un pulsante per aprire e aggiungere al carrello
+
+AGGIUNTE ADMIN :
+
+- Pulsante card per eliminare il prodotto
+- Pulsante card per modificare il prodotto
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina dettaglio prodotto
+- Partial view carrello
+
+
+ADMIN : 
+
+- Pagina elimina prodotto
+- Pagina modifica prodotto
 
 </details>
 
@@ -1329,11 +1366,12 @@ public class HomeViewModel
 ```C#
 public class ProdottiViewModel
 {
-    List<Orologio> Orologi {get; set;}
-    List<Categoria> Categorie {get; set;}
-    List<Marca> Marche {get; set;}
-    List<Materiale> Materiali {get; set;}
-    List<Tipologia> Tipologie {get; set;}
+    public List<Orologio> Orologi {get; set;}
+    public List<Categoria> Categorie {get; set;}
+    public List<Marca> Marche {get; set;}
+    public List<Materiale> Materiali {get; set;}
+    public List<Tipologia> Tipologie {get; set;}
+    public List<Genere> Generi {get; set;}
     public decimal MinPrezzo { get; set; }
     public decimal MaxPrezzo { get; set; }
     public int NumeroPagine { get; set; }
@@ -1354,13 +1392,21 @@ public class ProdottiViewModel
 </details>
 
 - AGGIUNGI PRODOTTO
+
 <details>
 <summary>Descrizione</summary>
+
+SOLO ADMIN :
+
+- Permette di visualizzare un form per aggiungere un nuovo prodotto
+- Molte caratteristiche potranno essere inserite tramite menu a tendina per poter accedere ad un elenco
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina prodotti
 
 </details>
 
@@ -1375,7 +1421,7 @@ public class AggiungiProdottoViewModel
     public List<Marca> Marche {get; set;}
     public List<Materiale> Materiali {get; set;}
     public List<Tipologia> Tipologie {get; set;}
-
+    public List<Genere> Generi {get; set;}
 }
 ```
 
@@ -1392,13 +1438,21 @@ public class AggiungiProdottoViewModel
 </details>
 
 - ELIMINA PRODOTTO
+
 <details>
 <summary>Descrizione</summary>
+
+SOLO ADMIN :
+
+- Permette di visualizzare le caratteristiche principali del prodotto e di eliminarlo
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina prodotti
+- Pagina dettaglio prodotto
 
 </details>
 
@@ -1425,13 +1479,22 @@ public class EliminaProdottoViewModel
 </details>
 
 - DETTAGLIO PRODOTTO
+
 <details>
 <summary>Descrizione</summary>
+
+- Permette di visualizzare tutti i dettagli specifici di un oggetto
+- Contiene una descrizione aggiuntiva dettagliata
+- La pagina avrà una sezione con sfondo diverso per le specifiche tecniche
+- Le specifiche saranno visualizzate tramite tab panels
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Partial view carrello
+- Pagina prodotti
 
 </details>
 
@@ -1597,27 +1660,96 @@ public class OrdiniViewModel
 <details>
 <summary>MODELLI GENERICI</summary>
 
-    OROLOGI
+GENERALE
 
 ```c#
-    public class orologi : prodotti
-    {
-
-    }
+public abstract class General
+{
+    public virtual int Id { get; set; }
+    public virtual string Nome { get; set; } = "";
+}
 
 ```
 
-    CATEGORIA
+PRODOTTO
 
 ```c#
-   public class Categoria : General{
-   } 
+public class Prodotto : General
+{
+    public decimal Prezzo { get; set; } // Prezzo del prodotto
+    public int Giacenza { get; set; }   // Quantità disponibile in magazzino
+    public string? Colore { get; set; }
+    public Categoria? Categoria { get; set; }  // Relazione con la categoria
+    // Identificatore della categoria a cui appartiene il prodotto
+    public int? Id_categoria { get; set; } //Rimuovere id_categoria 
+    public Marca? Marca{get; set;}    
+    // public int? MarcaId;
+}
 
 ```
 
-    MARCA
+OROLOGIO
 
 ```c#
+public class Orologio : Prodotto
+{
+    public string Modello{ get; set; }
+    public string Referenza{ get; set; }
+    public Materiale Materiale { get; set; }
+    public Tipologia Tipologia { get; set; }
+    public int Diametro { get; set; }
+    public Genere Genere {get; set; }
+}
+
+```
+
+CATEGORIA
+
+```c#
+public class Categoria : General
+{
+
+} 
+
+```
+
+MARCA
+
+```c#
+public class Marca : General
+{
+
+} 
+
+```
+
+MATERIALE 
+
+```c#
+public class Materiale : General
+{
+
+} 
+
+```
+
+TIPOLOGIA 
+
+```c#
+public class Tipologia : General
+{
+
+} 
+
+```
+
+GENERE 
+
+```c#
+public class Genere : General
+{
+
+} 
 
 ```
 
