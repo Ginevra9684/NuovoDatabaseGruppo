@@ -1522,13 +1522,26 @@ public class DettaglioProdottoViewModel
 </details>
 
 - PROFILO UTENTE
+
 <details>
 <summary>Descrizione</summary>
+
+- Visualizzazione dei dati personali dell'utente
+- Sidebar con bottoni
+- Bottone per vedere la wishlist
+- Bottone per vedere la pagina ordini effettuati
+- (Bottone inpostazioni)
+- (Se l'utente è stato bannato da un admin verrà visualizzata una scritta indicante ciò)
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina ordini
+- partial view wishlist
+- (Pagina inpostazioni)
+- partial view ban utente
 
 </details>
 
@@ -1541,6 +1554,8 @@ public class ProfiloUtenteViewModel
     public Cliente Cliente {get; set;}
     public List<Ordine> Ordini {get; set;}
     public List<Orologio> Wishlist {get; set;}
+    public string NomeUtente {get; set;}
+    public string Email {get; set;}
 }
 ```
 
@@ -1557,13 +1572,27 @@ public class ProfiloUtenteViewModel
 </details>
 
 - PROFILO ADMIN
+
 <details>
 <summary>Descrizione</summary>
+
+- Visualizzazione dei dati personali dell'utente
+- Sidebar con bottoni
+- Bottone per vedere la wishlist
+- Bottone per vedere la pagina ordini effettuati
+- Bottone aggiungi prodotto
+- Bottone visualizza utenti
+- (Bottone inpostazioni)
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina ordini
+- partial view wishlist
+- (Pagina inpostazioni)
+- (partial view ban utente)
 
 </details>
 
@@ -1573,7 +1602,12 @@ public class ProfiloUtenteViewModel
 ```C#
 public class ProfiloAdminViewModel
 {
-
+    public Cliente Cliente {get; set;}
+    public List<Ordine> Ordini {get; set;}
+    public List<Orologio> Wishlist {get; set;}
+    public List<Cliente> Clienti {get; set;}
+    public string NomeUtente {get; set;}
+    public string Email {get; set;}
 }
 ```
 
@@ -1591,47 +1625,23 @@ public class ProfiloAdminViewModel
 
 - LOGIN
 - REGISTER
-- CARRELLO
-<details>
-<summary>Descrizione</summary>
-
-</details>
-
-<details>
-<summary>Lista link</summary>
-
-</details>
-
-<details>
-<summary>ViewModel</summary>
-
-```C#
-public class CarrelloViewModel
-{
-    public List<Orologio> Carrello {get; set;}
-}
-```
-
-</details>
-
-<details>
-<summary>Metodi Controller</summary>
-
-</details>
-
-<details>
-<summary>View</summary>
-
-</details>
 
 - ORDINI
+
 <details>
 <summary>Descrizione</summary>
+
+- Visualizzazione di tutti gli ordini effettuati da un utente
+- Bottone per tornare al proprio profilo
+- Bottone in ogni ordine per visualizzarne i dettagli
 
 </details>
 
 <details>
 <summary>Lista link</summary>
+
+- Pagina profilo 
+- Dettagli ordine
 
 </details>
 
@@ -1641,7 +1651,7 @@ public class CarrelloViewModel
 ```C#
 public class OrdiniViewModel
 {
-
+    public List<Ordine> Ordini {get; set;}
 }
 ```
 
@@ -1656,6 +1666,47 @@ public class OrdiniViewModel
 <summary>View</summary>
 
 </details>
+
+- DETTAGLIO ORDINE
+
+<details>
+<summary>Descrizione</summary>
+
+- Visualizzazione dei dettagli di un ordine specifico
+- Bottone per tornare alla pagina ordini
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+- Pagina ordini
+
+</details>
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class OrdiniViewModel
+{
+    public Ordine Ordine {get; set;}
+}
+```
+
+</details>
+
+<details>
+<summary>Metodi Controller</summary>
+
+</details>
+
+<details>
+<summary>View</summary>
+
+</details>
+
+
 
 <details>
 <summary>MODELLI GENERICI</summary>
@@ -1752,7 +1803,167 @@ public class Genere : General
 } 
 
 ```
+</details>
 
+## PARTIAL VIEWS
+
+- CARRELLO
+
+<details>
+<summary>Descrizione</summary>
+
+- Per vedere tutti gli ordini aggiunti al carrelo
+- Per accedere alla conferma dell'ordine
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+- Pagina conferma ordine
+
+</details>
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class CarrelloViewModel
+{
+    public List<Orologio> Carrello {get; set;}
+}
+```
+
+</details>
+
+<details>
+<summary>Metodi Controller</summary>
+
+</details>
+
+<details>
+<summary>View</summary>
+
+</details>
+
+- WISHLIST
+
+<details>
+<summary>Descrizione</summary>
+
+- Per vedere tutti gli articoli desiderati
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+- Pagina dettaglio prodotto
+
+</details>
+
+<details>
+<summary>ViewModel</summary>
+
+```C#
+public class WishlistViewModel
+{
+    public List<Orologio> Wishlist {get; set;}
+}
+```
+</details>
+
+<details>
+<summary>Metodi Controller</summary>
+
+</details>
+
+<details>
+<summary>View</summary>
+
+</details>
+
+- NAVBAR
+
+<details>
+<summary>Descrizione</summary>
+
+GENERALE :
+
+- Logo store
+- bottone home
+- Barra di ricerca
+- Login (/logout) - Register
+- Menu per selezionare prodotti
+- Bottone pagina prodotti
+- Logo carrello
+
+AGGIUNTE USER : 
+
+- Logo profilo
+
+AGGIUNTE ADMIN : 
+
+- Bottone aggiungi prodotto
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+GENERALE :
+
+- Pagina home
+- Pagina login
+- Pagina register
+- Pagina prodotti
+- Partial view carrello
+
+AGGIUNTE USER : 
+
+- Pagina profilo
+
+AGGIUNTE ADMIN : 
+
+- Pagina aggiungi prodotto
+
+</details>
+
+<details>
+<summary>Metodi Controller</summary>
+
+</details>
+
+<details>
+<summary>View</summary>
+
+</details>
+
+- FOOTER
+
+<details>
+<summary>Descrizione</summary>
+
+- Descrizioni generale del sito
+- Contatti
+- Link esterni ai socials
+
+</details>
+
+<details>
+<summary>Lista link</summary>
+
+- Links socials
+
+</details>
+
+<details>
+<summary>Metodi Controller</summary>
+
+</details>
+
+<details>
+<summary>View</summary>
 
 </details>
 
@@ -1775,15 +1986,6 @@ public class Genere : General
 <summary>CSS</summary>
 
 ```CSS
-
-```
-
-</details>
-
-<details>
-<summary>Partial Views</summary>
-
-```HTML
 
 ```
 
@@ -1814,6 +2016,8 @@ public class Genere : General
 
 - Controllo eccezioni
 - Revisione commenti e nomenclature
+- Placeholders
+- Arials
 - Test App
 
 </details>
