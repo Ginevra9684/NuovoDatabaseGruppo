@@ -142,7 +142,7 @@ public class ProductController
         if (prodotto != null)
         {
             double nuovoPrezzo = _productView.InserisciPrezzoProdotto();
-            prodotto.Prezzo = nuovoPrezzo;  // Imposta il nuovo prezzo
+            prodotto.Prezzo = (decimal)nuovoPrezzo;  // Imposta il nuovo prezzo
             _database.SaveChanges();   //salva le modifiche nel database
             _productView.Stampa("Prezzo aggiornato con successo.");
         }
@@ -368,7 +368,7 @@ public class ProductController
             var nuovoProdotto = new Prodotto
             {
                 Nome = nome,
-                Prezzo = prezzo,
+                Prezzo = (decimal)prezzo,
                 Giacenza = quantita,
                 Categoria = categoria, // Associa la categoria esistente
                 Id_categoria = id_categoria

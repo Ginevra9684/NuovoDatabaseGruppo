@@ -20,6 +20,15 @@ public class Database : DbContext
     options.UseSqlite($"Data Source = {AppContext.BaseDirectory}..\\..\\..\\database.db");  // Usa un database SQLite, utile per il debug
   }
 
+  // protected override void OnModelCreating(ModelBuilder modelBuilder)
+  // {
+  //   modelBuilder.Entity<Ordine>()
+  //       .HasOne(o => o.Prodotto)
+  //       .WithMany()  // Un prodotto può essere associato a più ordini
+  //       .HasForeignKey(o => o.ProdottoId)
+  //       .OnDelete(DeleteBehavior.Restrict);  // Impedisce la cancellazione a cascata del prodotto quando viene eliminato un ordine
+  // }
+  
   /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Prodotto>()

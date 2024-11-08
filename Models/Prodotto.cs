@@ -14,8 +14,9 @@ public class Prodotto : General, IComparable<Prodotto>
 
     // Relazione con Categoria
     public Categoria? Categoria { get; set; }
+    public int Id_categoria { get; internal set; }
 
-public int CompareTo(Object? x, Object? y)
+    public int CompareTo(Object? x, Object? y)
     {
         Prodotto p1 = (Prodotto)x!;
         Prodotto p2 = (Prodotto)y!;

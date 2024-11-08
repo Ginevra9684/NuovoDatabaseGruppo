@@ -159,8 +159,6 @@ public class OrderController
             _orderView.Stampa("Ordine non trovato");
         }
     }
-
-    // Metodi di supporto per cercare oggetti senza LINQ o Lambda
     private Ordine? TrovaOrdinePerId(int id)
     {
         foreach (var ordine in _database.Ordini)
