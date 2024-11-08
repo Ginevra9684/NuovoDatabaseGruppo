@@ -2,18 +2,23 @@ using Microsoft.EntityFrameworkCore;
 
 public class Database : DbContext
 {
-    
-    //---TABELLE DATABASE-----------------------------------------------------------------------------------------------------------------
-    public DbSet<Prodotto> Prodotti { get; set; }
-    public DbSet<Categoria> Categorie { get; set; }
-    public DbSet<Cliente> Clienti { get; set; }
-    public DbSet<Ordine> Ordini { get; set; }
-    //------------------------------------------------------------------------------------------------------------------------------------
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        // options.UseSqlite($"Data Source = database.db");  // Usa un database SQLite
-        options.UseSqlite($"Data Source = {AppContext.BaseDirectory}..\\..\\..\\database.db");  // Usa un database SQLite, utile per il debug
-    }
+
+  //---TABELLE DATABASE-----------------------------------------------------------------------------------------------------------------
+  // TABELLE DATABASE
+  public DbSet<Prodotto> Prodotti { get; set; }
+  public DbSet<Categoria> Categorie { get; set; }
+  public DbSet<Cliente> Clienti { get; set; }
+  public DbSet<Ordine> Ordini { get; set; }
+  public DbSet<Marca> Marche { get; set; }
+  public DbSet<Materiale> Materiali { get; set; }
+  public DbSet<Genere> Generi { get; set; }
+  public DbSet<Tipologia> Tipologie { get; set; }
+  //------------------------------------------------------------------------------------------------------------------------------------
+  protected override void OnConfiguring(DbContextOptionsBuilder options)
+  {
+    // options.UseSqlite($"Data Source = database.db");  // Usa un database SQLite
+    options.UseSqlite($"Data Source = {AppContext.BaseDirectory}..\\..\\..\\database.db");  // Usa un database SQLite, utile per il debug
+  }
 
   /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
