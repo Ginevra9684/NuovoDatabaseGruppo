@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dettaglio Ordine</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .order-detail-card {
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 30px;
+      margin-bottom: 30px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd; 
+    }
+    .status-bar {
+      background-color: #f8f9fa;
+      padding: 10px;
+      text-align: center;
+      border-radius: 10px;
+      font-weight: bold;
+      margin: -20px -20px 20px -20px; 
+      border-bottom: 1px solid #ddd; 
+    }
+    .summary-box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .summary-box p {
+      margin: 0;
+    }
+    .total-box {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: right;
+    }
+    .product-detail-box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .product-photo {
+      width: 160px; 
+      height: 160px; 
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-right: 15px;
+    }
+    .product-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-name {
+      font-size: 1.5em; 
+      font-weight: bold;
+    }
+    .return-button {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <div class="order-detail-card">
+    
+    <!-- Barra stato ordine -->
+    <div class="status-bar bg-dark text-white">
+      Stato ordine: In lavorazione
+    </div>
+    
+    <!-- Dettagli prodotto -->
+    <div class="product-detail-box">
+      <div class="product-photo">
+        <img src="./img/rolex.jpg" alt="Product Image">
+      </div>
+      <div>
+        <p class="product-name">Rolex Submariner</p>
+        <p><strong>Descrizione:</strong> Orologio subacqueo di lusso con design robusto e resistente all'acqua.</p>
+        <p><strong>Giacenza:</strong> 4</p>
+      </div>
+    </div>
+    
+    <!-- Dettagli ordine -->
+    <div class="mb-4 mt-4">
+      <p><strong>Numero ordine:</strong> 12345</p>
+      <p><strong>Ordinato il:</strong> 12/10/2024</p>
+      <p><strong>Nome cliente:</strong> Mario Rossi</p>
+      <p><strong>Indirizzo:</strong> Via Roma, 123, Milano, Italia</p>
+      <p><strong>Telefono:</strong> +39 123 456 7890</p>
+      <p><strong>Spedizione:</strong> Express</p>
+      <p><strong>Metodo pagamento:</strong> Carta di credito</p>
+    </div>
+    
+    <!-- Recap ordine -->
+    <div class="summary-box">
+      <div class="d-flex justify-content-between">
+        <p>Subtotale:</p>
+        <p>€12,000</p>
+      </div>
+      <div class="d-flex justify-content-between">
+        <p>Spedizione:</p>
+        <p>€10</p>
+      </div>
+      <hr>
+      <div class="d-flex justify-content-between total-box">
+        <p>Totale:</p>
+        <p>€12,010</p>
+      </div>
+    </div>
+    
+    <!-- Bottone per tornare alla sezione precedente -->
+    <div class="return-button">
+      <button class="btn btn-dark">Return</button>
+    </div>
+    
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
