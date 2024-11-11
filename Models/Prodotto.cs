@@ -1,4 +1,4 @@
-public class Prodotto : General, IComparable<Prodotto>
+public class Prodotto : General
 {
     // Prezzo del prodotto
     public decimal Prezzo { get; set; }
@@ -6,27 +6,14 @@ public class Prodotto : General, IComparable<Prodotto>
     // Quantità disponibile in magazzino
     public int Giacenza { get; set; }
 
-    // Relazione con Marca
-    public Marca? Marca { get; set; }
+    // // Relazione con Marca
+    // public Marca Marca { get; set; }
 
-    // Colore del prodotto
-    public string? Colore { get; set; }
+    // // Colore del prodotto
+    // public string Colore { get; set; }
 
     // Relazione con Categoria
-    public Categoria? Categoria { get; set; }
+    public Categoria Categoria { get; set; }
     public int Id_categoria { get; internal set; }
-
-    public int CompareTo(Object? x, Object? y)
-    {
-        Prodotto p1 = (Prodotto)x!;
-        Prodotto p2 = (Prodotto)y!;
-        if (p1.Giacenza != p2.Giacenza)
-            return 1;
-        return 0;
-    }
-    int IComparable<Prodotto>.CompareTo(Prodotto? other)
-    {
-        return Giacenza.CompareTo(other!.Giacenza);
-    }
 }
 

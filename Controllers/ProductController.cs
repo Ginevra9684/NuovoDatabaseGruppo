@@ -77,7 +77,7 @@ public class ProductController
     public void VisualizzaProdotti()
     {
         // Ottiene tutti i prodotti dal database, inclusa la categoria associata
-        List<Prodotto> prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        List<Prodotto> prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList(); //Serve per fargli tirare su anche gli oggetti correlati
 
         // Passa la lista dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdotti(prodotti);
@@ -112,8 +112,20 @@ public class ProductController
     private void VisualizzaProdottiOrdinatiPerQuantita()
     {
         // Ottiene tutti i prodotti ordinati per quantità (giacenza), inclusa la categoria associata
-        List<Prodotto> prodottiOrdinati = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
-        prodottiOrdinati.Sort();
+        List<Prodotto> prodottiOrdinati = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList(); //Serve per fargli tirare su anche gli oggetti correlati
+        for (int i = 0; i < prodottiOrdinati.Count - 1; i++)
+        {
+            for (int j = i + 1; j < prodottiOrdinati.Count; j++)
+            {
+                if (prodottiOrdinati[i].Giacenza > prodottiOrdinati[j].Giacenza)
+                {
+                    // Scambia i prodotti se il prezzo di i è maggiore del prezzo di j
+                    var temp = prodottiOrdinati[i];
+                    prodottiOrdinati[i] = prodottiOrdinati[j];
+                    prodottiOrdinati[j] = temp;
+                }
+            }
+        }
         // Passa la lista ordinata dei prodotti alla vista per visualizzarla
         _productView.VisualizzaProdottiOrdinatiPerQuantita(prodottiOrdinati);
     }
@@ -220,7 +232,7 @@ public class ProductController
         // Trova il prodotto con il prezzo più alto nel database
         // Include in questo caso include i dettagli della categoria
         //.FirstOrDefault(); in questo caso prende il primo prodotto con il prezzo più alto
-        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList(); //Serve per fargli tirare su anche gli oggetti correlati
 
         // Ordina manualmente i prodotti per prezzo in ordine decrescente
         var prodottoMaxPrezzo = prodotti.First();
@@ -250,7 +262,7 @@ public class ProductController
     {
         // Trova il prodotto con il prezzo più basso nel database
         //.OrderBy ordina i prodotti dal prezzo più basso a quello più alto
-        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList(); //Serve per fargli tirare su anche gli oggetti correlati
 
         // Ordina manualmente i prodotti per prezzo in ordine decrescente
         var prodottoMinPrezzo = prodotti.First();
@@ -283,7 +295,7 @@ public class ProductController
         // Richiede il nome del prodotto dalla vista
         string nome = _productView.InserisciNomeProdotto();
         // Recupera i dati del prodotto dal database inclusa la categoria associata
-        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        var prodotti = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList(); //Serve per fargli tirare su anche gli oggetti correlati
 
         Prodotto? prodotto = null;
         // Scorri la lista di prodotti per trovare quello con l'ID specificato
@@ -316,7 +328,7 @@ public class ProductController
         // Ottiene i prodotti della categoria specificata, includendo i dettagli della categoria
         //Where(p => p.Id_categoria == id_categoria) filtra i prodotti in base all'ID della categoria specificata
         //ToList() esegue la query e converte i risultati in una lista da passare alla view
-        var prodottiCategoria = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList();
+        var prodottiCategoria = _database.Prodotti.Include(nameof(Prodotto.Categoria)).ToList(); //Serve per fargli tirare su anche gli oggetti correlati
         foreach (Prodotto prod in prodottiCategoria)
         {
             if (prod.Categoria!.Id != id_categoria) prodottiCategoria.Remove(prod);

@@ -1,31 +1,17 @@
 public class Ordine : General
 {
-    private DateTime dataAcquisto;
-
     // Proprietà che restituisce il nome
-    public new string Nome { get { return $"BRT-{Id}_{Cliente!.Id}"; } }
+    // public new string Nome { get { return $"BRT-{Id}_{Cliente!.Id}"; } }
 
     // Data in cui è stato effettuato l'acquisto
-    public DateTime DataAcquisto
-    {
-
-        get
-        {
-            return dataAcquisto;
-        }
-        set
-        {
-            dataAcquisto = value;
-        }
-    }
-
+    public DateTime DataAcquisto { get; set; }
 
     // Quantità del prodotto acquistato
     public int Quantita { get; set; }
 
     // Cliente associato all'ordine
-    public Cliente? Cliente { get; set; }
+    public Cliente Cliente { get; set; }
 
     // Prodotto associato all'ordine
-    public Prodotto? Prodotto { get; set; }
+    public Prodotto Prodotto { get; set; }
 }
