@@ -13,12 +13,13 @@ public class Database : DbContext
   public DbSet<Materiale> Materiali { get; set; }
   public DbSet<Genere> Generi { get; set; }
   public DbSet<Tipologia> Tipologie { get; set; }
-  //------------------------------------------------------------------------------------------------------------------------------------
+  // //------------------------------------------------------------------------------------------------------------------------------------
   protected override void OnConfiguring(DbContextOptionsBuilder options)
   {
-    // options.UseSqlite($"Data Source = database.db");  // Usa un database SQLite
-    options.UseSqlite($"Data Source = {AppContext.BaseDirectory}..\\..\\..\\database.db");  // Usa un database SQLite, utile per il debug
+    options.UseSqlite($"Data Source = database.db");  // Usa un database SQLite
   }
+
+
 
   // protected override void OnModelCreating(ModelBuilder modelBuilder)
   // {
@@ -28,7 +29,7 @@ public class Database : DbContext
   //       .HasForeignKey(o => o.ProdottoId)
   //       .OnDelete(DeleteBehavior.Restrict);  // Impedisce la cancellazione a cascata del prodotto quando viene eliminato un ordine
   // }
-  
+
   /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Prodotto>()
