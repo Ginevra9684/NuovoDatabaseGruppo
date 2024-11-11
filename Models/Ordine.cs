@@ -1,7 +1,7 @@
 public class Ordine : General
 {
     // Proprietà che restituisce il nome
-    // public new string Nome { get { return $"BRT-{Id}_{Cliente!.Id}"; } }
+    public new string? Nome { get { return $"BRT-{Id}_{Cliente!.Id}"; } }
 
     // Data in cui è stato effettuato l'acquisto
     public DateTime DataAcquisto { get; set; }
