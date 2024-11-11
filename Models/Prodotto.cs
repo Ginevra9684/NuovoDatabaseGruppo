@@ -2,20 +2,21 @@ public class Prodotto : General, IComparable<Prodotto>
 {
     // Prezzo del prodotto
     public decimal Prezzo { get; set; }
-    
+
     // Quantità disponibile in magazzino
     public int Giacenza { get; set; }
 
-    public Marca? Marca{get; set;}    
-    // public int? MarcaId;
+    // Relazione con Marca
+    public Marca? Marca { get; set; }
 
-    // Identificatore della categoria a cui appartiene il prodotto
-    public int? Id_categoria { get; set; } //Rimuovere id_categoria 
-
+    // Colore del prodotto
     public string? Colore { get; set; }
-    public Categoria? Categoria { get; set; }  // Relazione con la categoria
 
-public int CompareTo(Object? x, Object? y)
+    // Relazione con Categoria
+    public Categoria? Categoria { get; set; }
+    public int Id_categoria { get; internal set; }
+
+    public int CompareTo(Object? x, Object? y)
     {
         Prodotto p1 = (Prodotto)x!;
         Prodotto p2 = (Prodotto)y!;

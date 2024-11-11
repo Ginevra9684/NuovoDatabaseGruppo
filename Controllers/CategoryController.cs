@@ -1,6 +1,5 @@
 public class CategoryController
 {
-
     // Riferimenti ai modelli e alla vista, iniettati tramite il costruttore
     private Database _database;
     private CategoryView _categoryView;
@@ -80,15 +79,16 @@ public class CategoryController
         VisualizzaCategorie();
         int id = _categoryView.InserisciIdCategoria();
 
-        Categoria? categoria = null;
-        foreach (var c in _database.Categorie)
-        {
-            if (c.Id == id)
-            {
-                categoria = c;
-                break;
-            }
-        }
+        Categoria? categoria = TrovaCategoriaPerId(id);;
+        // foreach (var c in _database.Categorie)
+        // {
+        //     if (c.Id == id)
+        //     {
+        //         categoria = c;
+        //         break;
+        //     }
+        // }
+
         // Se il prodotto esiste aggiorna il prezzo
 
         if (categoria != null)
@@ -100,7 +100,17 @@ public class CategoryController
         }
         else
         {
-            _categoryView.Stampa("Prodotto non trovato.");
+            _categoryView.Stampa("Categoria non trovato.");
         }
+    }
+
+    private Categoria? TrovaCategoriaPerId(int id)
+    {
+        foreach (var categoria in _database.Categorie)
+        {
+            if (categoria.Id == id)
+                return categoria;
+        }
+        return null;
     }
 }

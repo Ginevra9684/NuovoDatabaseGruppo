@@ -88,7 +88,6 @@ public class CustomerController
     {
         var clienti = _database.Clienti.ToList();
         if (!VerificaClientiPresenti(clienti)) return;
-
         _customerView.VisualizzaClienti(clienti);
     }
 

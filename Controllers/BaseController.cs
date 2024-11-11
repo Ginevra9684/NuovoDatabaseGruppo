@@ -10,7 +10,6 @@ public class BaseController
     private CategoryController _categoryController;
     private ProductController _productController;
     private CustomerController _customerController;
-
     private OrderController _orderController;
 
     // Costruttore del controller principale, che riceve come parametri il modello, la vista di base e i controller per categorie prodotti clienti e ordini
